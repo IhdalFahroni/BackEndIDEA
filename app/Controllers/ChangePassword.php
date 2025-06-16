@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class SignUp extends BaseController
+class ChangePassword extends BaseController
 {
     public function changepass(): string
     {
