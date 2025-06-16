@@ -11,3 +11,7 @@ $routes->get('/signup', 'SignUp::signup');
 $routes->get('/forgotpass', 'ForgotPassword::forgotpass');
 $routes->get('/changepass', 'ChangePassword::changepass');
 $routes->get('/homeuser', 'HomeUser::homeuser');
+$routes->get('/homepemilik', 'HomePemilik::homepemilik');
+$routes->get('/homeadmin', 'HomeAdmin::homeadmin');
+$routes->get('/wisatauser', 'WisataUser::wisatauser');
+$routes->get('/wisatapemilik', 'WisataPemilik::wisatapemilik');
