@@ -6,7 +6,7 @@ use App\Models\TempatModel;
 
 class Landing extends BaseController
 {
-    public function landingPage(): string
+    public function landingPage(): void
     {
         // // Buat instance dari TempatModel
         // $tempatModel = new TempatModel();
@@ -24,6 +24,9 @@ class Landing extends BaseController
 
         // echo "<h2>Satu Tempat (ID: {$id_tempat}):</h2>";
         // var_dump($data['satu_tempat']);
-        return view('LandingPage');
+        echo view('partials/header');
+        echo view('partials/opening');
+        echo view('partials/main');
+        echo view('partials/footer');
     }
 }
