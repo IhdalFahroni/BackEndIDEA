@@ -30,7 +30,7 @@
                     </div>
             </div>
 
-            <a href="ForgotPassword.php" class="block text-right text-xs text-red-600 no-underline mb-4 hover:text-blue-600">
+            <a href="<?= base_url('/forgotpass') ?>" class="block text-right text-xs text-red-600 no-underline mb-4 hover:text-blue-600">
                 Forgot Password?
             </a>
 
@@ -42,7 +42,7 @@
 
             <p class="text-xs text-[#5C3211] mt-5">
                 Don't have any account?
-                <a href="SignUpPage.php" class="font-normal text-[#F4A261] no-underline hover:text-blue-600"> 
+                <a href="<?= base_url('/signup') ?>" class="font-normal text-[#F4A261] no-underline hover:text-blue-600"> 
                     Sign Up
                 </a>
             </p>

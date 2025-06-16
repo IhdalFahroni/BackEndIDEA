@@ -18,7 +18,7 @@
     <div class="header h-screen relative text-white flex flex-col justify-between p-5">
         <nav class="top-nav text-right text-2xl my-2.5 mx-5">
             <a href="<?= base_url('/login') ?>" class="text-white no-underline text-2xl ml-2.5 font-bold hover:underline">Login</a>   |
-            <a href="SignUpPage.php" class="text-white no-underline text-2xl ml-1 font-bold hover:underline">Sign Up</a>
+            <a href="<?= base_url('/signup') ?>" class="text-white no-underline text-2xl ml-1 font-bold hover:underline">Sign Up</a>
         </nav>
 
         <div class="hero flex-1 flex transition-all duration-1000 ease-in-out p-5">
@@ -61,7 +61,9 @@
             </div>
 
             <div id="awal" class="space-y-6 text-[#5C3211]">
+                <?php for ($i=1; $i<=3; $i++) :?>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-grow">
+                    <?php for ($j=1; $j<=3; $j++) :?>
                     <div class="destination-card bg-[#FFFFFF] rounded-xl overflow-hidden shadow-lg transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer flex flex-col">
                         <img src="<?= base_url('Assets/SelongBelanakPic.png') ?>" alt="Selong Belanak Beach" class="w-full h-52 object-cover">
                         <div class="p-4 flex flex-col flex-1 jaldi-font">
@@ -72,59 +74,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="destination-card bg-[#FFFFFF] rounded-xl overflow-hidden shadow-lg transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer flex flex-col">
-                        <img src="<?= base_url('Assets/RinjaniPic.png') ?>" alt="Rinjani Mountain" class="w-full h-52 object-cover">
-                        <div class="p-4 flex flex-col flex-1 jaldi-font">
-                            <div class="text-lg font-bold mb-2.5">Rinjani Mountain, East Lombok</div>
-                            <div class="flex justify-between items-center mt-auto">
-                                <div class="text-yellow-500 text-sm rating" data-rating="4.5"></div>
-                                <div class="text-xs font-medium hover:underline">See details</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="destination-card bg-[#FFFFFF] rounded-xl overflow-hidden shadow-lg transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer flex flex-col">
-                        <img src="<?= base_url('Assets/GiliMenoPic.png') ?>" alt="Gili Meno" class="w-full h-52 object-cover">
-                        <div class="p-4 flex flex-col flex-1 jaldi-font">
-                            <div class="text-lg font-bold mb-2.5">Gili Meno, North Lombok</div>
-                            <div class="flex justify-between items-center mt-auto">
-                                <div class="text-yellow-500 text-sm rating" data-rating="4"></div>
-                                <div class="text-xs font-medium hover:underline">See details</div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endfor;?>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-grow">
-                    <div class="destination-card bg-[#FFFFFF] rounded-xl overflow-hidden shadow-lg transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer flex flex-col">
-                        <img src="<?= base_url('Assets/RinjaniPic.png') ?>" alt="Rinjani Mountain" class="w-full h-52 object-cover">
-                        <div class="p-4 flex flex-col flex-1 jaldi-font">
-                            <div class="text-lg font-bold mb-2.5">Rinjani Mountain, East Lombok</div>
-                            <div class="flex justify-between items-center mt-auto">
-                                <div class="text-yellow-500 text-sm rating" data-rating="3"></div>
-                                <div class="text-xs font-medium hover:underline">See details</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="destination-card bg-[#FFFFFF] rounded-xl overflow-hidden shadow-lg transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer flex flex-col">
-                        <img src="<?= base_url('Assets/RinjaniPic.png') ?>" alt="Rinjani Mountain" class="w-full h-52 object-cover">
-                        <div class="p-4 flex flex-col flex-1 jaldi-font">
-                            <div class="text-lg font-bold text-[#8D6E63] mb-2.5">Rinjani Mountain, East Lombok</div>
-                            <div class="flex justify-between items-center mt-auto">
-                                <div class="text-yellow-500 text-sm rating" data-rating="4"></div>
-                                <div class="text-[#8D6E63] text-xs font-medium hover:underline">See details</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="destination-card bg-[#FFFFFF] rounded-xl overflow-hidden shadow-lg transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer flex flex-col">
-                        <img src="<?= base_url('Assets/RinjaniPic.png') ?>" alt="Rinjani Mountain" class="w-full h-52 object-cover">
-                        <div class="p-4 flex flex-col flex-1 jaldi-font">
-                            <div class="text-lg font-bold text-[#8D6E63] mb-2.5">Rinjani Mountain, East Lombok</div>
-                            <div class="flex justify-between items-center mt-auto">
-                                <div class="text-yellow-500 text-sm rating" data-rating="1"></div>
-                                <div class="text-[#8D6E63] text-xs font-medium hover:underline">See details</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php endfor;?>
                 <div class="flex justify-center">
                     <button id="load-more-button" class="py-2 px-6 text-white font-bold rounded-full bg-[#FF9800] cursor-pointer transition flex items-center gap-2 shadow-md hover:opacity-50">
                         <span class="relative top-px">Load More</span>
