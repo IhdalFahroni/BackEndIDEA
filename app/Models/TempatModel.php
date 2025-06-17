@@ -6,48 +6,39 @@ use CodeIgniter\Model;
 
 class TempatModel extends Model
 {
-    protected $table            = 'tempat';
-    protected $primaryKey       = 'ID_tempat';
-    protected $useTimestamps    = false;
-    protected $allowedFields    = [
+    // ... (properti $table, $primaryKey, dll. tetap sama) ...
+    protected $table         = 'tempat';
+    protected $primaryKey    = 'ID_tempat';
+    protected $useTimestamps = false;
+    protected $allowedFields = [
         'nama_tempat', 'kabupaten_kota', 'kecamatan', 'kelurahan', 
         'nama_jalan', 'kategori', 'deskripsi', 'foto', 'Maps'
     ];
 
-    /**
-     * Fungsi utama untuk mengambil data dengan filter, pencarian, dan pagination.
-     *
-     * @param array $options Berisi 'searchTerm', 'category'
-     * @param int $perPage Jumlah item per halaman
-     * @return array Data yang sudah dipaginasi
-     */
     public function getTempat(array $options = [], int $perPage = 9)
     {
-        $builder = $this->db->table($this->table);
-
-        // Menggabungkan dengan tabel detail (wisata/kuliner)
-        $builder->join('tempat_wisata', 'tempat.ID_tempat = tempat_wisata.ID_tempat', 'left');
-        $builder->join('tempat_kuliner', 'tempat.ID_tempat = tempat_kuliner.ID_tempat', 'left');
-        $builder->select('tempat.*, tempat_wisata.harga_tiket, tempat_kuliner.ID_akun as ID_pemilik');
+        // Pindahkan $this->select(...) ke sini agar lebih rapi
+        $this->select('tempat.*');
         
         // Terapkan filter kategori jika ada
         if (!empty($options['category'])) {
-            $builder->where('tempat.kategori', $options['category']);
+            $this->where('tempat.kategori', $options['category']);
         }
 
         // Terapkan filter pencarian jika ada
         if (!empty($options['searchTerm'])) {
-            $builder->groupStart(); // Membuka kurung ( ... )
-            $builder->like('tempat.nama_tempat', $options['searchTerm']);
-            $builder->orLike('tempat.deskripsi', $options['searchTerm']);
-            $builder->orLike('tempat.kabupaten_kota', $options['searchTerm']);
-            $builder->groupEnd(); // Menutup kurung )
+            $this->groupStart(); // Membuka kurung ( ... )
+            $this->like('tempat.nama_tempat', $options['searchTerm']);
+            $this->orLike('tempat.deskripsi', $options['searchTerm']);
+            $this->orLike('tempat.kabupaten_kota', $options['searchTerm']);
+            $this->groupEnd(); // Menutup kurung )
         }
 
-        // Lakukan pagination pada query yang sudah difilter
+        // Jalankan paginate() yang secara otomatis akan menangani semuanya
+        // (menghitung total, mengambil data sesuai halaman)
         return [
-            'data'  => $builder->get($perPage, ($options['page'] - 1) * $perPage)->getResultArray(),
-            'total' => $builder->countAllResults(false) // Hitung total tanpa mereset query
+            'data'  => $this->paginate($perPage),
+            'total' => $this->pager->getTotal() // Ambil total dari Pager
         ];
     }
 }

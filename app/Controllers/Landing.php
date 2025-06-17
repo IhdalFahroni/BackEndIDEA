@@ -6,27 +6,38 @@ use App\Models\TempatModel;
 
 class Landing extends BaseController
 {
-    public function landingPage(): void
+    public function landingPage() // Hapus tipe data 'void' karena kita akan mengembalikan view
     {
-        // // Buat instance dari TempatModel
-        // $tempatModel = new TempatModel();
+        // 1. Buat instance dari TempatModel
+        $tempatModel = new TempatModel();
 
-        // // 1. Untuk mengambil SEMUA data tempat
-        // $data['semua_tempat'] = $tempatModel->getTempatLengkap();
+        // 2. Siapkan opsi untuk pagination. Ambil halaman saat ini dari URL (?page=...)
+        // Jika tidak ada, default ke halaman 1.
+        $options = [
+            'page' => $this->request->getVar('page') ?? 1,
+            // 'searchTerm' => $this->request->getVar('q'), // Untuk pencarian nanti
+            // 'category'   => $this->request->getVar('kategori') // Untuk filter nanti
+        ];
+        
+        // Tentukan berapa item yang ingin ditampilkan per halaman
+        $perPage = 9;
 
-        // // 2. Untuk mengambil SATU data tempat (contoh: dengan ID = 1)
-        // $id_tempat = 1;
-        // $data['satu_tempat'] = $tempatModel->findTempatLengkap($id_tempat);
+        // 3. Panggil method getTempat() dari Model dengan opsi yang sudah disiapkan
+        $result = $tempatModel->getTempat($options, $perPage);
 
-        // // Tampilkan hasil menggunakan var_dump untuk testing
-        // echo "<h2>Semua Tempat:</h2>";
-        // var_dump($data['semua_tempat']);
+        // 4. Siapkan data yang akan dikirim ke view
+        $data = [
+            'destinasi'   => $result['data'],
+            'pager'       => $tempatModel->pager, // Kirim Pager untuk link halaman
+            'currentPage' => $options['page'],
+            'perPage'     => $perPage,
+            'total'       => $result['total']
+        ];
 
-        // echo "<h2>Satu Tempat (ID: {$id_tempat}):</h2>";
-        // var_dump($data['satu_tempat']);
+        // 5. Tampilkan view-view parsial dan kirimkan data ke view 'main'
         echo view('partials/header');
         echo view('partials/opening');
-        echo view('partials/main');
+        echo view('partials/main', $data); // <-- KIRIMKAN $data KE VIEW MAIN
         echo view('partials/footer');
     }
 }
