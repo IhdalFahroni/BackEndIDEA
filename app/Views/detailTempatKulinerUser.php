@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Tempat Kuliner User</title>
     <link href="<?= base_url('css/output.css') ?>" rel="stylesheet">
-    <script src="<?= base_url('js/kulinerAdmin.js') ?>"></script>
+    <script src="<?= base_url('js/kulinerUser.js') ?>"></script>
     <style>
         .main-container {
             background: linear-gradient(to bottom, #FFC107 50px, #F8F9FA 300px); 
