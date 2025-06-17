@@ -1,10 +1,3 @@
-<?php if (session()->getFlashdata('success')): ?>
-    <div class="alert-success" style="padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; margin-bottom: 16px;">
-        <?= session()->getFlashdata('success') ?>
-    </div>
-<?php endif; ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +13,12 @@
         <div class="bg-[#FFffff] p-8 rounded-[15px] shadow-lg text-center w-[400px] relative z-10">
 
             <h2 class="text-[22px] font-extrabold text-[#5C3211] mb-5 tracking-wider">Login</h2>
+
+            <?php if(session()->getFlashdata('error')): ?>
+                <div class="alert-error" style="padding: 10px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; margin-bottom: 16px;">
+                    <?= session()->getFlashdata('error') ?>
+                </div>
+            <?php endif; ?>
 
             <form action="<?= base_url('/login/process') ?>" method="POST">
 
