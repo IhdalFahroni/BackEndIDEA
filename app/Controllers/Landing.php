@@ -11,12 +11,8 @@ class Landing extends BaseController
         // 1. Buat instance dari TempatModel
         $tempatModel = new TempatModel();
 
-        // 2. Siapkan opsi untuk pagination. Ambil halaman saat ini dari URL (?page=...)
-        // Jika tidak ada, default ke halaman 1.
         $options = [
             'page' => $this->request->getVar('page') ?? 1,
-            // 'searchTerm' => $this->request->getVar('q'), // Untuk pencarian nanti
-            // 'category'   => $this->request->getVar('kategori') // Untuk filter nanti
         ];
         
         // Tentukan berapa item yang ingin ditampilkan per halaman
@@ -31,7 +27,6 @@ class Landing extends BaseController
             'pager'       => $tempatModel->pager, // Kirim Pager untuk link halaman
             'currentPage' => $options['page'],
             'perPage'     => $perPage,
-            'total'       => $result['total']
         ];
 
         // 5. Tampilkan view-view parsial dan kirimkan data ke view 'main'
