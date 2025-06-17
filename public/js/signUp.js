@@ -6,7 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordError = document.getElementById('passwordError');
     const usernameError = document.getElementById('usernameError');
     const signUpBtn = document.getElementById('signUpBtn');
-    const nameInput = document.getElementById('name');
+    const namaDepanInput = document.getElementById('nama_depan');
+    const namaBelakangInput = document.getElementById('nama_belakang');
     const usernameInput = document.getElementById('username');
     const allField = document.getElementById('allField');
 
@@ -20,12 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function checkFormAndDisplayErrors() {
-        const name = nameInput.value.trim();
+        const firstName = namaDepanInput.value.trim();
+        const lastName = namaBelakangInput.value.trim();
         const email = emailInput.value.trim();
         const username = usernameInput.value.trim();
         const password = passwordInput.value;
 
-        const isAllFieldsFilled = name !== "" && email !== "" && username !== "" && password !== "";
+        const isAllFieldsFilled = firstName !== "" && email !== "" && username !== "" && password !== "" && lastName !== "";
 
         if (isAllFieldsFilled) {
             allField.classList.add('hidden');
@@ -63,12 +65,13 @@ document.addEventListener('DOMContentLoaded', () => {
             passwordError.classList.add('hidden');
         }
 
-        const isNameValid = name !== "";
+        const isFirstNameValid = firstName !== "";
+        const isLastNameValid = lastName !== "";
         const isUsernameValid = username.length >= 8 && username.length <= 20;
         const isEmailValid = email.includes('@') && email !== "";
         const isPasswordValid = password.length >= 8 && password.length <= 20;
 
-        const isFormCompletelyValid = isNameValid && isUsernameValid && isEmailValid && isPasswordValid;
+        const isFormCompletelyValid = isFirstNameValid && isLastNameValid && isUsernameValid && isEmailValid && isPasswordValid;
 
         if (isFormCompletelyValid) {
             signUpBtn.classList.remove('opacity-50', 'cursor-not-allowed');
@@ -81,8 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if (nameInput) {
-        nameInput.addEventListener('input', checkFormAndDisplayErrors);
+    if (namaDepanInput) {
+        namaDepanInput.addEventListener('input', checkFormAndDisplayErrors);
     }
     if (usernameInput) {
         usernameInput.addEventListener('input', checkFormAndDisplayErrors);
@@ -97,13 +100,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleSignUp() {
         checkFormAndDisplayErrors();
 
-        const name = nameInput.value.trim();
+        const firstName = namaDepanInput.value.trim();
+        const lastName = namaBelakangInput.value.trim();
         const email = emailInput.value.trim();
         const username = usernameInput.value.trim();
         const password = passwordInput.value;
         let isValid = true;
 
-        if (name === "" || email === "" || username === "" || password === "") {
+        if (firstName === "" || lastName === "" || email === "" || username === "" || password === "") {
             allField.classList.remove('hidden');
             isValid = false;
         } else {
@@ -133,7 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (isValid) {
             console.log("Sign Up button clicked!");
-            console.log("Name:", name);
+            console.log("First Name:", firstName);
+            console.log("Last Name:", lastName);
             console.log("Email:", email);
             console.log("Username:", username);
             console.log("Password:", password);
@@ -142,13 +147,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return isValid;
     }
 
-    if (signUpBtn) {
-        signUpBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            if(handleSignUp()) {
-                alert('Successfully Sign Up');
-                window.location.href = 'LoginPage.html';
-            }
-        });
-    }
+    // if (signUpBtn) {
+    //     signUpBtn.addEventListener('click', function (e) {
+    //         e.preventDefault();
+    //         if(handleSignUp()) {
+    //             alert('Successfully Sign Up');
+    //             window.location.href = 'LoginPage.html';
+    //         }
+    //     });
+    // }
 });

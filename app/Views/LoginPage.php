@@ -1,3 +1,10 @@
+<?php if (session()->getFlashdata('success')): ?>
+    <div class="alert-success" style="padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; margin-bottom: 16px;">
+        <?= session()->getFlashdata('success') ?>
+    </div>
+<?php endif; ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

@@ -8,6 +8,9 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Landing::landingPage');
 $routes->get('/login', 'Login::login');
 $routes->get('/signup', 'SignUp::signup');
+$routes->post('/signup/process', 'SignUp::process');
+
+
 $routes->get('/forgotpass', 'ForgotPassword::forgotpass');
 $routes->get('/changepass', 'ChangePassword::changepass');
 $routes->get('/homeuser', 'HomeUser::homeuser');
