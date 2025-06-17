@@ -7,6 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Landing::landingPage');
 $routes->get('/login', 'Login::login');
+$routes->post('/login/process', 'Login::process');
+
 $routes->get('/signup', 'SignUp::signup');
 $routes->post('/signup/process', 'SignUp::process');
 

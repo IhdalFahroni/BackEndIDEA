@@ -39,4 +39,22 @@ class AkunModel extends Model
         // Jika berhasil sampai sini, pendaftaran sukses. Kembalikan true.
         return true;
     }
+
+    public function loginAkun(array $data)
+    {
+        $user = $this->where('username', $data['username'])->first();
+
+        if (!$user) {
+            return false;
+        }
+
+        $formPassword = $data['password'];
+        $hashedPassword = $user['password'];
+
+        if(password_verify($formPassword, $hashedPassword)) {
+            return $user;
+        }
+
+        return false;
+    }
 }

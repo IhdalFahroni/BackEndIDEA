@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('password');
     const togglePasswordIcon = document.getElementById('togglePasswordIcon');
-    const loginBtn = document.getElementById('loginBtn');
 
     if (togglePasswordIcon) {
         togglePasswordIcon.addEventListener('click', function () {
@@ -10,12 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             this.classList.toggle('fa-eye-slash');
             this.classList.toggle('fa-eye');
-        });
-    }
-
-    if(loginBtn) {
-        loginBtn.addEventListener('click', function () {
-            window.location.href = "HomePageUser.html";
         });
     }
 });
