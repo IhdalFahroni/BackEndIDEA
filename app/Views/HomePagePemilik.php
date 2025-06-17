@@ -71,7 +71,7 @@
                     <span class="w-12 h-12 flex items-center justify-center text-lg"><i class="fa-solid fa-arrows-up-down"></i></span>
                     <span class="text-lg font-medium text-[#5C3211] pt-1">Manage place</span>
                 </div>
-                <a href="detailTempatKulinerPemilik.php" id="listPlace" class="text-[#5C3211] text-sm font-light pt-1 ml-12 hidden hover:underline">RM Sumber Rejeki</a>
+                <a href="<?= base_url('/kulinerpemilik') ?>" id="listPlace" class="text-[#5C3211] text-sm font-light pt-1 ml-12 hidden hover:underline">RM Sumber Rejeki</a>
             </div>
         </div>
         <div class="p-5 space-y-3">

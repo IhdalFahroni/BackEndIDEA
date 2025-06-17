@@ -34,7 +34,7 @@
         </div>
 
         <div class="flex-1 p-5 space-y-6">
-            <a href="HomePagePemilik.php" id="homeBtn" class="w-12 h-12 rounded flex items-center justify-center font-bold cursor-pointer transition hover:scale-110 hover:bg-gray-100">
+            <a href="<?= base_url('/homepemilik') ?>" id="homeBtn" class="w-12 h-12 rounded flex items-center justify-center font-bold cursor-pointer transition hover:scale-110 hover:bg-gray-100">
                 <i class="fa-solid fa-home text-xl"></i>
             </a>
             <div id="addPlaceBtn" class="w-12 h-12  rounded flex items-center justify-center font-bold cursor-pointer transition hover:scale-110 hover:bg-gray-100">
@@ -65,7 +65,7 @@
             </div>
         </div>
         <div class="flex-1 p-5 space-y-6">
-            <a href="HomePagePemilik.php" id="openHomeBtn" class="flex items-center rounded cursor-pointer transition hover:scale-110 hover:bg-gray-100">
+            <a href="<?= base_url('/homepemilik') ?>" id="openHomeBtn" class="flex items-center rounded cursor-pointer transition hover:scale-110 hover:bg-gray-100">
                 <span class="w-12 h-12 flex items-center justify-center text-lg"><i class="fa-solid fa-home"></i></span>
                 <span class="text-lg font-medium text-[#5C3211] pt-2">Home</span>
             </a>
@@ -82,7 +82,7 @@
                     <span class="w-12 h-12 flex items-center justify-center text-lg"><i class="fa-solid fa-arrows-up-down"></i></span>
                     <span class="text-lg font-medium text-[#5C3211] pt-1">Manage place</span>
                 </div>
-                <a href="detailTempatKulinerPemilik.php" id="listPlace" class="text-[#5C3211] text-sm font-light pt-1 ml-12 hidden hover:underline">RM Sumber Rejeki</a>
+                <a href="<?= base_url('/kulinerpemilik') ?>" id="listPlace" class="text-[#5C3211] text-sm font-light pt-1 ml-12 hidden hover:underline">RM Sumber Rejeki</a>
             </div>
         </div>
         <div class="p-5 space-y-3">

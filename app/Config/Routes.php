@@ -15,3 +15,7 @@ $routes->get('/homepemilik', 'HomePemilik::homepemilik');
 $routes->get('/homeadmin', 'HomeAdmin::homeadmin');
 $routes->get('/wisatauser', 'WisataUser::wisatauser');
 $routes->get('/wisatapemilik', 'WisataPemilik::wisatapemilik');
+$routes->get('/wisataadmin', 'WisataAdmin::wisataadmin');
+$routes->get('/kulineruser', 'KulinerUser::kulineruser');
+$routes->get('/kulinerpemilik', 'KulinerPemilik::kulinerpemilik');
+$routes->get('/kulineradmin', 'KulinerAdmin::kulineradmin');
