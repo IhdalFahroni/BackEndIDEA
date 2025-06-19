@@ -8,7 +8,7 @@ class SignUp extends BaseController
 {
     public function signup(): string
     {
-        return view('SignUpPage');
+        return view('pages/SignUpPage');
     }
     // Fungsi ini untuk memproses data dari form signup
     public function process()

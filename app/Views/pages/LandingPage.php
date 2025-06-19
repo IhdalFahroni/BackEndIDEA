@@ -1,11 +1,11 @@
-<?= $this->extend('partials/template') ; ?>
+<?= $this->extend('layouts/landing_template') ; ?>
 
 <?= $this->section('content') ; ?>
 <body class="text-[#ffffff] font-jaldi">
     <div class="header h-screen relative text-white flex flex-col justify-between p-5">
         <nav class="fixed top-0 right-0 z-50 p-5 text-right text-2xl">
-            <a href="<?= base_url('/login') ?>" class=" outline-black text-white no-underline text-2xl ml-2.5 font-bold hover:underline">Login</a>   |
-            <a href="<?= base_url('/signup') ?>" class=" outline-black text-white no-underline text-2xl ml-1 mx-10 font-bold hover:underline">Sign Up</a>
+            <a href="<?= base_url('login') ?>" class=" outline-black text-white no-underline text-2xl ml-2.5 font-bold hover:underline">Login</a>   |
+            <a href="<?= base_url('signup') ?>" class=" outline-black text-white no-underline text-2xl ml-1 mx-10 font-bold hover:underline">Sign Up</a>
         </nav>
 
         <div class="hero flex-1 flex transition-all duration-1000 ease-in-out p-5">
@@ -29,7 +29,7 @@
     <main class="main-container flex-1 overflow-y-auto mx-10">
         <div class="min-h-screen p-6 md:p-8 w-full">
             <div id="header" class="header text-center mb-5 ">
-                <?php include APPPATH . 'Views/partials/mainCards.php'; ?>
+                <?php include APPPATH . 'Views/partials/main_content_user.php'; ?>
             </div>
         </div>
     </main>

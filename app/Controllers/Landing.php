@@ -46,6 +46,6 @@ class Landing extends BaseController
             ],
         ];
 
-        return view('LandingPage', $data);
+        return view('pages/LandingPage', $data);
     }
 }
