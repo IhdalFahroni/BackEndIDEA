@@ -246,28 +246,31 @@
                     All questions (<span class="text-[#FF0000]">*</span>) must be answered. Once submitted, answers cannot be changed. <br>
                     Please check the answers are correct before submitting.
                 </p>
-                <form>
+                <form action="<?= base_url('/kulineruser/klaimTempat') ?>" method="POST" enctype="multipart/form-data">
+
+                    <?= csrf_field() ?>
+
                     <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
                         <label for="full_name">Full name<span class="text-[#FF0000]">*</span></label>
-                        <input type="text" id="full_name"
+                        <input type="text" id="full_name" name="nama_lengkap"
                             class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
                             required placeholder="Answer" />
                     </div>
                     <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
                         <label for="phone_number">Phone number<span class="text-[#FF0000]">*</span></label>
-                        <input type="text" id="phone_number" 
+                        <input type="text" id="phone_number" name="no_hp"
                             class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
                             required placeholder="Answer" />
                     </div>
                     <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
                         <label for="email">Email<span class="text-[#FF0000]">*</span></label>
-                        <input type="text" id="email" 
+                        <input type="text" id="email" name="email"
                             class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
                             required placeholder="Answer" />
                     </div>
                     <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
                         <label for="taxpayer">Taxpayer Identification Number<span class="text-[#FF0000]">*</span></label>
-                        <input type="text" id="taxpayer" 
+                        <input type="text" id="taxpayer" name="npwp"
                             class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
                             required placeholder="Answer" />
                     </div>
@@ -280,12 +283,12 @@
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                             </svg>
-                            <input type="text" id="fileUploadPlaceholderClaim" placeholder="Upload File(s)" readonly 
+                            <input type="text" id="fileUploadPlaceholderClaim" placeholder="Upload File(s)" readonly
                                 class="flex-grow bg-transparent p-0 pt-3 border-none outline-none text-gray-600
                                         placeholder:text-gray-400 placeholder:transition-colors 
                                         group-hover:placeholder:text-[#F59E0B] group-hover:placeholder:underline" />
                         </div>
-                        <input id="file-upload" type="file" multiple class="hidden"/>
+                        <input id="file-upload" type="file" multiple class="hidden" name="dokumen_pendukung"/>
                         <p id="file-list" class="text-xs text-gray-500 mt-2"></p> 
                     </div>
 

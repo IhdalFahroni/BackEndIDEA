@@ -25,6 +25,7 @@ class Login extends BaseController
             $session = session();
 
             $sessionData = [
+                'ID_akun' => $user['ID_akun'],
                 'nama_depan'  => $user['nama_depan'],
                 'nama_belakang'  => $user['nama_belakang'],
                 'username'      => $user['username'],
