@@ -2,10 +2,6 @@
 
 <?= $this->section('content') ; ?>
 <?php
-    // --- LOGIKA EFISIEN UNTUK TOMBOL FILTER ---
-
-    // 1. Definisikan semua kategori dalam satu array.
-    // Jika ingin menambah kategori baru, cukup tambahkan di sini.
     $categories = [
         'tourist_destination' => [
             'label' => 'Tourist destination',
@@ -39,7 +35,7 @@
 
         // Simpan semua informasi yang dibutuhkan untuk satu tombol.
         $filter_buttons[] = [
-            'url'       => site_url('landing') . '?' . http_build_query($temp_query),
+            'url'       => site_url('') . '?' . http_build_query($temp_query),
             'label'     => $details['label'],
             'icon'      => $details['icon'],
             'is_active' => $is_active,
@@ -55,7 +51,11 @@
                     <div class="filter-tabs flex justify-center gap-5 mb-5">
                         <?php foreach ($filter_buttons as $button) : ?>
                             <a href="<?= $button['url'] ?>"
-                            class="py-2 px-6 rounded-full cursor-pointer transition flex items-center gap-2 shadow-md text-[#FF9800] bg-white <?= $button['is_active'] ? 'filter-active' : '' ?>">
+                            class="py-2 px-6 rounded-full cursor-pointer transition flex items-center gap-2 shadow-md
+                                    <?= $button['is_active'] 
+                                            ? 'bg-[#5C3211] text-white font-bold'  // KELAS JIKA TOMBOL AKTIF
+                                            : 'bg-white text-[#FF9800]'           // KELAS JIKA TOMBOL TIDAK AKTIF
+                                    ?>">
                                 <i class="<?= $button['icon'] ?>"></i>
                                 <span class="relative top-px"><?= $button['label'] ?></span>
                             </a>
@@ -88,7 +88,6 @@
                                         $rating = number_format($tempat['average_rating'] ?? 0, 1);
                                     ?>
                                     <div class="text-yellow-500 text-sm rating" data-rating="<?= esc($rating) ?>">
-                                        <span class="font-bold">★ <?= esc($rating) ?></span>
                                     </div> 
                                     <a href="<?= site_url('tempat/' . $tempat['ID_tempat']) ?>" class="text-xs font-medium hover:underline">See details</a>
                                 </div>

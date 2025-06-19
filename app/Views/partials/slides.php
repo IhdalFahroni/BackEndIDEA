@@ -1,4 +1,4 @@
-<body class="text-[#ffffff] font-jaldi">
+<body class="text-[#ffffff] font-jaldi"data-base-url="<?= base_url() ?>" data-landing-url="<?= site_url('landing') ?>"></body>>
 
     <div class="header h-screen relative text-white flex flex-col justify-between p-5">
         <nav class="top-nav text-right text-2xl my-2.5 mx-5">
