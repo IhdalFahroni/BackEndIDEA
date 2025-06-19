@@ -6,7 +6,6 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Landing::landingPage');
-$routes->get('/landing', 'Landing::landingPage');
 $routes->get('/login', 'Login::login');
 $routes->post('/login/process', 'Login::process');
 
