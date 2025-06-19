@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 16 Jun 2025 pada 11.48
+-- Waktu pembuatan: 19 Jun 2025 pada 03.44
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.2.12
 
@@ -31,7 +31,7 @@ CREATE TABLE `akun` (
   `ID_akun` int(11) NOT NULL,
   `username` varchar(20) NOT NULL,
   `foto_profil` varchar(500) DEFAULT NULL,
-  `password` varchar(20) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
   `nama_depan` tinytext NOT NULL,
   `nama_belakang` tinytext NOT NULL,
@@ -44,10 +44,10 @@ CREATE TABLE `akun` (
 --
 
 INSERT INTO `akun` (`ID_akun`, `username`, `foto_profil`, `password`, `email`, `nama_depan`, `nama_belakang`, `is_pemilik`, `is_admin`) VALUES
-(1, 'admin', NULL, 'admin123', 'admin@gmail.com', 'Admin', 'Admin', 0, 1),
-(2, 'enjiji', 'C:\\xampp\\htdocs\\TubesWeb\\PemWebIDEA\\Assets\\profil.jpg', 'enji123', 'anggijuwita@gmail.com', 'Anggi', 'Juwita', 0, 0),
-(3, 'ihdal_f', NULL, 'ihdal123', 'ihdalfahroni@gmail.com', 'Ihdal', 'Fahroni', 0, 0),
-(4, 'vivivi', NULL, 'devita123', 'devitaamalia@gmail.com', 'Devita', 'Amalia', 0, 0);
+(1, 'admin', NULL, '$2y$10$07UmwluqUZuJyELThW2jBO4oyWKYuyUWHQQM4ph1lnYWulwBOfhYi', 'admin@gmail.com', 'Admin', 'Admin', 0, 1),
+(3, 'idalpemilik', NULL, '$2y$10$9D0/HOyGwMKoVGVhgQ0vQeQajOWGC3eU2r.A0piWI.r4wdfo/3GDu', 'ihdalfahroni@gmail.com', 'Ihdal', 'Fahroni', 1, 0),
+(4, 'vivivi', NULL, '$2y$10$DOuBOqln9RMpioTHDoTITu5P3u2uHRDf2aQhNNOw6mk.iV6w6atjC', 'devitaamalia@gmail.com', 'Devita', 'Amalia', 0, 0),
+(11, 'enjikeren', NULL, '$2y$10$Wcrcjf1kJVENnvc25oGpKeyCqAcV05IzBR/4qS.4JeSh8iHvrXdQm', 'enji@123', 'enji', 'enji', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -196,8 +196,18 @@ CREATE TABLE `tempat` (
 --
 
 INSERT INTO `tempat` (`ID_tempat`, `nama_tempat`, `kabupaten_kota`, `kecamatan`, `kelurahan`, `nama_jalan`, `kategori`, `deskripsi`, `foto`, `google_maps`, `harga_tiket`, `ID_akun`) VALUES
-(1, 'Selong Belanak Beach', 'lombok_tengah', 'West Praya ', 'Selong Belanak', 'Selong Belanak Street', 'tourist_destination', 'Selong Belanak Beach is one of the most stunning beach destinations in Lombok, West Nusa Tenggara. This beach is perfect for travelers looking to relax, soak up the sun, or learn to surf, as the waves at the end of the beach are calm enough for beginners. Along the beach, visitors can also find a row of stalls serving local food and refreshing drinks. The main attraction at Selong Belanak Beach is the sunset view.', 'C:\\xampp\\htdocs\\TubesWeb\\PemWebIDEA\\Assets\\SelongBelanakPic.png', 'https://maps.app.goo.gl/64PXP5dDJuWBxW5W6', NULL, NULL),
-(2, 'RM Sumber Rejeki', 'lombok_tengah', 'Praya', 'Panjisari', 'Mareje Street', 'culinary', 'RM Sumber Rejeki is a traditional Indonesian restaurant that serves various home-style dishes with authentic flavors. The signature dishes at RM Sumber Rejeki include fried chicken, grilled fish, sour vegetable soup, tempeh with chili sauce, and a spicy chili sauce that is sure to tantalize your taste buds. The restaurant\'s simple yet comfortable atmosphere makes dining here an enjoyable experience, perfect for family lunches or group meals with tourists. The friendly and efficient service at RM Sumber Rejeki is another major draw, attracting many customers.', 'C:\\xampp\\htdocs\\TubesWeb\\PemWebIDEA\\Assets\\sumber_rejeki.png', 'https://maps.app.goo.gl/aEu7SmWdVg7CFdYE7', NULL, NULL);
+(1, 'Selong Belanak Beach', 'lombok_tengah', 'West Praya ', 'Selong Belanak', 'Selong Belanak Street', 'tourist_destination', 'Selong Belanak Beach is one of the most stunning beach destinations in Lombok, West Nusa Tenggara. This beach is perfect for travelers looking to relax, soak up the sun, or learn to surf, as the waves at the end of the beach are calm enough for beginners. Along the beach, visitors can also find a row of stalls serving local food and refreshing drinks. The main attraction at Selong Belanak Beach is the sunset view.', 'SelongBelanakPic.png', 'https://maps.app.goo.gl/64PXP5dDJuWBxW5W6', 10000, NULL),
+(2, 'RM Sumber Rejeki', 'lombok_tengah', 'Praya', 'Panjisari', 'Mareje Street', 'culinary', 'RM Sumber Rejeki is a traditional Indonesian restaurant that serves various home-style dishes with authentic flavors. The signature dishes at RM Sumber Rejeki include fried chicken, grilled fish, sour vegetable soup, tempeh with chili sauce, and a spicy chili sauce that is sure to tantalize your taste buds. The restaurant\'s simple yet comfortable atmosphere makes dining here an enjoyable experience, perfect for family lunches or group meals with tourists. The friendly and efficient service at RM Sumber Rejeki is another major draw, attracting many customers.', 'sumber_rejeki.png', 'https://maps.app.goo.gl/aEu7SmWdVg7CFdYE7', NULL, NULL),
+(3, 'Merese Hill', 'lombok_tengah', 'Pujut', 'Kuta', 'Jalan Kuta Lombok', 'tourist_destination', 'Bukit Merese showcases the beauty of the sea view with its stunning white sand with a vast expanse of grass. Its beauty also gives a more organic impression supported by the many buffaloes that roam around the hills.\r\nBukit Merese is one of the best locations in Lombok to enjoy the beauty of sunrise and sunset. This area presents a variety of natural beauty in one, including white sand beaches, mesmerizing blue seas, rolling hills, and vast green pastures accompanied by several buffaloes.', 'BukitMerese.jpg', 'https://maps.app.goo.gl/cQqnxCGfjcndYBuU7', 10000, NULL),
+(4, 'Tanjung Aan Beach', 'lombok_tengah', 'Pujut', 'Kuta', 'Jalan Kuta Lombok', 'tourist_destination', 'Tanjung Aan Beach is directly facing the Indian Ocean, has a long curved coastline of about 2 km distance. beaches are usually small and fine grains but here the grains of sand are large rounds like peppercorns. This beach destination is perfect for those of you who like to swim and enjoy the beauty of the beach. The reason is, the waves there are quite calm and have a fairly shallow depth.', 'TanjungAan.png', 'https://maps.app.goo.gl/CtRrETyoBse73ZKy9', 10000, NULL),
+(5, 'Elamu Lombok', 'lombok_tengah', 'Pujut', 'Kuta', 'Jl. Pariwisata Pantai Kuta', 'culinary', 'Elamu is a Greek home-cooking restaurant located in Kuta, Lombok. We offer authentic Greek cuisine and beverages, creating an atmosphere reminiscent of the ambiance in Greece.', 'ElamuLombok.png', 'https://maps.app.goo.gl/S3f71q8w9tDE2Bh58', NULL, NULL),
+(6, 'Boom Burger', 'lombok_tengah', 'Pujut', 'Kuta', 'Jl. Pariwisata Kuta', 'culinary', 'This warung selling burgers and kebab, also some drinks, and fries. This warung open from 5.30 PM until late. ', 'BoomBurger.png', 'https://maps.app.goo.gl/aCfG3cA9Jfo4Ncxo8', NULL, NULL),
+(7, 'The Breakery', 'lombok_tengah', 'Pujut', 'Kuta', 'Jalan Raya Kuta', 'culinary', 'The Breakery is located in Kuta, Lombok. This cafe is the only one cafe that provide fresh french bakery and pastry. Also, we provide many types of bread and coffee. This bakery have the best croissant in town. A small Paris in kuta, best pastry and croissant so far in lombok. Fresh ans warm everymorning with awsome coffee, was perfect for my breaky.', 'TheBreakery.png', 'https://maps.app.goo.gl/kTiUvAbWNyvUzdn48', NULL, NULL),
+(8, 'Verve Beach Club', 'lombok_barat', 'Batu Layar', 'Senggigi', 'Jalan Raya Senggigi', 'culinary', 'Beach Club and Pizzaria The biggest and best pizza on Lombok together with the coldest drinks and an amazing dessert menu', 'Verve.png', 'https://maps.app.goo.gl/VxVza5EeLfWkzPAn8', NULL, NULL),
+(9, 'Cantina Mexicana', 'lombok_tengah', 'Pujut', 'Kuta', 'Jalan Raya Kuta', 'culinary', 'Cantina Mexicana is a restaurant that serves Tex-Mex cuisine, a fusion of Northern Mexican and American dishes, with Spanish influences. They are known for a variety of quick and delicious dishes, such as tacos and tortilla-based dishes. Cantina Mexicana also offers multigrain tortillas that are popular for kebabs, burritos, tacos and enchiladas.', 'CantinaMexicana.png', 'https://maps.app.goo.gl/XvFDqJyPSREQcToM6', NULL, NULL),
+(10, 'Mawun Beach', 'lombok_tengah', 'Pujut', 'Tumpak', 'Jalan Pantai Mawun', 'tourist_destination', 'Pantai dengan pasir putih, ombak yang tidak terlalu besar, sangat cocok untuk berenang dan surfing', 'MawunBeach.png', 'https://maps.app.goo.gl/k8QYDQH8jSt6PWB48', 10000, NULL),
+(11, 'Pandanan Beach', 'lombok_utara', 'Pemenang', 'Malaka', 'Jalan Raya Malimbu', 'tourist_destination', 'Pantai dengan pasir putih, bisa menyewa kano untuk ke tengah pantai, pantai yang cocok untuk berenang.', 'PandananBeach.png', 'https://maps.app.goo.gl/2f5wxFsxxkbde4MH7', 10000, NULL),
+(12, 'Mount Rinjani', 'lombok_timur', 'Sembalun', 'Sembalun Lawang', 'Jalan Sembalun Bubung', 'tourist_destination', 'Mount Rinjani is the second highest active volcano in Indonesia, reaching an altitude of 3,726 meters above sea level. Located on the island of Lombok, West Nusa Tenggara, the mountain is a favorite of hikers for its stunning natural beauty. Mount Rinjani has a large crater, Segara Anak, and a crater lake with incredible views.', 'RinjaniPic.png', 'https://maps.app.goo.gl/soaY1LDmuyZpC1CE8', 150000, NULL);
 
 --
 -- Indexes for dumped tables
@@ -267,7 +277,7 @@ ALTER TABLE `tempat`
 -- AUTO_INCREMENT untuk tabel `akun`
 --
 ALTER TABLE `akun`
-  MODIFY `ID_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `ID_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `form_klaim`
@@ -309,7 +319,7 @@ ALTER TABLE `review`
 -- AUTO_INCREMENT untuk tabel `tempat`
 --
 ALTER TABLE `tempat`
-  MODIFY `ID_tempat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_tempat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
