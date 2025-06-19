@@ -1,13 +1,66 @@
+<?= $this->extend('partials/template'); ?>
+
+<?= $this->section('content') ; ?>
+<?php
+    // --- LOGIKA EFISIEN UNTUK TOMBOL FILTER ---
+
+    // 1. Definisikan semua kategori dalam satu array.
+    // Jika ingin menambah kategori baru, cukup tambahkan di sini.
+    $categories = [
+        'tourist_destination' => [
+            'label' => 'Tourist destination',
+            'icon'  => 'fa-solid fa-location-dot'
+        ],
+        'culinary' => [
+            'label' => 'Culinary',
+            'icon'  => 'fa-solid fa-utensils'
+        ]
+    ];
+
+    // 2. Ambil query dan kategori aktif saat ini (tetap sama).
+    $current_query = request()->getGet();
+    $active_category = $current_query['category'] ?? '';
+
+    // 3. Siapkan array kosong untuk menampung data tombol yang akan ditampilkan.
+    $filter_buttons = [];
+
+    // 4. Looping untuk setiap kategori untuk membuat URL dan status aktifnya.
+    foreach ($categories as $key => $details) {
+        $is_active = ($active_category == $key);
+        $temp_query = $current_query;
+
+        if ($is_active) {
+            // Jika tombol ini sedang aktif, URL-nya akan menghapus filter.
+            unset($temp_query['category']);
+        } else {
+            // Jika tidak aktif, URL-nya akan mengaktifkan filter ini.
+            $temp_query['category'] = $key;
+        }
+
+        // Simpan semua informasi yang dibutuhkan untuk satu tombol.
+        $filter_buttons[] = [
+            'url'       => site_url('landing') . '?' . http_build_query($temp_query),
+            'label'     => $details['label'],
+            'icon'      => $details['icon'],
+            'is_active' => $is_active,
+        ];
+    }
+?>
+
+
 <main class="flex-1overflow-y-auto mx-10">
         <div class="main-container min-h-screen p-6 md:p-8 w-full">
             <div id="header" class="header text-center mb-5 ">
                 <div class="filter-tabs flex justify-center gap-5 mb-5">
-                    <button class="filter-button-tourist py-2 px-6 bg-white rounded-full text-[#FF9800] cursor-pointer transition flex items-center gap-2 shadow-md">
-                        <i class="fa-solid fa-location-dot"></i> <span class="relative top-px">Tourist destination</span>
-                    </button>
-                    <button class="filter-button-culinary py-2 px-6 bg-white rounded-full text-[#FF9800] cursor-pointer transition flex items-center gap-2 shadow-md">
-                        <i class="fa-solid fa-utensils"></i> <span class="relative top-px">Culinary</span>
-                    </button>
+                    <div class="filter-tabs flex justify-center gap-5 mb-5">
+                        <?php foreach ($filter_buttons as $button) : ?>
+                            <a href="<?= $button['url'] ?>"
+                            class="py-2 px-6 rounded-full cursor-pointer transition flex items-center gap-2 shadow-md text-[#FF9800] bg-white <?= $button['is_active'] ? 'filter-active' : '' ?>">
+                                <i class="<?= $button['icon'] ?>"></i>
+                                <span class="relative top-px"><?= $button['label'] ?></span>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
                 <div class="search-container flex justify-center">
                     <div class="relative w-full max-w-[500px]">
@@ -45,16 +98,19 @@
                 <?php else : ?>
                     <p class="col-span-3 text-center">Belum ada data destinasi yang bisa ditampilkan.</p>
                 <?php endif; ?>
-
+                
+            </div>
+            <div class="flex justify-center">
+                <button id="load-more-button" class="py-2 px-6 text-white font-bold rounded-full bg-[#FF9800] cursor-pointer transition flex items-center gap-2 shadow-md hover:opacity-50">
+                    <span class="relative top-px">Load More</span>
+                </button>
             </div>
 
             <div class="mt-8 flex justify-center">
-                <?php if ($pager) : ?>
-                    <?= $pager->links() ?>
-                <?php endif; ?>
             </div>
         </div>
         <div id="afterSearch" class="space-y-4 hidden">
             </div>
     </div>
 </main>
+<?= $this->endSection() ; ?>

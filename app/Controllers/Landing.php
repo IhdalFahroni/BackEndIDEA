@@ -12,7 +12,9 @@ class Landing extends BaseController
         $tempatModel = new TempatModel();
 
         $options = [
-            'page' => $this->request->getVar('page') ?? 1,
+            'searchTerm' => $this->request->getVar('search'),
+            'page'       => $this->request->getVar('page') ?? 1,
+            'category'   => $this->request->getVar('category'), // <-- BARIS INI DITAMBAHKAN
         ];
         
         // Tentukan berapa item yang ingin ditampilkan per halaman
@@ -27,12 +29,10 @@ class Landing extends BaseController
             'pager'       => $tempatModel->pager, // Kirim Pager untuk link halaman
             'currentPage' => $options['page'],
             'perPage'     => $perPage,
+            'tile'        => 'Lombok Recommendation',
         ];
 
         // 5. Tampilkan view-view parsial dan kirimkan data ke view 'main'
-        echo view('partials/header');
-        echo view('partials/opening');
-        echo view('partials/main', $data); // <-- KIRIMKAN $data KE VIEW MAIN
-        echo view('partials/footer');
+        return view('partials/cards', $data);
     }
 }
