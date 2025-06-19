@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lombok Recommendation</title>
-    <link href="<?= base_url('css/output.css') ?>" rel="stylesheet">
-    <script src="<?= base_url('js/Landing.js') ?>"></script>
-    <style>
-        ::-webkit-scrollbar {width: 6px;}
-        ::-webkit-scrollbar-track {background: #F8F9FA}
-        ::-webkit-scrollbar-thumb {background: #FFC107;border-radius: 3px;}
-        ::-webkit-scrollbar-thumb:hover {background: #FF9800;}
-    </style>
-</head>
-<body class="text-[#ffffff] font-jaldi">
+<?= $this->extend('partials/template') ; ?>
 
+<?= $this->section('content') ; ?>
+<body class="text-[#ffffff] font-jaldi">
     <div class="header h-screen relative text-white flex flex-col justify-between p-5">
         <nav class="top-nav text-right text-2xl my-2.5 mx-5">
             <a href="<?= base_url('/login') ?>" class="text-white no-underline text-2xl ml-2.5 font-bold hover:underline">Login</a>   |
@@ -39,51 +26,10 @@
         </div>
     </div>
 
-    <main class="flex-1overflow-y-auto mx-10">
+    <main class="flex-1 overflow-y-auto mx-10">
         <div class="main-container min-h-screen p-6 md:p-8 w-full">
             <div id="header" class="header text-center mb-5 ">
-                <div class="filter-tabs flex justify-center gap-5 mb-5">
-                    <button class="filter-button-tourist py-2 px-6 bg-white rounded-full text-[#FF9800] cursor-pointer transition flex items-center gap-2 shadow-md">
-                        <i class="fa-solid fa-location-dot"></i> <span class="relative top-px">Tourist destination</span>
-                    </button>
-                    <button class="filter-button-culinary py-2 px-6 bg-white rounded-full text-[#FF9800] cursor-pointer transition flex items-center gap-2 shadow-md">
-                        <i class="fa-solid fa-utensils"></i> <span class="relative top-px">Culinary</span>
-                    </button>
-                </div>
-                <div class="search-container flex justify-center">
-                    <div class="relative w-full max-w-[500px]">
-                        <input type="text" class="search-box w-full py-2.5 px-6 pr-12 border-none rounded-full bg-white text-base text-[#FF8400] outline-none shadow-md placeholder:text-[#5C3211]/50" placeholder="Search...">
-                        <span id="searchIcon" class="absolute right-3 top-1/2 -translate-y-1/2 flex items-center justify-center w-8 h-8 rounded-full cursor-pointer transition">
-                            <i class="fa-solid fa-magnifying-glass text-[#F4A261] hover:opacity-45 text-lg"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <div id="awal" class="space-y-6 text-[#5C3211]">
-                <?php for ($i=1; $i<=3; $i++) :?>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-grow">
-                    <?php for ($j=1; $j<=3; $j++) :?>
-                    <div class="destination-card bg-[#FFFFFF] rounded-xl overflow-hidden shadow-lg transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer flex flex-col">
-                        <img src="<?= base_url('Assets/SelongBelanakPic.png') ?>" alt="Selong Belanak Beach" class="w-full h-52 object-cover">
-                        <div class="p-4 flex flex-col flex-1 jaldi-font">
-                            <div class="text-lg font-bold mb-0">Selong Belanak Beach, South Lombok</div>
-                            <div class="flex justify-between items-center mt-2">
-                                <div class="text-yellow-500 text-sm rating" data-rating="4.5"></div>
-                                <div class="text-xs font-medium hover:underline">See details</div>
-                            </div>
-                        </div>
-                    </div>
-                    <?php endfor;?>
-                </div>
-                <?php endfor;?>
-                <div class="flex justify-center">
-                    <button id="load-more-button" class="py-2 px-6 text-white font-bold rounded-full bg-[#FF9800] cursor-pointer transition flex items-center gap-2 shadow-md hover:opacity-50">
-                        <span class="relative top-px">Load More</span>
-                    </button>
-                </div>
-            </div>
-
+                <?php include APPPATH . 'Views/partials/mainCards.php'; ?>
             <div id="afterSearch" class="space-y-4 hidden">
                 <div class="bg-white rounded-xl p-4 flex items-center shadow-md border border-[#F0D3B3] gap-4">
                     <img src="<?= base_url('Assets/SelongBelanakPic.png') ?>" alt="Resort" class="w-32 h-32 object-cover rounded-lg flex-shrink-0">
@@ -157,15 +103,4 @@
             </div>
         </div>
     </main>
-
-    <footer class="bg-gradient-to-t from-[#FFC107] 0% via-[#FFE083] 1% to-[#FFFFFF] 5% text-[#5C3211] py-10 px-5 text-center">
-        <h3 class="text-3xl font-extrabold mb-5">Contact Us</h3>
-        <p class="my-2.5 text-base flex justify-center items-center gap-2"> 
-            <i class="fab fa-twitter"></i> X: lombokrec |
-            <i class="fas fa-envelope"></i> email: lombokrec@gmail.com |
-            <i class="fab fa-instagram"></i> IG: lombokrec
-        </p>
-        <p class="my-2.5 text-base font-bold">Thank you for visiting our page, hope this website helps you make your itinerary on Lombok</p>
-    </footer>
-</body>
-</html>
+<?= $this->endSection(); ?>

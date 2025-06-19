@@ -66,7 +66,14 @@ document.addEventListener("DOMContentLoaded", () => {
       "text-left",
       "text-right",
     ];
-    
+    function preloadImages() {
+      slidesData.forEach((slide) => {
+        const img = new Image();
+        const imageUrl = `${BASE_URL}Assets/${slide.image}`;
+        img.src = imageUrl;
+      });
+    }
+    preloadImages(); // Panggil fungsi preloading
 
     let currentIndex = 0;
     const transitionDuration = 500;
@@ -77,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         const currentSlide = slidesData[currentIndex];
         // Bangun URL gambar yang benar menggunakan BASE_URL
-        const imageUrl = `${BASE_URL}/Assets/${currentSlide.image}`;
+        const imageUrl = `${BASE_URL}Assets/${currentSlide.image}`;
 
         headerElement.style.backgroundImage = `url('${imageUrl}')`;
         heroTextElement.innerHTML = currentSlide.text;
@@ -97,27 +104,28 @@ document.addEventListener("DOMContentLoaded", () => {
   /**
    * BAGIAN 2: FUNGSI PENCARIAN
    */
-  const searchIcon = document.getElementById("searchIcon");
-  const searchBox = document.querySelector(".search-box");
+  // const searchIcon = document.getElementById("searchIcon");
+  // const searchBox = document.querySelector(".search-box");
 
-  const performSearch = () => {
-    const searchTerm = searchBox.value.trim();
-    if (searchTerm) {
-      // Redirect ke halaman dengan parameter pencarian menggunakan LANDING_URL
-      window.location.href = `${LANDING_URL}?search=${encodeURIComponent(
-        searchTerm
-      )}`;
-    }
-  };
+  // const performSearch = () => {
+  //   debugger;
+  //   const searchTerm = searchBox.value.trim();
+  //   if (searchTerm) {
+  //     // Redirect ke halaman dengan parameter pencarian menggunakan LANDING_URL
+  //     window.location.href = `${LANDING_URL}?search=${encodeURIComponent(
+  //       searchTerm
+  //     )}`;
+  //   }
+  // };
 
-  if (searchIcon && searchBox) {
-    searchIcon.addEventListener("click", performSearch);
-    searchBox.addEventListener("keyup", (e) => {
-      if (e.key === "Enter") {
-        performSearch();
-      }
-    });
-  }
+  // if (searchIcon && searchBox) {
+  //   searchIcon.addEventListener("click", performSearch);
+  //   searchBox.addEventListener("keyup", (e) => {
+  //     if (e.key === "Enter") {
+  //       performSearch();
+  //     }
+  //   });
+  // }
 
   /**
    * BAGIAN 3: FUNGSI RATING BINTANG

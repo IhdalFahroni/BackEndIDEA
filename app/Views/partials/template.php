@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lombok Recommendation</title>
+    <title><?= $title; ?></title>
     <link href="<?= base_url('css/output.css') ?>" rel="stylesheet">
     <style>
         ::-webkit-scrollbar {width: 6px;}
@@ -12,8 +12,6 @@
         ::-webkit-scrollbar-thumb:hover {background: #FF9800;}
     </style>
 </head>
-
-<?= $this->include('partials/slides'); ?>
 
 <?= $this->renderSection('content'); ?>
 
@@ -26,6 +24,6 @@
     </p>
     <p class="my-2.5 text-base font-bold">Thank you for visiting our page, hope this website helps you make your itinerary on Lombok</p>
 </footer>
-<script src="<?= base_url('js/Landing.js') ?>"></script>
+<script src="<?= base_url('js/'.$js) ?>"></script>
 </body>
 </html>

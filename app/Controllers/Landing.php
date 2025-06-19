@@ -6,33 +6,46 @@ use App\Models\TempatModel;
 
 class Landing extends BaseController
 {
-    public function landingPage() // Hapus tipe data 'void' karena kita akan mengembalikan view
+    public function landingPage()
     {
-        // 1. Buat instance dari TempatModel
         $tempatModel = new TempatModel();
 
+        $searchTerm = $this->request->getVar('search');
+        $category = $this->request->getVar('category');
+        $page = $this->request->getVar('page') ?? 1;
+
         $options = [
-            'searchTerm' => $this->request->getVar('search'),
-            'page'       => $this->request->getVar('page') ?? 1,
-            'category'   => $this->request->getVar('category'), // <-- BARIS INI DITAMBAHKAN
+            'searchTerm' => $searchTerm,
+            'category'   => $category,
+            'page'       => $page,
         ];
-        
-        // Tentukan berapa item yang ingin ditampilkan per halaman
+
         $perPage = 9;
 
-        // 3. Panggil method getTempat() dari Model dengan opsi yang sudah disiapkan
         $result = $tempatModel->getTempat($options, $perPage);
 
-        // 4. Siapkan data yang akan dikirim ke view
         $data = [
+            'title'       => 'Lombok Recommendation',
+            'js'          => 'Landing.js',
             'destinasi'   => $result['data'],
-            'pager'       => $tempatModel->pager, // Kirim Pager untuk link halaman
-            'currentPage' => $options['page'],
-            'perPage'     => $perPage,
-            'tile'        => 'Lombok Recommendation',
+            'pager'       => $tempatModel->pager,
+            'current_search_term' => $searchTerm,
+            'active_category'     => $category, // Untuk filter button di mainCards.php
+            'current_query'       => $this->request->getGet(), // Untuk filter button di mainCards.php
+            // Definisi categories juga perlu dikirim karena digunakan di mainCards.php
+            'path' => site_url(''),
+            'categories' => [
+                'tourist_destination' => [
+                    'label' => 'Tourist destination',
+                    'icon'  => 'fa-solid fa-location-dot'
+                ],
+                'culinary' => [
+                    'label' => 'Culinary',
+                    'icon'  => 'fa-solid fa-utensils'
+                ]
+            ],
         ];
 
-        // 5. Tampilkan view-view parsial dan kirimkan data ke view 'main'
-        return view('partials/cards', $data);
+        return view('LandingPage', $data);
     }
 }

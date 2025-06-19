@@ -1,4 +1,4 @@
-<body class="text-[#ffffff] font-jaldi"data-base-url="<?= base_url() ?>" data-landing-url="<?= site_url('landing') ?>"></body>>
+<body class=" text-[#ffffff] font-jaldi" data-base-url="<?= base_url() ?>" data-landing-url="<?= site_url('landing') ?>"></body>>
 
     <div class="header h-screen relative text-white flex flex-col justify-between p-5">
         <nav class="top-nav text-right text-2xl my-2.5 mx-5">
@@ -12,7 +12,7 @@
                 class="text-4xl md:text-6xl font-semibold leading-relaxed inline-block p-5 rounded-lg text-white transition-opacity duration-500 ease-in-out font-josefin"> </h1>
         </div>
 
-        <div class="h-10"></div>
+        <div class="h-10"></div>    
     </div>
 
     <div class="about py-10 text-[#5C3211] text-center max-w-6xl mx-auto px-4 font-josefin">  <h2 class="text-5xl font-bold mb-2">About Lombok</h2>
