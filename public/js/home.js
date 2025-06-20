@@ -306,7 +306,7 @@ document.addEventListener("DOMContentLoaded", () => {
     editLastNameInput.addEventListener("input", validateProfileForm);
   }
   // Panggil validasi saat halaman dimuat jika input sudah ada nilainya
-  if (editUsernameInput && editFullNameInput) validateProfileForm();
+  if (editUsernameInput && editFirstNameInput && editLastNameInput) validateProfileForm();
 
   // --- LOGIKA GANTI PASSWORD ---
   const validateAndUpdatePasswordButton = () => {
