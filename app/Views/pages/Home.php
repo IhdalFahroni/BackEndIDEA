@@ -5,7 +5,7 @@
 <?php // Section untuk Sidebar (ROLE-SPECIFIC) ?>
 <?= $this->section('sidebar') ?>
     <?php if (isset($user_role)) : ?>
-        <?php include APPPATH . 'Views/partials/sidebar.php'; ?>
+        <?php include APPPATH . 'Views/partials/sidebar.php'; // Asumsi ini adalah sidebar_user.php atau ada logika di dalamnya ?>
     <?php endif; ?>
 <?= $this->endSection() ?>
 
@@ -16,16 +16,8 @@
         <?php include APPPATH . 'Views/partials/main_content_user.php'; ?>
     </div>
 
-
-    <?php // Partial untuk Notifikasi, Add Place Form, Profile (disembunyikan secara default) ?>
+    <?php // Ini adalah partials yang memang tersembunyi dan diatur oleh JavaScript ?>
     <?php if (isset($user_role)) : ?>
-        <?php if ($user_role === 'user') : ?>
-                <?php include APPPATH . 'Views/partials/detail_tempat_user.php'; ?>
-            <?php elseif ($user_role === 'pemilik') : ?>
-                <?php include APPPATH . 'Views/partials/detail_tempat_pemilik.php'; ?>
-        <?php elseif ($user_role === 'admin') : ?>
-            <?php include APPPATH . 'Views/partials/detail_tempat_admin.php'; ?>
-        <?php endif; ?>
         <?php include APPPATH . 'Views/partials/notification_content.php'; ?>
         <?php include APPPATH . 'Views/partials/add_place_form.php'; ?>
         <?php include APPPATH . 'Views/partials/profile.php'; ?>

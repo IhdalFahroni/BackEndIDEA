@@ -43,3 +43,10 @@ $routes->post('/home/verifyRequest', 'Home::verifyRequest');
 // Contoh: http://localhost:8080/tempat/ID_tempat_disini
 // Ganti 'NamaControllerTempat' dan 'detailMethod' dengan controller dan method yang sesuai
 // $routes->get('/tempat/(:segment)', 'NamaControllerTempat::detailMethod/$1');
+
+// --- Routing Halaman Detail Tempat ---
+$routes->get('/tempat/(:segment)', 'Tempat::detail/$1');
+
+// --- Routing API / Form Submit Tambahan (jika ada) ---
+// Contoh: Untuk submit review dari halaman detail
+$routes->post('/home/submitReview', 'Home::submitReview'); // Mengarahkan ke Home controller
