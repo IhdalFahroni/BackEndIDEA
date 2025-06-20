@@ -18,7 +18,9 @@
         const API_URL_VERIFY_REQUEST = '<?= site_url('api/admin/verify-request') ?>';
     </script>
     
-    
+    <?php if (isset($js_file)) : ?>
+        <script src="<?= base_url('js/' . $js_file) ?>"></script>
+    <?php endif; ?>
     <style>
         ::-webkit-scrollbar {width: 6px;}
         ::-webkit-scrollbar-track {background: #F8F9FA}
@@ -38,8 +40,5 @@
 
     <?php include APPPATH . 'Views/partials/claim_culinary_modal.php'; ?>
 
-    <?php if (isset($js_file)) : ?>
-        <script src="<?= base_url('js/' . $js_file) ?>"></script>
-    <?php endif; ?>
 </body>
 </html>
