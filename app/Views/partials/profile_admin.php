@@ -1,3 +1,5 @@
+<?php // app/Views/partials/profile_admin.php ?>
+
 <div id="profil" class="header mb-5 hidden">
     <div id="containerProfile" class="bg-[#FFFFFF] rounded-xl p-4 flex items-center justify-between shadow-md overflow-hidden mt-8 border border-[#F0D3B3]">
         <div id="profilPage" class="flex items-center w-full relative">

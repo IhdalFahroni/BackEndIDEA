@@ -5,13 +5,7 @@
 <?php // Section untuk Sidebar (ROLE-SPECIFIC) ?>
 <?= $this->section('sidebar') ?>
     <?php if (isset($user_role)) : ?>
-        <?php if ($user_role === 'user') : ?>
-            <?php include APPPATH . 'Views/partials/sidebar_user.php'; ?>
-        <?php elseif ($user_role === 'pemilik') : ?>
-            <?php include APPPATH . 'Views/partials/sidebar_pemilik.php'; ?>
-        <?php elseif ($user_role === 'admin') : ?>
-            <?php include APPPATH . 'Views/partials/sidebar_admin.php'; ?>
-        <?php endif; ?>
+        <?php include APPPATH . 'Views/partials/sidebar.php'; ?>
     <?php endif; ?>
 <?= $this->endSection() ?>
 
@@ -22,23 +16,14 @@
         <?php include APPPATH . 'Views/partials/main_content_user.php'; ?>
     </div>
 
-    <?php // KONTEN UTAMA DASHBOARD DINAMIS - default adalah main_content_user ?>
 
     <?php // Partial untuk Notifikasi, Add Place Form, Profile (disembunyikan secara default) ?>
     <?php if (isset($user_role)) : ?>
         <?php include APPPATH . 'Views/partials/notification_content.php'; ?>
         <?php include APPPATH . 'Views/partials/add_place_form.php'; ?>
-        <?php // include APPPATH . 'Views/partials/profile.php'; ?>
-        <?php if ($user_role === 'user') : ?>
-            <?php include APPPATH . 'Views/partials/profile.php'; ?>
-        <?php elseif ($user_role === 'pemilik') : ?>
-            <?php include APPPATH . 'Views/partials/profile_pemilik.php'; ?>
-        <?php elseif ($user_role === 'admin') : ?>
-            <?php include APPPATH . 'Views/partials/profile_admin.php'; ?>
-        <?php endif; ?>
+        <?php include APPPATH . 'Views/partials/profile.php'; ?>
     <?php endif; ?>
 
-    <?php // Partial khusus Admin (Manage Verification) ?>
     <?php if (isset($user_role) && $user_role === 'admin') : ?>
         <?php include APPPATH . 'Views/partials/manage_verification.php'; ?>
     <?php endif; ?>

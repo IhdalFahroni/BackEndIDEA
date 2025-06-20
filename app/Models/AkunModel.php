@@ -57,4 +57,33 @@ class AkunModel extends Model
 
         return false;
     }
+       public function updateProfile(int $id, array $data)
+    {
+        // Pastikan Anda melakukan validasi di controller sebelum memanggil ini
+        return $this->update($id, $data);
+    }
+
+    /**
+     * Mengubah password pengguna.
+     * Password baru harus sudah di-hash sebelum dikirim ke method ini.
+     *
+     * @param int $id ID_akun pengguna.
+     * @param string $hashedPassword Password baru yang sudah di-hash.
+     * @return bool True jika berhasil diubah, false jika gagal.
+     */
+    public function changePassword(int $id, string $hashedPassword)
+    {
+        return $this->update($id, ['password' => $hashedPassword]);
+    }
+
+    /**
+     * Menghapus akun pengguna dari database.
+     *
+     * @param int $id ID_akun pengguna yang akan dihapus.
+     * @return bool True jika berhasil dihapus, false jika gagal.
+     */
+    public function deleteAkun(int $id)
+    {
+        return $this->delete($id);
+    }
 }
