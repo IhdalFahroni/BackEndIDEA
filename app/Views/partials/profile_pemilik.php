@@ -24,7 +24,7 @@
                 <button id="cancelEditBtn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-7 py-1 rounded-full shadow font-semibold transition">
                     Cancel
                 </button>
-                <button id="saveEditBtn" class="border border-[#FF9800] text-white hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full shadow font-semibold flex items-center gap-2 transition" disabled>
+                <button id="saveEditBtn" class="border border-[#FF9800] text-white hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full shadow font-semibold flex items-center gap-2 transition">
                     Save change
                 </button>
             </div>
@@ -40,6 +40,11 @@
                     <p id="usernameError" class="absolute top-full mt-1 text-sm text-[#FF0000] hidden">
                         Username must be 8-20 characters
                     </p>
+                </div>
+                <div class="flex items-center mt-6 gap-4"> 
+                    <input type="text" id="editFirstName" class="text-xl py-2 text-[#5C3211] font-normal border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF9800] px-3 pt-3" placeholder="First Name" />
+                    <input type="text" id="editLastName" class="text-xl py-2 text-[#5C3211] font-normal border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF9800] px-3 pt-3" placeholder="Last Name" />
+                    <span class="text-lg text-[#5C3211] font-light">email@gmail.com</span>
                 </div>
             </div>
         </div>

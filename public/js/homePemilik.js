@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const editProfilePage = document.getElementById('editProfilePage');
     const cancelEditBtn = document.getElementById('cancelEditBtn');
     const editUsernameInput = document.getElementById('editUsername');
+    const editFirstNameInput = document.getElementById('editFirstName');
+    const editLastNameInput = document.getElementById('editLastName');
     const usernameError = document.getElementById('usernameError');
     const saveEditBtn = document.getElementById('saveEditBtn');
     const bawahProfil = document.getElementById('bawahProfil');
@@ -198,9 +200,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll(".rating").forEach(generateStars);
 
     function validateProfileForm() {
-        if (!editUsernameInput || !saveEditBtn) return; // Pengaman jika elemen tidak ada
+        if (!editUsernameInput || !editFirstNameInput || !editLastNameInput || !saveEditBtn || !usernameError) return; // Pengaman jika elemen tidak ada
 
         const username = editUsernameInput.value.trim();
+        const firstName = editFirstNameInput.value.trim();
+        const lastName = editLastNameInput.value.trim();
         const isUsernameLengthValid = username.length >= 8 && username.length <= 20;
         
         if (username.length > 0 && !isUsernameLengthValid) {
@@ -208,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             usernameError.classList.add('hidden');
         }
-        const isFormValid = isUsernameLengthValid > 0;
+        const isFormValid = isUsernameLengthValid && firstName.length > 0 && lastName.length > 0;
         if (isFormValid) {
             saveEditBtn.disabled = false;
             saveEditBtn.classList.remove('text-[#FF9800]', 'bg-white', 'opacity-50', 'cursor-not-allowed');
@@ -219,8 +223,10 @@ document.addEventListener('DOMContentLoaded', () => {
             saveEditBtn.classList.add('text-[#FF9800]', 'bg-white', 'opacity-50', 'cursor-not-allowed');
         }
     }
-    if (editUsernameInput) {
+    if (editUsernameInput && editFirstNameInput && editLastNameInput) {
         editUsernameInput.addEventListener('input', validateProfileForm);
+        editFirstNameInput.addEventListener('input', validateProfileForm);
+        editLastNameInput.addEventListener('input', validateProfileForm);
     }
 
     openProfilBtns.forEach(btn => btn.addEventListener('click', (e) => {
