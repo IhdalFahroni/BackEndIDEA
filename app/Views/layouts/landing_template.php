@@ -6,17 +6,6 @@
     <title><?= $title; ?></title>
     <link href="<?= base_url('css/output.css') ?>" rel="stylesheet">
     <style>
-        .main-container {
-            background: linear-gradient(to bottom, #FFC107 50px, #F8F9FA 300px); 
-            border-top-left-radius: 0.75rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 6px 6px rgba(0, 0, 0, 0.2);
-            position: relative; 
-            z-index: 30; 
-        }
-        .main-container-detail {
-            background-image: linear-gradient(to bottom right, #FFC107, #FFFFFF);
-            border-top-left-radius: 0.75rem;
-        }
         ::-webkit-scrollbar {width: 6px;}
         ::-webkit-scrollbar-track {background: #F8F9FA}
         ::-webkit-scrollbar-thumb {background: #FFC107;border-radius: 3px;}

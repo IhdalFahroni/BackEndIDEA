@@ -34,7 +34,7 @@
 
     <main class="flex-1 pt-3 overflow-y-auto ml-20 bg-[#FFFFFF]">
         <div class="bg-[linear-gradient(to_bottom,#FFC107_50px,#F8F9FA_300px)] rounded-tl-xl min-h-screen p-6 md:p-8 shadow-2xl w-full">
-            <?= $this->renderSection('main_content') ?>
+        <?= $this->renderSection('main_content') ?>
         </div>
     </main>
 
