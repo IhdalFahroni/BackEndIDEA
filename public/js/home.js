@@ -52,7 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveEditBtn = document.getElementById("saveEditBtn"); // Tombol Save Edit Profile
   const cancelEditBtn = document.getElementById("cancelEditBtn"); // Tombol Cancel Edit Profile
   const editUsernameInput = document.getElementById("editUsername"); // Input username edit
-  const editFullNameInput = document.getElementById("editFullName"); // Input full name edit
+  const editFirstNameInput = document.getElementById("editFirstName"); // Input full name edit
+  const editLastNameInput = document.getElementById("editLastName"); // Input full name edit
   const usernameError = document.getElementById("usernameError"); // Error message for username
 
   // --- Elemen Ganti Password Profil ---
@@ -258,14 +259,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // Pastikan semua elemen yang dibutuhkan ada sebelum memproses
     if (
       !editUsernameInput ||
-      !editFullNameInput ||
+      !editFirstNameInput ||
+      !editLastNameInput ||
       !saveEditBtn ||
       !usernameError
     )
       return;
 
     const username = editUsernameInput.value.trim();
-    const fullName = editFullNameInput.value.trim();
+    const firstName = editFirstNameInput.value.trim();
+    const lastName = editLastNameInput.value.trim();
     const isUsernameLengthValid = username.length >= 8 && username.length <= 20;
 
     if (username.length > 0 && !isUsernameLengthValid) {
@@ -274,7 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
       usernameError.classList.add("hidden");
     }
 
-    const isFormValid = isUsernameLengthValid && fullName.length > 0; // Tambahkan validasi lainnya jika ada
+    const isFormValid = isUsernameLengthValid && firstName.length > 0 && lastName.length > 0; // Tambahkan validasi lainnya jika ada
 
     if (isFormValid) {
       saveEditBtn.disabled = false;
@@ -296,9 +299,10 @@ document.addEventListener("DOMContentLoaded", () => {
       );
     }
   }
-  if (editUsernameInput && editFullNameInput) {
+  if (editUsernameInput && editFirstNameInput && editLastNameInput) {
     editUsernameInput.addEventListener("input", validateProfileForm);
-    editFullNameInput.addEventListener("input", validateProfileForm);
+    editFirstNameInput.addEventListener("input", validateProfileForm);
+    editLastNameInput.addEventListener("input", validateProfileForm);
   }
   // Panggil validasi saat halaman dimuat jika input sudah ada nilainya
   if (editUsernameInput && editFullNameInput) validateProfileForm();
