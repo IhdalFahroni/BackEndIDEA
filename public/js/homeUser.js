@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const profilPage = document.getElementById('profilPage');
     const editProfilePage = document.getElementById('editProfilePage');
     const editUsernameInput = document.getElementById('editUsername');
-    const editFullNameInput = document.getElementById('editFullName');
     const usernameError = document.getElementById('usernameError');
     const saveEditBtn = document.getElementById('saveEditBtn');
     const cancelEditBtn = document.getElementById('cancelEditBtn');
@@ -151,10 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function validateProfileForm() {
-        if (!editUsernameInput || !editFullNameInput || !saveEditBtn) return; // Pengaman jika elemen tidak ada
+        if (!editUsernameInput || !saveEditBtn) return; // Pengaman jika elemen tidak ada
 
         const username = editUsernameInput.value.trim();
-        const fullName = editFullNameInput.value.trim();
         const isUsernameLengthValid = username.length >= 8 && username.length <= 20;
         
         if (username.length > 0 && !isUsernameLengthValid) {
@@ -163,7 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
             usernameError.classList.add('hidden');
         }
 
-        const isFormValid = isUsernameLengthValid && fullName.length > 0;
+        const isFormValid = isUsernameLengthValid > 0;
 
         if (isFormValid) {
             saveEditBtn.disabled = false;
@@ -175,9 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
             saveEditBtn.classList.add('text-[#FF9800]', 'bg-white', 'opacity-50', 'cursor-not-allowed');
         }
     }
-    if (editUsernameInput && editFullNameInput) {
+    if (editUsernameInput) {
         editUsernameInput.addEventListener('input', validateProfileForm);
-        editFullNameInput.addEventListener('input', validateProfileForm);
     }
 
     openProfilBtns.forEach(btn => btn.addEventListener('click', (e) => {

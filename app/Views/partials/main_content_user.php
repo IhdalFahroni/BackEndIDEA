@@ -148,7 +148,7 @@ foreach ($categories as $key => $details) {
     </div>
 <?php endif; ?>
 
-<div class="mt-8 flex justify-center">
+<div class="mt-8 flex justify-center text-[#FF9800] font-bold">
     <?php if ($pager) : ?>
         <?= $pager->links() ?>
     <?php endif ?>

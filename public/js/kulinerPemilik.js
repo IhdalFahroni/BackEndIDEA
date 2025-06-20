@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveEditBtn = document.getElementById('saveEditBtn');
     const cancelEditBtn = document.getElementById('cancelEditBtn');
     const editUsernameInput = document.getElementById('editUsername');
-    const editFullNameInput = document.getElementById('editFullName');
     const usernameError = document.getElementById('usernameError');
 
     //INI BUAT UBAH CONTAINER
@@ -213,10 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Tambahin ini juga
     function validateProfileForm() {
-        if (!editUsernameInput || !editFullNameInput || !saveEditBtn) return; // Pengaman jika elemen tidak ada
+        if (!editUsernameInput || !saveEditBtn) return; // Pengaman jika elemen tidak ada
 
         const username = editUsernameInput.value.trim();
-        const fullName = editFullNameInput.value.trim();
         const isUsernameLengthValid = username.length >= 8 && username.length <= 20;
         
         if (username.length > 0 && !isUsernameLengthValid) {
@@ -224,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             usernameError.classList.add('hidden');
         }
-        const isFormValid = isUsernameLengthValid && fullName.length > 0;
+        const isFormValid = isUsernameLengthValid > 0;
         if (isFormValid) {
             saveEditBtn.disabled = false;
             saveEditBtn.classList.remove('text-[#FF9800]', 'bg-white', 'opacity-50', 'cursor-not-allowed');
@@ -265,9 +263,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // 3. PASANG EVENT LISTENER 'INPUT' UNTUK VALIDASI REAL-TIME
-    if (editUsernameInput && editFullNameInput) {
+    if (editUsernameInput) {
         editUsernameInput.addEventListener('input', validateProfileForm);
-        editFullNameInput.addEventListener('input', validateProfileForm);
     }
 
     if (passwordInput) {

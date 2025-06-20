@@ -8,6 +8,10 @@
             <img src="https://placehold.co/200x200/FFC107/ffffff?text=Profile" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
             <?php endif; ?>
             <div class="ml-6 flex flex-col">
+                <div class="w-24 bg-blue-500 text-align-center text-white rounded-full px-2 py-1 flex items-center gap-2 mb-2">
+                    <i class="fas fa-star text-base font-semibold"></i>
+                    <span class="pt-1">Owner</span>
+                </div>
                 <span class="text-5xl font-normal text-[#5C3211]"><?= $_SESSION['username'] ; ?></span>
                 <div class="flex items-center mt-1 gap-4">
                     <span class="text-xl text-[#5C3211] font-normal"><?= $_SESSION['nama_depan'] ; ?> <?= $_SESSION['nama_belakang'] ; ?></span>
@@ -20,7 +24,7 @@
                 <button id="cancelEditBtn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-7 py-1 rounded-full shadow font-semibold transition">
                     Cancel
                 </button>
-                <button id="saveEditBtn" class="border border-[#FF9800] text-white hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full shadow font-semibold flex items-center gap-2 transition">
+                <button id="saveEditBtn" class="border border-[#FF9800] text-white hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full shadow font-semibold flex items-center gap-2 transition" disabled>
                     Save change
                 </button>
             </div>
@@ -32,7 +36,7 @@
             <?php endif; ?>                       
             <div class="ml-6 flex flex-col">
                 <div class="relative">
-                    <input type="text" id="editUsername" name="newUsername" class="text-5xl py-2 font-normal text-[#5C3211] border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF9800] px-3 pt-3" placeholder="Username" />                           
+                    <input type="text" id="editUsername" class="text-5xl py-2 font-normal text-[#5C3211] border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF9800] px-3 pt-3" placeholder="Username" />                           
                     <p id="usernameError" class="absolute top-full mt-1 text-sm text-[#FF0000] hidden">
                         Username must be 8-20 characters
                     </p>
@@ -58,11 +62,11 @@
             <button id="closeAccountSettingBtn" class="absolute top-0 right-0 text-[#5C3211] hover:bg-gray-100 rounded-full transition w-8 h-8 flex items-center justify-center" title="Close">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
-
+            
             <div class="mb-4">
                 <span class="text-3xl font-bold">Account settings</span>
             </div>
-
+            
             <hr class="border-t border-[#5C3211]/30 my-6">
 
             <div>
@@ -79,6 +83,17 @@
                 <button id="savePasswordBtn" class="border border-[#FF9800] text-white hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full shadow font-semibold flex items-center gap-2 transition mt-8">
                     Save new password
                 </button>
+            </div>
+
+            <div class="mt-12">
+                <div class="mb-2">
+                    <span class="text-xl font-semibold">Delete account</span>
+                </div>
+                <p class="text-base font-light">Permanently delete your account</p>
+                <button id="deleteAccountBtn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-7 py-1 rounded-full shadow font-semibold flex items-center gap-2 transition mt-4">
+                    Delete account
+                </button>
+            </div>
         </div>
     </div>
 </div>
