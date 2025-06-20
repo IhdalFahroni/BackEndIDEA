@@ -44,7 +44,7 @@
                 <div class="flex items-center mt-6 gap-4"> 
                     <input type="text" id="editFirstName" class="text-xl py-2 text-[#5C3211] font-normal border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF9800] px-3 pt-3" placeholder="First Name" />
                     <input type="text" id="editLastName" class="text-xl py-2 text-[#5C3211] font-normal border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF9800] px-3 pt-3" placeholder="Last Name" />
-                    <span class="text-lg text-[#5C3211] font-light">email@gmail.com</span>
+                    <span class="text-lg text-[#5C3211] font-light"><?= $_SESSION['email'] ; ?></span>
                 </div>
             </div>
         </div>
