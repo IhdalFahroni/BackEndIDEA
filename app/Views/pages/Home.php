@@ -34,9 +34,8 @@
         <?php elseif ($user_role === 'pemilik') : ?>
             <?php include APPPATH . 'Views/partials/profile_pemilik.php'; ?>
         <?php elseif ($user_role === 'admin') : ?>
-            <?php include APPPATH . 'Views/partials/profile.php'; ?>
+            <?php include APPPATH . 'Views/partials/profile_admin.php'; ?>
         <?php endif; ?>
-        <?php include APPPATH . 'Views/partials/account_setting.php'; // Termasuk account setting di sini ?>
     <?php endif; ?>
 
     <?php // Partial khusus Admin (Manage Verification) ?>

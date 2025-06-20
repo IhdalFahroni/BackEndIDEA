@@ -33,7 +33,7 @@
             <img src="<?= $_SESSION['foto'] ; ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
             <?php else: ?>
             <img src="https://placehold.co/200x200/FFC107/ffffff?text=Profile" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
-            <?php endif; ?>                       
+            <?php endif; ?>
             <div class="ml-6 flex flex-col">
                 <div class="relative">
                     <input type="text" id="editUsername" class="text-5xl py-2 font-normal text-[#5C3211] border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF9800] px-3 pt-3" placeholder="Username" />                           
@@ -41,7 +41,7 @@
                         Username must be 8-20 characters
                     </p>
                 </div>
-                <div class="flex items-center mt-6 gap-4"> 
+                <div class="flex items-center mt-6 gap-4">
                     <input type="text" id="editFirstName" class="text-xl py-2 text-[#5C3211] font-normal border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF9800] px-3 pt-3" placeholder="First Name" />
                     <input type="text" id="editLastName" class="text-xl py-2 text-[#5C3211] font-normal border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF9800] px-3 pt-3" placeholder="Last Name" />
                     <span class="text-lg text-[#5C3211] font-light"><?= $_SESSION['email'] ; ?></span>
