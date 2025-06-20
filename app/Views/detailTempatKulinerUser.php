@@ -119,7 +119,8 @@
                         </div>
                         <div class="md:w-2/3">
                             <div class="text-yellow-500 my-1 text-lg rating" data-rating="4.5"></div>
-                            <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-3 mt-4"> <p class="text-[#5C3211] text-base font-light">Kategori</p>
+                            <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-3 mt-4"> 
+                                <p class="text-[#5C3211] text-base font-light">Kategori</p>
                                 <p class="text-[#5C3211] font-medium text-base">Tempat kuliner</p>
 
                                 <p class="text-[#5C3211] text-base mt-0.5 font-light">Deskripsi</p> <p class="text-base text-[#5C3211] leading-relaxed text-justify">
