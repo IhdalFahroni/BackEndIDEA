@@ -277,7 +277,8 @@ document.addEventListener("DOMContentLoaded", () => {
       usernameError.classList.add("hidden");
     }
 
-    const isFormValid = isUsernameLengthValid && firstName.length > 0 && lastName.length > 0; // Tambahkan validasi lainnya jika ada
+    const isFormValid =
+      isUsernameLengthValid && firstName.length > 0 && lastName.length > 0; // Tambahkan validasi lainnya jika ada
 
     if (isFormValid) {
       saveEditBtn.disabled = false;
@@ -639,7 +640,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data.photo_link && data.photo_link.length > 0) {
       data.photo_link.forEach((fileName) => {
         const link = document.createElement("a");
-        link.href = `<span class="math-inline">\{BASE\_URL\}Assets/</span>{fileName}`; // Gunakan base_url
+        link.href = `<span class="math-inline">\{BASE\_URL\}Assets/</span>{fileName}`;
         link.textContent = fileName;
         link.target = "_blank";
         link.className = "text-blue-600 hover:underline block";
@@ -671,7 +672,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data.supporting_document && data.supporting_document.length > 0) {
       data.supporting_document.forEach((fileName) => {
         const link = document.createElement("a");
-        link.href = `<span class="math-inline">\{BASE\_URL\}Assets/</span>{fileName}`; // Gunakan base_url
+        link.href = `<span class="math-inline">\{BASE\_URL\}Assets/</span>{fileName}`;
         link.textContent = fileName;
         link.target = "_blank";
         link.className = "text-blue-600 hover:underline block";

@@ -32,7 +32,6 @@ class Landing extends BaseController
             'current_search_term' => $searchTerm,
             'active_category'     => $category, // Untuk filter button di mainCards.php
             'current_query'       => $this->request->getGet(), // Untuk filter button di mainCards.php
-            // Definisi categories juga perlu dikirim karena digunakan di mainCards.php
             'path' => site_url(''),
             'categories' => [
                 'tourist_destination' => [
