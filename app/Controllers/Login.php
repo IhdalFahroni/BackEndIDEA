@@ -6,8 +6,10 @@ use App\Models\AkunModel; // Pastikan AkunModel sudah di-import
 
 class Login extends BaseController
 {
+    protected $helpers = ['url', 'form', 'session'];
     public function login(): string
     {
+        $data['title'] = 'Login | LombokRec';
         return view('pages/LoginPage'); // Pastikan Anda memiliki view LoginPage.php
     }
 
@@ -44,7 +46,9 @@ class Login extends BaseController
                 'nama_belakang'=> $user['nama_belakang'],
                 'username'     => $user['username'],
                 'isLoggedIn'   => TRUE,
-                'user_role'    => $userRole // Simpan peran sebagai string
+                'user_role'    => $userRole, // Simpan peran sebagai string
+                'email'        => $user['email'], 
+                'foto'         => $user['foto_profil'] ?? null, // Pastikan foto ada, jika tidak set null
             ];
             
             // Hapus flag is_pemilik dan is_admin yang mungkin tidak konsisten

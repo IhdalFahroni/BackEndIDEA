@@ -1,12 +1,4 @@
 <?php
-// app/Views/partials/mainCards.php
-
-// Pastikan variabel-variabel ini (categories, current_query, active_category, destinasi, pager, current_search_term)
-// sudah dikirim dari controller melalui LandingPage.php yang meng-include file ini.
-
-// --- Logika untuk Tombol Filter ---
-// Variabel $categories, $current_query, $active_category seharusnya datang dari LandingPage.php
-// yang mendapatkan dari controller.
 if (!isset($categories)) {
     $categories = [
         'tourist_destination' => [

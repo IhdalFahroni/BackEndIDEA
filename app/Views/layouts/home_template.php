@@ -5,7 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?? 'LombokRec' ?></title>
     <link href="<?= base_url('css/output.css') ?>" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script> <?php if (isset($js_file)) : // Untuk JS spesifik halaman, seperti homeUser.js ?>
+    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
+
+    <script>
+        const BASE_URL = '<?= base_url() ?>';
+        const LOGOUT_URL = '<?= base_url('') ?>';
+        // Contoh URL API endpoint untuk digunakan di JavaScript
+        const API_URL_ADD_ATTRACTION = '<?= site_url('api/add-attraction') ?>';
+        const API_URL_PROFILE_UPDATE = '<?= site_url('api/profile/update') ?>';
+        const API_URL_CHANGE_PASSWORD = '<?= site_url('api/profile/change-password') ?>';
+        const API_URL_DELETE_ACCOUNT = '<?= site_url('api/profile/delete-account') ?>';
+        const API_URL_VERIFY_REQUEST = '<?= site_url('api/admin/verify-request') ?>';
+    </script>
+    
+    <?php if (isset($js_file)) : ?>
         <script src="<?= base_url('js/' . $js_file) ?>"></script>
     <?php endif; ?>
     <style>
@@ -25,5 +38,7 @@
         </div>
     </main>
 
-    </body>
+    <?php include APPPATH . 'Views/partials/claim_culinary_modal.php'; ?>
+
+</body>
 </html>

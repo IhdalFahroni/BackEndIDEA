@@ -1,9 +1,13 @@
 <div id="profil" class="header mb-5 hidden">
     <div id="containerProfile" class="bg-[#FFFFFF] rounded-xl p-4 flex items-center justify-between shadow-md overflow-hidden mt-8 border border-[#F0D3B3]">
         <div id="profilPage" class="flex items-center w-full relative">
+            <?php if($_SESSION['foto']!=null) :?>
+            <img src="<?= $_SESSION['foto'] ; ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
+            <?php else: ?>
             <img src="https://placehold.co/200x200/FFC107/ffffff?text=Profile" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
+            <?php endif; ?>
             <div class="ml-6 flex flex-col">
-                <span class="text-5xl font-normal text-[#5C3211]">Admin</span>
+                <span class="text-5xl font-normal text-[#5C3211]"><?= $_SESSION['username'] ; ?></span>
             </div>
         </div>
     </div>

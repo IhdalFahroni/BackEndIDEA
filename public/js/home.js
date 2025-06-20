@@ -418,6 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Logging out...");
         // Arahkan pengguna ke halaman login (ini adalah action PHP)
         // window.location.href = '<?= base_url('/logout') ?>'; // Contoh URL logout
+        window.location.href = LOGOUT_URL;
         alert("You have been successfully logged out.");
       } else {
         console.log("Log out canceled.");
@@ -634,7 +635,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data.photo_link && data.photo_link.length > 0) {
       data.photo_link.forEach((fileName) => {
         const link = document.createElement("a");
-        link.href = `<?= base_url('Assets/') ?>${fileName}`; // Gunakan base_url
+        link.href = `<span class="math-inline">\{BASE\_URL\}Assets/</span>{fileName}`; // Gunakan base_url
         link.textContent = fileName;
         link.target = "_blank";
         link.className = "text-blue-600 hover:underline block";
@@ -666,7 +667,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data.supporting_document && data.supporting_document.length > 0) {
       data.supporting_document.forEach((fileName) => {
         const link = document.createElement("a");
-        link.href = `<?= base_url('Assets/') ?>${fileName}`; // Gunakan base_url
+        link.href = `<span class="math-inline">\{BASE\_URL\}Assets/</span>{fileName}`; // Gunakan base_url
         link.textContent = fileName;
         link.target = "_blank";
         link.className = "text-blue-600 hover:underline block";

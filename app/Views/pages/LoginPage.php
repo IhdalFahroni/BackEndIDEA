@@ -19,6 +19,11 @@
                     <?= session()->getFlashdata('error') ?>
                 </div>
             <?php endif; ?>
+                <?php if (session()->getFlashdata('success')) : ?>
+            <div class="padding: 10px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; margin-bottom: 16px;">
+                <?= session()->getFlashdata('success') ?>
+            </div>
+        <?php endif; ?>
 
             <form action="<?= base_url('/login/process') ?>" method="POST">
 
