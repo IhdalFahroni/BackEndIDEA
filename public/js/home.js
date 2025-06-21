@@ -48,17 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const bawahProfil = document.getElementById("bawahProfil");
   const accountSetting = document.getElementById("accountSetting");
   const editProfileBtn = document.getElementById("editProfileBtn");
-  const saveEditBtn = document.getElementById("saveEditBtn"); // Ini tombol submit di form edit profile
   const cancelEditBtn = document.getElementById("cancelEditBtn");
-  const editUsernameInput = document.getElementById("editUsername");
-  const editFirstNameInput = document.getElementById("editFirstName");
-  const editLastNameInput = document.getElementById("editLastName");
-  const usernameError = document.getElementById("usernameError");
 
   // --- ELEMEN GANTI PASSWORD PROFIL ---
-  const savePasswordBtn = document.getElementById("savePasswordBtn"); // Ini tombol submit di form ganti password
-  const currentPasswordInput = document.getElementById("currentPassword");
-  const newPasswordInput = document.getElementById("newPass");
+  const savePasswordBtn = document.getElementById("savePasswordBtn");
   const passwordError = document.getElementById("passwordError");
 
   // --- TOMBOL LOGOUT & DELETE AKUN ---
@@ -345,97 +338,102 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Validasi Form Ganti Password
-  function validateAndUpdatePasswordButton(form) {
-    // Menerima elemen form
+  function showPasswordFormErrors(form) {
     let isValid = true;
+    // Bersihkan error lama sebelum validasi baru
     form.querySelectorAll(".error-message").forEach((el) => el.remove());
-    form
-      .querySelectorAll(".border-red-500")
-      .forEach((el) => el.classList.remove("border-red-500"));
+    form.querySelectorAll(".border-red-500").forEach((el) => el.classList.remove("border-red-500"));
 
-    const currentPassInput = form.querySelector("#currentPassword"); // Selektor di scope form
-    const newPassInput = form.querySelector("#newPass"); // Selektor di scope form
+    const currentPassInput = form.querySelector("#currentPassword");
+    const newPassInput = form.querySelector("#newPass");
 
-    if (
-      !currentPassInput ||
-      !newPassInput ||
-      !savePasswordBtn ||
-      !passwordError
-    )
-      return false;
+    if (!currentPassInput || !newPassInput) return false;
 
     const currentPass = currentPassInput.value.trim();
     const newPass = newPassInput.value.trim();
     const isNewPassLengthValid = newPass.length >= 8 && newPass.length <= 20;
 
+    // Validasi Current Password
     if (currentPass.length === 0) {
-      showError(currentPassInput, "Current password is required.");
-      isValid = false;
+        showError(currentPassInput, "Current password is required."); // Asumsi fungsi showError sudah ada
+        isValid = false;
     } else {
-      hideError(currentPassInput);
+        hideError(currentPassInput); // Asumsi fungsi hideError sudah ada
     }
 
+    // Validasi New Password
     if (newPass.length === 0) {
-      showError(newPassInput, "New password is required.");
-      isValid = false;
+        showError(newPassInput, "New password is required.");
+        isValid = false;
     } else if (!isNewPassLengthValid) {
-      showError(newPassInput, "Password must be 8-20 characters.");
-      isValid = false;
+        showError(newPassInput, "Password must be 8-20 characters.");
+        isValid = false;
     } else {
-      hideError(newPassInput);
+        hideError(newPassInput);
     }
 
-    // Atur status tombol savePasswordBtn (di dalam form ganti password)
-    const formSavePasswordBtn = form.querySelector("#savePasswordBtn"); // Pastikan tombol dalam form ini
-    if (formSavePasswordBtn) {
-      if (isValid) {
-        formSavePasswordBtn.disabled = false;
-        formSavePasswordBtn.classList.remove(
-          "text-[#FF9800]",
-          "bg-white",
-          "opacity-50",
-          "cursor-not-allowed"
-        );
-        formSavePasswordBtn.classList.add("bg-[#FF9800]", "text-white");
-      } else {
-        formSavePasswordBtn.disabled = true;
-        formSavePasswordBtn.classList.remove("bg-[#FF9800]", "text-white");
-        formSavePasswordBtn.classList.add(
-          "text-[#FF9800]",
-          "bg-white",
-          "opacity-50",
-          "cursor-not-allowed"
-        );
-      }
-    }
     return isValid;
   }
 
-  // Event listener untuk form ganti password
-  if (changePasswordForm) {
-    changePasswordForm.addEventListener("input", () =>
-      validateAndUpdatePasswordButton(changePasswordForm)
-    );
-    changePasswordForm.addEventListener("submit", (e) => {
-      if (!validateAndUpdatePasswordButton(changePasswordForm)) {
-        e.preventDefault();
-        alert("Tolong perbaiki kesalahan pada form ganti password.");
-      }
-    });
-    validateAndUpdatePasswordButton(changePasswordForm); // Validasi awal
+  function updatePasswordButtonState(form) {
+    const currentPassInput = form.querySelector("#currentPassword");
+    const newPassInput = form.querySelector("#newPass");
+    const formSavePasswordBtn = form.querySelector("#savePasswordBtn");
+
+    if (!currentPassInput || !newPassInput || !formSavePasswordBtn) return;
+
+    const currentPass = currentPassInput.value.trim();
+    const newPass = newPassInput.value.trim();
+    const isNewPassLengthValid = newPass.length >= 8 && newPass.length <= 20;
+
+    // Tentukan validitas form secara keseluruhan
+    const isFormValid = currentPass.length > 0 && newPass.length > 0 && isNewPassLengthValid;
+
+    // Logika untuk mengatur tombol
+    if (isFormValid) {
+        formSavePasswordBtn.disabled = false;
+        formSavePasswordBtn.classList.remove("text-[#FF9800]", "bg-white", "opacity-50", "cursor-not-allowed");
+        formSavePasswordBtn.classList.add("bg-[#FF9800]", "text-white");
+    } else {
+        formSavePasswordBtn.disabled = true;
+        formSavePasswordBtn.classList.remove("bg-[#FF9800]", "text-white");
+        formSavePasswordBtn.classList.add("text-[#FF9800]", "bg-white", "opacity-50", "cursor-not-allowed");
+    }
   }
 
-  // --- TOMBOL PENGATURAN AKUN & LOGOUT ---
-  if (openAccountSettingBtn) {
-    openAccountSettingBtn.addEventListener("click", () => {
-      if (containerProfile) containerProfile.classList.add("hidden");
-      if (bawahProfil) bawahProfil.classList.add("hidden");
-      if (accountSetting) accountSetting.classList.remove("hidden");
-      // Panggil validasi password saat membuka pengaturan akun
-      if (changePasswordForm)
-        validateAndUpdatePasswordButton(changePasswordForm);
+  if (changePasswordForm) {
+    // Saat pengguna mengetik, tampilkan error dan perbarui tombol secara real-time
+    changePasswordForm.addEventListener("input", () => {
+        showPasswordFormErrors(changePasswordForm);
+        updatePasswordButtonState(changePasswordForm);
     });
-  }
+
+    // Saat form disubmit, lakukan validasi akhir
+    changePasswordForm.addEventListener("submit", (e) => {
+        // Panggil fungsi yang menampilkan error
+        const isFormValid = showPasswordFormErrors(changePasswordForm); 
+        
+        // Panggil juga fungsi untuk memastikan status tombol sudah benar
+        updatePasswordButtonState(changePasswordForm); 
+
+        if (!isFormValid) {
+            e.preventDefault(); // Hentikan submit jika tidak valid
+            alert("Please fix the errors in the change password form.");
+        }
+    });
+}
+
+// --- Event Listener untuk Tombol Pengaturan Akun & Logout ---
+if (openAccountSettingBtn) {
+    openAccountSettingBtn.addEventListener("click", () => {
+        if (containerProfile) containerProfile.classList.add("hidden");
+        if (bawahProfil) bawahProfil.classList.add("hidden");
+        if (accountSetting) accountSetting.classList.remove("hidden");
+        
+        // KITA PANGGIL FUNGSI YANG HANYA MENGATUR TOMBOL, TANPA MENAMPILKAN ERROR
+        updatePasswordButtonState(changePasswordForm);
+    });
+}
 
   if (closeAccountSettingBtn) {
     closeAccountSettingBtn.addEventListener("click", () => {
