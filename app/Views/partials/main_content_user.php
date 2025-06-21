@@ -56,9 +56,9 @@ foreach ($categories as $key => $details) {
             <div class="flex flex-col md:flex-row gap-6">
                 <div class="md:w-1/3 flex-shrink-0">
                     <img src="<?= base_url('Assets/' . esc($tempat['foto'])) ?>" alt="<?= esc($tempat['nama_tempat']) ?>" class="rounded-xl w-full h-auto object-cover shadow-md mb-3">
-                    <p class="text-sm text-[#5C3211] mb-1 font-bold"><?= esc($tempat['kelurahan']) ?>, Kec. <?= esc($tempat['kecamatan']) ?>, Kabupaten <?= esc($tempat['kabupaten_kota']) ?>, Nusa Tenggara Bar. 83572</p>
-                    <?php if (!empty($tempat['Maps'])) : ?>
-                    <a href="<?= esc($tempat['Maps']) ?>" target="_blank" class="text-[#5C3211] text-sm font-medium hover:underline flex items-center gap-1 mt-auto">
+                    <p class="text-sm text-[#5C3211] mb-1 font-bold"><?= esc($tempat['kelurahan']) ?>, Kec. <?= esc($tempat['kecamatan']) ?>, Kabupaten <?= esc($tempat['kabupaten_kota']) ?>, Nusa Tenggara Barat</p>
+                    <?php if (!empty($tempat['google_maps'])) : ?>
+                    <a href="<?= esc($tempat['google_maps']) ?>" target="_blank" class="text-[#5C3211] text-sm font-medium hover:underline flex items-center gap-1 mt-auto">
                         <span class="relative top-0.5">Google Maps</span>
                         <i class="fa-solid fa-location-dot"></i>
                     </a>
