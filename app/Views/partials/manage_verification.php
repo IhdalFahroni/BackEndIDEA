@@ -49,24 +49,28 @@
                     </a>
                 </div>
                 <div class="flex-shrink-0 flex gap-2">
-                    <form action="<?= site_url('home/verifyRequest') ?>" method="post" class="inline" data-action-form>
-                        <input type="hidden" name="request_id" value="<?= esc($item['ID_formPengajuanTempat']) ?>">
-                        <input type="hidden" name="action" value="deny">
-                        <button type="submit" class="deny-btn border border-red-500 text-red-500 text-xs px-3 py-1 rounded-full hover:bg-red-500 hover:text-white"
-                            <?= esc($item['is_verified'] ? 'disabled' : '') ?>>
-                            <i class="fa-solid fa-times"></i> Deny
-                        </button>
-                    </form>
-                    <form action="<?= site_url('home/verifyRequest') ?>" method="post" class="inline" data-action-form>
-                        <input type="hidden" name="request_id" value="<?= esc($item['ID_formPengajuanTempat']) ?>">
-                        <input type="hidden" name="action" value="approve">
-                        <button type="submit" class="approve-btn border border-blue-500 text-blue-500 text-xs px-3 py-1 rounded-full hover:bg-blue-500 hover:text-white"
-                            <?= esc($item['is_verified'] ? 'disabled' : '') ?>>
-                            <i class="fa-solid fa-check"></i> Approve
-                        </button>
-                    </form>
-                    <div class="approve text-blue-500 text-base px-3 py-1 hidden">Approved</div>
-                    <div class="deny text-red-500 text-base px-3 py-1 hidden">Denied</div>
+                    <?php if($item['is_verified'] == 0): ?>
+                        <form action="<?= site_url('home/verifyRequest') ?>" method="post" class="inline" data-action-form>
+                            <input type="hidden" name="request_id" value="<?= esc($item['ID_formPengajuanTempat']) ?>">
+                            <input type="hidden" name="action" value="deny">
+                            <button type="submit" class="deny-btn border border-red-500 text-red-500 text-xs px-3 py-1 rounded-full hover:bg-red-500 hover:text-white"
+                                <?= esc($item['is_verified'] ? 'disabled' : '') ?>>
+                                <i class="fa-solid fa-times"></i> Deny
+                            </button>
+                        </form>
+                        <form action="<?= site_url('home/verifyRequest') ?>" method="post" class="inline" data-action-form>
+                            <input type="hidden" name="request_id" value="<?= esc($item['ID_formPengajuanTempat']) ?>">
+                            <input type="hidden" name="action" value="approve">
+                            <button type="submit" class="approve-btn border border-blue-500 text-blue-500 text-xs px-3 py-1 rounded-full hover:bg-blue-500 hover:text-white"
+                                <?= esc($item['is_verified'] ? 'disabled' : '') ?>>
+                                <i class="fa-solid fa-check"></i> Approve
+                            </button>
+                        </form>
+                    <?php elseif($item['is_verified'] == 1): ?>
+                        <div class="deny text-red-500 text-base px-3 py-1 hidden">Denied</div>
+                    <?php elseif($item['is_verified'] == 2): ?>
+                        <div class="approve text-blue-500 text-base px-3 py-1 hidden">Approved</div>
+                    <?php endif; ?>
                 </div>
             </div>
             <?php endforeach; ?>

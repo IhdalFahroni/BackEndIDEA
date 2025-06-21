@@ -314,44 +314,85 @@ class Home extends BaseController
     public function verifyRequest()
     {
         $session = session();
+
+        // Validasi role admin di awal
         if ($session->get('user_role') !== 'admin') {
             return redirect()->to(base_url('home'))->with('error', 'Hanya admin yang dapat melakukan verifikasi ini.');
         }
 
-        $rules = [
-            'request_id'   => 'required|integer',
-            'action'       => 'required|in_list[approve,deny]',
-            'request_type' => 'required|in_list[add-place,claim-culinary]',
-        ];
+        if ($this->request->getMethod() === 'post') {
+            $requestId = $this->request->getPost('request_id');
+            $action = $this->request->getPost('action');
 
-        if (!$this->validate($rules)) {
-            return redirect()->back()->with('error', 'Data verifikasi tidak valid.')->with('active_panel', 'manageVerification');
-        }
+            if (empty($requestId) || !in_array($action, ['approve', 'deny'])) {
+                return redirect()->back()->with('error', 'Permintaan tidak valid.');
+            }
 
-        $requestId = $this->request->getPost('request_id');
-        $action = $this->request->getPost('action');
-        $requestType = $this->request->getPost('request_type');
+            $pengajuanTempatModel = new PengajuanTempatModel();
+            $itemDetail = $this->$pengajuanTempatModel->find($requestId);
 
-        // --- Lakukan logika database sesuai $requestType dan $action ---
-        // Ini adalah tempat Anda akan memperbarui status permintaan di database
-        // Misalnya, Anda mungkin memiliki tabel 'verifikasi_requests' atau kolom 'status_verifikasi' di tabel 'tempat'
+            // Jika item tidak ditemukan, handle error
+            if (!$itemDetail) {
+                return redirect()->back()->with('error', 'Item verifikasi tidak ditemukan.');
+            }
 
-        // Contoh dummy logic (Anda harus menggantinya dengan logika DB Anda):
-        $success = true; // Simulasikan berhasil
-        if ($requestType === 'add-place') {
-            // Update status tempat menjadi aktif atau tambahkan ke tabel utama
-            // Update status permintaan verifikasi (jika ada tabel terpisah)
-            // Contoh: $tempatModel->update($requestId, ['status'verifikasi' => $action]);
-        } elseif ($requestType === 'claim-culinary') {
-            // Update status claim di DB
-            // Contoh: $claimModel->update($requestId, ['status' => $action]);
-        }
+            $newIsVerifiedStatus = 0;
+            $notificationHeader = '';
+            $notificationContent = '';
 
-        if ($success) { // Ganti dengan hasil operasi database Anda
-            $message = "Permintaan {$requestType} dengan ID {$requestId} berhasil " . ($action === 'approve' ? 'disetujui' : 'ditolak') . ".";
-            return redirect()->to(base_url('home'))->with('success', $message)->with('active_panel', 'manageVerification');
+            // Tentukan status dan konten notifikasi berdasarkan aksi dan tipe item
+            if ($action === 'approve') {
+                $newIsVerifiedStatus = 2; // Disetujui
+                if ($itemDetail->kategori === 'addPlace') { // Asumsi kolom kategori menyimpan tipe item 'addPlace'
+                    $notificationHeader = 'New Place Approved';
+                    $notificationContent = "Request for \"{$itemDetail->nama_tempat}\" has been approved. You can search for \"{$itemDetail->nama_tempat}\" from now on.";
+                } else {
+                    // Logika untuk tipe item lain jika ada (misal: 'claimCulinary')
+                    $notificationHeader = 'Request Approved';
+                    $notificationContent = 'Your request has been approved.';
+                }
+            } elseif ($action === 'deny') {
+                $newIsVerifiedStatus = 1; // Ditolak
+                if ($itemDetail->kategori === 'addPlace') { // Asumsi kolom kategori menyimpan tipe item 'addPlace'
+                    $notificationHeader = 'New Place Denied';
+                    $notificationContent = "Request for \"{$itemDetail->nama_tempat}\" has been denied.";
+                } else {
+                    // Logika untuk tipe item lain jika ada
+                    $notificationHeader = 'Request Denied';
+                    $notificationContent = 'Your request has been denied.';
+                }
+            }
+
+            // Data yang akan di-update ke database
+            $dataToUpdate = [
+                'is_verified' => $newIsVerifiedStatus
+            ];
+
+            // Update record di database
+            $updated = $this->$pengajuanTempatModel->update($requestId, $dataToUpdate);
+
+            if ($updated) {
+                $notifModel = new NotifikasiModel();
+                $message = ($action === 'approve') ? 'Permintaan berhasil disetujui.' : 'Permintaan berhasil ditolak.';
+
+                // --- LOGIKA NOTIFIKASI UNTUK PENGGUNA YANG MENGAJUKAN REQUEST ---
+                // ID_akun dari pengguna yang mengajukan request ada di $itemDetail->ID_akun
+                $recipientAccountId = $itemDetail->ID_akun;
+
+                $notifToInsert = [
+                    'ID_akun'   => $recipientAccountId, // Notifikasi dikirim ke ID_akun pengaju request
+                    'header'    => $notificationHeader,
+                    'isi_notif' => $notificationContent,
+                ];
+
+                $this->$notifModel->insert($notifToInsert); // Gunakan properti model yang sudah diinisialisasi
+
+                return redirect()->back()->with('success', $message);
+            } else {
+                return redirect()->back()->with('error', 'Gagal memproses permintaan.');
+            }
         } else {
-            return redirect()->back()->with('error', 'Gagal memproses permintaan verifikasi.')->with('active_panel', 'manageVerification');
+            return redirect()->back()->with('error', 'Akses ditolak.');
         }
     }
 
