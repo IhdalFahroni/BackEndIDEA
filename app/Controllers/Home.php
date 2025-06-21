@@ -146,7 +146,6 @@ class Home extends BaseController
         ];
 
         if (!$this->validate($rules)) {
-            dd($this->validator->getErrors());
             // Kembali ke halaman sebelumnya dengan input dan error
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors())->with('active_panel', 'addPlace'); // Flash 'active_panel' agar form tetap terbuka
         }
@@ -388,7 +387,6 @@ class Home extends BaseController
             'ID_akun'   => $session->get('ID_akun'),
             'rating'    => $this->request->getPost('rating'),
             'komentar'  => $this->request->getPost('komentar'),
-            // Simpan nama file ke database (null jika tidak ada foto)
             'foto' => $reviewPhotoName,
         ];
 
@@ -400,6 +398,60 @@ class Home extends BaseController
         } else {
             $idTempat = $dataToInsert['ID_tempat'];
             return redirect()->to(base_url("home?show=detail&id={$idTempat}"))->with('error', 'Gagal menyimpan ulasan ke database.');
+        }
+    }
+     public function addMenuItem()
+    {
+        // 1. Cek Keamanan: Pastikan hanya pemilik yang bisa mengakses
+        $session = session();
+        if (!$session->get('isLoggedIn')) {
+            return redirect()->to(base_url('login'))->with('error', 'Anda harus login.');
+        }
+        // 2. Validasi Input
+        $rules = [
+            'ID_tempat'    => 'required|integer',
+            'nama_menu'    => 'required|max_length[100]',
+            'harga_menu'   => 'required|numeric',
+            'deskripsi_menu' => 'permit_empty|max_length[500]',
+            'foto_menu'    => [
+                'label' => 'Image File',
+                'rules' => 'is_image[foto_menu]|max_size[foto_menu,2048]|ext_in[foto_menu,png,jpg,jpeg]',
+            ],
+        ];
+
+         $idTempat = $this->request->getPost('ID_tempat'); // Kita simpan dulu untuk redirect
+
+
+        if (!$this->validate($rules)) {
+            // Jika validasi gagal, kembali ke halaman detail dengan error
+            return redirect()->to(base_url('home?show=detail&id=' . $idTempat))->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // 3. Proses Upload Gambar (jika ada)
+        $fotoMenuFile = $this->request->getFile('foto_menu');
+        $namaFoto = null;
+
+        if ($fotoMenuFile && $fotoMenuFile->isValid() && !$fotoMenuFile->hasMoved()) {
+            $namaFoto = $fotoMenuFile->getRandomName();
+            $fotoMenuFile->move(ROOTPATH . 'public/Assets', $namaFoto);
+        }
+
+        // 4. Siapkan Data dan Simpan ke Database
+        $menuModel = new MenuModel();
+        $dataToSave = [ 
+            'ID_tempat'     => $this->request->getPost('ID_tempat'),
+            'nama_menu'     => $this->request->getPost('nama_menu'),
+            'harga_menu'    => $this->request->getPost('harga_menu'),
+            'deskripsi_menu'=> $this->request->getPost('deskripsi_menu'),
+            'foto_menu'     => $namaFoto,
+        ];
+
+        if ($menuModel->save($dataToSave)) {
+            // Jika berhasil, kembali ke halaman detail dengan pesan sukses
+            return redirect()->to(base_url('home?show=detail&id=' . $dataToSave['ID_tempat']))->with('success', 'Menu baru berhasil ditambahkan!');
+        } else {
+            // Jika gagal menyimpan
+            return redirect()->to(base_url('home?show=detail&id=' . $dataToSave['ID_tempat']))->with('error', 'Gagal menyimpan menu ke database.');
         }
     }
 }

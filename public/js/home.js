@@ -497,25 +497,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- FILTER BUTTONS ---
-  if (filterButtons.length > 0) {
-    filterButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const wasActive = button.classList.contains("bg-[#FF9800]");
-
-        filterButtons.forEach((btn) => {
-          btn.classList.remove("bg-[#FF9800]", "text-white");
-          btn.classList.add("bg-white", "text-[#FF9800]");
-        });
-
-        if (!wasActive) {
-          button.classList.remove("bg-white", "text-[#FF9800]");
-          button.classList.add("bg-[#FF9800]", "text-white");
-        }
-      });
-    });
-  }
-
   // --- GMAPS INPUT ---
   if (gmapsInput) {
     let mapsAlertShown = false;

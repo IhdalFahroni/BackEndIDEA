@@ -39,6 +39,7 @@ $routes->post('/home/updateProfile', 'Home::updateProfile');
 $routes->post('/home/changePassword', 'Home::changePassword');
 $routes->post('/home/deleteAccount', 'Home::deleteAccount');
 $routes->post('/home/verifyRequest', 'Home::verifyRequest');
+$routes->post('menu/add', 'Home::addMenuItem');
 
 // --- Routing Halaman Detail Tempat ---
 // Contoh: http://localhost:8080/tempat/ID_tempat_disini

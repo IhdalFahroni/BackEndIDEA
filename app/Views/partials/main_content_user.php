@@ -66,10 +66,10 @@ foreach ($categories as $key => $details) {
                     
                     <?php if ($tempat['kategori'] === 'culinary') : ?>
                     <div class="flex items-center gap-x-3 mt-3">
-                        <div id="openMenu" class="bg-[#FF9800] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
+                        <div id="openMenu" class="bg-[#FFC107] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
                             Menu
                         </div>
-                        <div id="openPromo" class="bg-[#FF9800] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
+                        <div id="openPromo" class="bg-[#FFC107] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
                             Promo
                         </div>
                     </div>
@@ -98,7 +98,12 @@ foreach ($categories as $key => $details) {
                 </div>
             </div>
         </div>
-    <?php include APPPATH . 'Views/partials/review_dan_modalnya.php'; ?>
+    <?php 
+    include APPPATH . 'Views/partials/review_dan_modalnya.php';
+    include APPPATH . 'Views/partials/modal_menu.php';
+    include APPPATH . 'Views/partials/modal_promo.php';
+    ?>
+
 </div>
 <?php else : ?>
 <?php if ($path == site_url('home')) : ?>
@@ -126,91 +131,6 @@ foreach ($categories as $key => $details) {
         </button>
     </form>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const searchInput = document.getElementById('search_input');
-    const searchButton = document.getElementById('searchButton');
-    const filterButtons = document.querySelectorAll('.filter-button');
-
-    if (searchInput && searchButton) {
-        function submitSearchForm() {
-            searchInput.closest('form').submit();
-        }
-        searchInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') { event.preventDefault(); submitSearchForm(); }
-        });
-        searchButton.addEventListener('click', function(event) { submitSearchForm(); });
-    }
-
-    if (filterButtons.length > 0) {
-        filterButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const wasActive = button.classList.contains("bg-[#FFC107]");
-                filterButtons.forEach(btn => {
-                    btn.classList.remove("bg-[#FFC107]", "text-white");
-                    btn.classList.add("bg-white", "text-[#FFC107]");
-                });
-                if (!wasActive) {
-                    button.classList.remove("bg-white", "text-[#FFC107]");
-                    button.classList.add("bg-[#FFC107]", "text-white");
-                }
-            });
-        });
-    }
-    function generateStars(element) {
-        // Pastikan elemennya ada
-        if (!element) return;
-        
-        // Ambil nilai rating dari atribut data-rating
-        let rating = parseFloat(element.getAttribute("data-rating"));
-        if (isNaN(rating)) return;
-
-        let fullStars = Math.floor(rating);
-        let halfStar = rating % 1 >= 0.5 ? 1 : 0;
-        let emptyStars = 5 - (fullStars + halfStar);
-
-        let starsHTML = "";
-        for (let i = 0; i < fullStars; i++) {
-            starsHTML += '<i class="fa-solid fa-star"></i>';
-        }
-        if (halfStar) {
-            starsHTML += '<i class="fa-solid fa-star-half-alt"></i>';
-        }
-        for (let i = 0; i < emptyStars; i++) {
-            starsHTML += '<i class="fa-regular fa-star"></i>';
-        }
-        element.innerHTML += starsHTML; // Menggunakan += agar tidak menimpa tulisan rating (misal: ★ 4.5)
-    }
-    
-    // Panggil fungsi untuk setiap elemen rating yang ditemukan
-    document.querySelectorAll(".rating").forEach(generateStars);
-
-
-    /**
-     * LOGIKA UNTUK MENAMPILKAN DAN MENYEMBUNYIKAN FORM REVIEW
-     * Kode ini hanya relevan di halaman detail tempat.
-     */
-    const addReview = document.getElementById("addReview");
-    const fillReview = document.getElementById("fillReview");
-    const closeReview = document.getElementById("closeReview");
-
-    if (addReview && fillReview) {
-        addReview.addEventListener("click", () => {
-            fillReview.classList.remove("hidden");
-            addReview.classList.add("hidden");
-        });
-    }
-
-    if (closeReview && fillReview && addReview) {
-        closeReview.addEventListener("click", () => {
-            fillReview.classList.add("hidden");
-            addReview.classList.remove("hidden");
-        });
-    }
-});
-</script>
-
 
 <?php if (!empty($current_search_term) || !empty($active_category)) : ?>
     <?php if (!empty($current_search_term)) : ?>
@@ -291,3 +211,154 @@ document.addEventListener('DOMContentLoaded', function() {
         <?php endif ?>
     </div>
 <?php endif; ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    
+    // ===================================================================
+    // BAGIAN 1: LOGIKA UNTUK PENCARIAN & FILTER
+    // ===================================================================
+    const searchInput = document.getElementById('search_input');
+    const searchButton = document.getElementById('searchButton');
+
+    if (searchInput && searchButton) {
+        function submitSearchForm() {
+            searchInput.closest('form').submit();
+        }
+        searchInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') { 
+                event.preventDefault(); 
+                submitSearchForm(); 
+            }
+        });
+        searchButton.addEventListener('click', function(event) { 
+            submitSearchForm(); 
+        });
+    }
+
+    // ===================================================================
+    // BAGIAN 2: LOGIKA UNTUK RATING BINTANG (PASTIKAN INI ADA)
+    // ===================================================================
+    function generateStars(element) {
+        if (!element) return;
+        let rating = parseFloat(element.getAttribute("data-rating"));
+        if (isNaN(rating)) return;
+
+        let fullStars = Math.floor(rating);
+        let halfStar = rating % 1 >= 0.5 ? 1 : 0;
+        let emptyStars = 5 - (fullStars + halfStar);
+
+        let starsHTML = "";
+        for (let i = 0; i < fullStars; i++) {
+            starsHTML += '<i class="fa-solid fa-star"></i>';
+        }
+        if (halfStar) {
+            starsHTML += '<i class="fa-solid fa-star-half-alt"></i>';
+        }
+        for (let i = 0; i < emptyStars; i++) {
+            starsHTML += '<i class="fa-regular fa-star"></i>';
+        }
+        // Jika sudah ada teks di dalamnya (misal: ★ 4.5), tambahkan bintang di depannya
+        // Jika tidak, ganti seluruh isinya. Ini mencegah duplikasi.
+        if (element.textContent.trim().length > 0) {
+             element.innerHTML = starsHTML + ' ' + element.innerHTML;
+        } else {
+            element.innerHTML = starsHTML;
+        }
+    }
+    
+    // PASTIKAN BARIS INI ADA UNTUK MEMANGGIL FUNGSINYA
+    document.querySelectorAll(".rating").forEach(generateStars);
+
+    // ===================================================================
+    // BAGIAN 3: LOGIKA UNTUK FORM REVIEW
+    // ===================================================================
+    const addReview = document.getElementById("addReview");
+    const fillReview = document.getElementById("fillReview");
+    const closeReview = document.getElementById("closeReview");
+
+    if (addReview && fillReview) {
+        addReview.addEventListener("click", () => {
+            fillReview.classList.remove("hidden");
+            addReview.classList.add("hidden");
+        });
+    }
+
+    if (closeReview && fillReview && addReview) {
+        closeReview.addEventListener("click", () => {
+            fillReview.classList.add("hidden");
+            addReview.classList.remove("hidden");
+        });
+    }
+
+    // ===================================================================
+    // BAGIAN 4: LOGIKA UNTUK MODAL MENU & PROMO DENGAN EFEK OVERLAY
+    // ===================================================================
+    const openMenuBtn = document.getElementById('openMenu');
+    const menuModal = document.getElementById('menuModal');
+    const closeMenuModalBtn = document.getElementById('closeMenuModal');
+    const openPromoBtn = document.getElementById('openPromo');
+    const promoModal = document.getElementById('promoModal');
+    const closePromoModalBtn = document.getElementById('closePromoModal');
+
+    if (openMenuBtn && menuModal && closeMenuModalBtn) {
+        openMenuBtn.addEventListener('click', () => {
+            menuModal.classList.remove('hidden');
+            menuModal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        });
+        closeMenuModalBtn.addEventListener('click', () => {
+            menuModal.classList.add('hidden');
+            menuModal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        });
+    }
+
+    if (openPromoBtn && promoModal && closePromoModalBtn) {
+        openPromoBtn.addEventListener('click', () => {
+            promoModal.classList.remove('hidden');
+            promoModal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        });
+        closePromoModalBtn.addEventListener('click', () => {
+            promoModal.classList.add('hidden');
+            promoModal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        });
+    }
+
+    [menuModal, promoModal].forEach(modal => {
+        if (modal) {
+            modal.addEventListener('click', function(event) {
+                if (event.target === this) {
+                    this.classList.add('hidden');
+                    this.classList.remove('flex');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+    });
+
+const addMenuItemBtn = document.getElementById('addMenuItemBtn');
+const addMenuFormContainer = document.getElementById('addMenuFormContainer');
+const cancelAddMenuBtn = document.getElementById('cancelAddMenuBtn');
+const menuListContainer = document.getElementById('menuListContainer');
+
+if (addMenuItemBtn && addMenuFormContainer && cancelAddMenuBtn) {
+    // Saat tombol plus diklik
+    addMenuItemBtn.addEventListener('click', () => {
+        addMenuFormContainer.classList.remove('hidden'); // Tampilkan form
+        addMenuItemBtn.classList.add('hidden'); // Sembunyikan tombol plus
+        // Scroll ke bagian bawah container list menu
+        menuListContainer.scrollTop = menuListContainer.scrollHeight;
+    });
+
+    // Saat tombol batal di form diklik
+    cancelAddMenuBtn.addEventListener('click', () => {
+        addMenuFormContainer.classList.add('hidden'); // Sembunyikan form
+        addMenuItemBtn.classList.remove('hidden'); // Tampilkan lagi tombol plus
+        document.getElementById('addMenuForm').reset(); // Reset isi form
+    });
+}
+});
+</script>

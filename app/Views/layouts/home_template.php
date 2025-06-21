@@ -39,21 +39,5 @@
     </main>
 
     <?php include APPPATH . 'Views/partials/claim_culinary_modal.php'; ?>
-
-    <?php 
-    // Inklusi kondisional untuk modal Menu dan Promo
-    // Variabel $tempat, $menu, $promo akan tersedia jika berasal dari controller Tempat::detail()
-    // yang merender tempat_detail.php, yang kemudian extend home_template.php
-    if (isset($tempat) && $tempat['kategori'] === 'culinary') :
-        // Perlu pastikan $menu dan $promo juga ada jika ini dimasukkan secara global
-        // Pastikan controller Tempat::detail() mengisi $data['menu'] dan $data['promo']
-        // jika Anda ingin memuat modal ini secara dinamis.
-        // Jika tidak, Anda perlu memuatnya di tempat_detail.php di dalam section.
-        // Untuk saat ini, kita akan mengasumsikan $menu dan $promo juga tersedia di scope ini.
-        ?>
-        <?php include APPPATH . 'Views/partials/menu_modal.php'; ?>
-        <?php include APPPATH . 'Views/partials/promo_modal.php'; ?>
-    <?php endif; ?>
-
 </body>
 </html>
