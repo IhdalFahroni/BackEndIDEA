@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addPlaceForm = document.getElementById('addPlace');
     const profile = document.getElementById('profil');
     const listManage = document.getElementById('listPlace');
-    
+     
     const searchIcon = document.getElementById('searchIcon');
     const filterButtons = document.querySelectorAll('.filter-button');
     const openNotificationBtns = [document.getElementById('notificationBtn'), document.getElementById('openNotificationBtn')];

@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const addPlaceForm = document.getElementById("addPlace"); // Ini adalah FORM
   const profile = document.getElementById("profil");
   const manageVerification = document.getElementById("manageVerification");
+  const listManage = document.getElementById('listPlace');
 
   const addPlaceModal = document.getElementById("addPlaceModal");
   const claimCulinaryModal = document.getElementById("claimCulinaryModal");
@@ -34,6 +35,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const openManageVerificationBtns = [
     document.getElementById("manageVerificationBtn"),
     document.getElementById("openManageVerificationBtn"),
+  ].filter(Boolean);
+  const openManage = [
+    document.getElementById('manageBtn'), 
+    document.getElementById('openManageBtn')
   ].filter(Boolean);
 
   // --- ELEMEN PROFIL DAN PENGATURAN AKUN ---
@@ -95,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (addPlaceForm) addPlaceForm.classList.add("hidden");
     if (manageVerification) manageVerification.classList.add("hidden");
     if (profile) profile.classList.add("hidden");
+    if (listManage) listManage.classList.add('hidden');
 
     switch (panelName) {
       case "awal":
@@ -109,6 +115,10 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
       case "manageVerification":
         if (manageVerification) manageVerification.classList.remove("hidden");
+        break;
+      case 'listPlace':
+        if(sidebarMenu) sidebarMenu.classList.remove('-translate-x-full');
+        if(listManage) listManage.classList.remove('hidden');
         break;
       case "profil":
         if (profile) profile.classList.remove("hidden");
@@ -189,6 +199,21 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
+
+  if (openManage[0]) { 
+        openManage[0].addEventListener('click', (e) => {
+            e.preventDefault();
+            sidebarMenu.classList.remove('-translate-x-full');
+            mainContent.style.marginLeft = '18rem';
+            listManage.classList.remove('hidden');
+        });
+    }
+    if (openManage[1]) { 
+        openManage[1].addEventListener('click', (e) => {
+            e.preventDefault();
+            listManage.classList.toggle('hidden');
+        });
+    }
 
   // --- LOGIKA PROFIL (EDIT, SAVE, CANCEL) ---
   if (editProfileBtn) {
