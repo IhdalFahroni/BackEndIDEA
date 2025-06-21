@@ -63,7 +63,7 @@
             </div>
         </div>
         <div id="editProfilePage" class="flex items-start w-full relative <?= $user_role === 'admin' ? 'hidden' : '' ?>">
-            <form id="editProfileForm" class="flex items-start w-full" action="<?= site_url('home/updateProfile') ?>" method="post">
+            <form id="editProfileForm" class="flex items-start w-full" action="<?= site_url('profile/update') ?>" method="post">
                 <div class="absolute top-4 right-4 flex items-center gap-3">
                     <button type="button" id="cancelEditBtn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-7 py-1 rounded-full shadow font-semibold transition">
                         Cancel
@@ -119,7 +119,7 @@
 
             <hr class="border-t border-[#5C3211]/30 my-6">
 
-            <form id="changePasswordForm" action="<?= site_url('home/changePassword') ?>" method="post">
+            <form id="changePasswordForm" action="<?= site_url('password/change') ?>" method="post">
                 <div>
                     <div class="mb-4">
                         <span class="text-xl font-semibold">Change password</span>
@@ -140,7 +140,7 @@
             <hr class="my-6 border-[#F0D3B3]">
 
             <?php if (isset($user_role) && $user_role !== 'admin') : // Sembunyikan untuk admin ?>
-            <form id="deleteAccountForm" action="<?= site_url('home/deleteAccount') ?>" method="post">
+            <form id="deleteAccountForm" action="<?= site_url('account/delete') ?>" method="post">
                 <div class="mt-12">
                     <div class="mb-2">
                         <span class="text-xl font-semibold">Delete account</span>

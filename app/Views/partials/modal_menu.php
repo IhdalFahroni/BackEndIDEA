@@ -46,16 +46,6 @@
                 <div id="addMenuFormContainer" class="hidden pt-4">
                     <hr class="mb-4">
                     <h3 class="font-bold text-lg text-center mb-4">Tambah Menu Baru</h3>
-                    <?php if (session()->has('errors')) : ?>
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mb-4" role="alert">
-                            <strong class="font-bold">Oops! Terjadi kesalahan:</strong>
-                            <ul class="mt-2 list-disc list-inside">
-                            <?php foreach (session('errors') as $error) : ?>
-                                <li><?= esc($error) ?></li>
-                            <?php endforeach ?>
-                            </ul>
-                        </div>
-                    <?php endif ?>
                     <form id="addMenuForm" action="<?= site_url('menu/add') ?>" method="post" enctype="multipart/form-data" class="space-y-4">
                         <?= csrf_field() ?>
                         <input type="hidden" name="id_tempat" value="<?= esc($tempat['ID_tempat']) ?>">

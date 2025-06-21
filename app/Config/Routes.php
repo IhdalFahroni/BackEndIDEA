@@ -34,12 +34,17 @@ $routes->get('/home', 'Home::index'); // Route untuk halaman home dashboard
 
 // --- Routing untuk Submit Form (Non-AJAX, Full Page Reload) ---
 // Semua ini adalah POST karena mereka memproses data form
-$routes->post('/home/submitAddPlace', 'Home::submitAddPlace');
-$routes->post('/home/updateProfile', 'Home::updateProfile');
-$routes->post('/home/changePassword', 'Home::changePassword');
-$routes->post('/home/deleteAccount', 'Home::deleteAccount');
-$routes->post('/home/verifyRequest', 'Home::verifyRequest');
-$routes->post('menu/add', 'Home::addMenuItem');
+$routes->post('profile/update', 'Akun::updateProfile');
+$routes->post('password/change', 'Akun::changePassword');
+$routes->post('account/delete', 'Akun::deleteAccount');
+
+// -- Aksi terkait Konten (Review, Tempat, Menu) --
+$routes->post('review/submit', 'Akun::submitReview');
+$routes->post('tempat/submit', 'Akun::submitAddPlace');
+$routes->post('menu/add', 'Akun::addMenuItem');
+
+$routes->post('verify', 'Admin::verifyRequest');
+$routes->post('review/delete', 'Admin::deleteReview');
 
 // --- Routing Halaman Detail Tempat ---
 // Contoh: http://localhost:8080/tempat/ID_tempat_disini
@@ -51,4 +56,3 @@ $routes->post('menu/add', 'Home::addMenuItem');
 
 // --- Routing API / Form Submit Tambahan (jika ada) ---
 // Contoh: Untuk submit review dari halaman detail
-$routes->post('/home/submitReview', 'Home::submitReview'); // Mengarahkan ke Home controller

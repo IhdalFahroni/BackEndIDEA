@@ -16,7 +16,7 @@
         </div>
     <?php endif; ?>
 
-    <?php if (isset($isLoggedIn) && $isLoggedIn) : ?>
+    <?php if (isset($isLoggedIn) && $isLoggedIn  && $user_role!=='admin'): ?>
         <div id="addReview" class="w-full cursor-pointer group">
             <i class="fas fa-plus-circle text-lg text-[#5C3211] opacity-50 group-hover:opacity-100 transition"></i>
             <span class="font-medium text-[#5C3211] opacity-50 group-hover:opacity-100 transition">Add review</span>
@@ -24,7 +24,7 @@
         </div>
 
         <div id="fillReview" class="w-full hidden">
-            <form id="reviewForm" action="<?= site_url('home/submitReview') ?>" method="post" enctype="multipart/form-data">
+            <form id="reviewForm" action="<?= site_url('review/submit') ?>" method="post" enctype="multipart/form-data">
                 <?= csrf_field() ?> <input type="hidden" name="ID_tempat" value="<?= esc($tempat['ID_tempat']) ?>">
 
                 <div class="mb-3">
@@ -64,10 +64,11 @@
     <hr class="border-[#5C3211] mb-4">
 
     <div class="space-y-8">
-        <?php if (!empty($reviews)) : ?>
-            <?php foreach ($reviews as $review) : ?>
-                <div class="border-b border-gray-200 pb-4 last:border-b-0">
-                    <div class="mb-2">
+    <?php if (!empty($reviews)) : ?>
+        <?php foreach ($reviews as $review) : ?>
+            <div class="border-b border-gray-200 pb-4 last:border-b-0">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
                         <p class="font-semibold text-[#5C3211]"><?= esc($review['username'] ?? 'Anonymous') ?>
                             <span class="text-xs text-[#5C3211] font-normal ml-2"><?= esc(date('H:i, M d, Y', strtotime($review['waktu']))) ?></span>
                         </p>
@@ -75,18 +76,29 @@
                             <?php // Bintang akan digenerate oleh JS ?>
                         </div>
                     </div>
-                    <p class="text-base text-[#5C3211] mb-4 leading-relaxed">
-                        <?= esc($review['komentar']) ?>
-                    </p>
-                    <?php if (!empty($review['foto'])) : ?>
-                        <img src="<?= base_url('Assets/' . esc($review['foto'])) ?>" alt="Review Image" class="rounded-xl w-80 h-52 object-cover shadow-md mb-3">
+
+                    <?php if (session()->get('user_role') === 'admin') : ?>
+                        <button type="button" 
+                                class="open-delete-modal-btn text-red-500 hover:text-red-700 text-sm" 
+                                title="Hapus Review"
+                                data-review-id="<?= esc($review['ID_review']) ?>"
+                                data-tempat-id="<?= esc($tempat['ID_tempat']) ?>">
+                            <i class="fas fa-trash-alt"></i> Hapus
+                        </button>
                     <?php endif; ?>
-                </div>
-            <?php endforeach; ?>
-        <?php else : ?>
-            <p class="text-center text-gray-600">Belum ada ulasan untuk tempat ini.</p>
-        <?php endif; ?>
-    </div>
+                    </div>
+                <p class="text-base text-[#5C3211] mb-4 leading-relaxed">
+                    <?= esc($review['komentar']) ?>
+                </p>
+                <?php if (!empty($review['foto'])) : ?>
+                    <img src="<?= base_url('Assets/' . esc($review['foto'])) ?>" alt="Review Image" class="rounded-xl w-80 h-52 object-cover shadow-md mb-3">
+                <?php endif; ?>
+            </div>
+        <?php endforeach; ?>
+    <?php else : ?>
+        <p class="text-center text-gray-600">Belum ada ulasan untuk tempat ini.</p>
+    <?php endif; ?>
+</div>
 </div>
 
 <div id="ratingModal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4 hidden">
@@ -108,6 +120,8 @@
         </div>
     </div>
 </div>
+
+<?php include(APPPATH . 'Views/partials/modal_delete_review.php'); ?>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -253,6 +267,41 @@ document.addEventListener('DOMContentLoaded', function() {
     if (validationErrors && addReviewDiv) {
         addReviewDiv.style.display = 'none';
         fillReviewDiv.classList.remove('hidden');
+    }
+    // --- Logika untuk Modal Hapus Review ---
+    const deleteReviewModal = document.getElementById('deleteReviewModal');
+    const closeDeleteReviewModalBtn = document.getElementById('closeDeleteReviewModal');
+    const allOpenDeleteModalBtns = document.querySelectorAll('.open-delete-modal-btn');
+    const deleteReviewIdInput = document.getElementById('delete_review_id');
+    const deleteReviewIdTempatInput = document.getElementById('delete_review_id_tempat');
+
+    if (deleteReviewModal) {
+        // Event listener untuk semua tombol hapus
+        allOpenDeleteModalBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Ambil ID dari atribut data-* tombol yang diklik
+                const reviewId = this.dataset.reviewId;
+                const tempatId = this.dataset.tempatId;
+
+                // Masukkan ID ke dalam input hidden di dalam form modal
+                if (deleteReviewIdInput) deleteReviewIdInput.value = reviewId;
+                if (deleteReviewIdTempatInput) deleteReviewIdTempatInput.value = tempatId;
+                
+                // Tampilkan modal
+                deleteReviewModal.classList.remove('hidden');
+                deleteReviewModal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // Event listener untuk tombol close (X) pada modal
+        if (closeDeleteReviewModalBtn) {
+            closeDeleteReviewModalBtn.addEventListener('click', () => {
+                deleteReviewModal.classList.add('hidden');
+                deleteReviewModal.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            });
+        }
     }
 });
 </script>

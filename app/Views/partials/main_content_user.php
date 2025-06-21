@@ -26,19 +26,19 @@ foreach ($categories as $key => $details) {
 <?php if (isset($show_detail_tempat) && $show_detail_tempat === true) : ?>
 <div id="detailPlaceContentPanel">
     <div class="relative z-10 text-left">
-        <?php if ($path == site_url('')) : ?>
-            <a href="<?= base_url('') ?>" class="absolute top-0 left-0 text-[#5C3211] hover:text-gray-200">
-                <i class="fa-solid fa-arrow-left text-2xl"></i>
-            </a>
-            <h1 class="text-3xl md:text-4xl font-bold text-[#5C3211] text-center mb-8 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
-                <?= esc($tempat['nama_tempat']) ?>
-            </h1>
-        <?php else : ?>
-            <a href="<?= base_url('/home') ?>" class="absolute top-0 left-0 text-white hover:text-gray-200">
+        <?php if ($path == site_url('home')) : ?>
+            <a href="<?= $path ?>" class="absolute top-0 left-0 text-[#FFFFFF] hover:text-gray-200">
                 <i class="fa-solid fa-arrow-left text-2xl"></i>
             </a>
             <h1 class="text-3xl md:text-4xl font-bold text-[#FFFFFF] text-center mb-8 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
-                <?= esc($tempat['nama_tempat']) ?>
+            <?= esc($tempat['nama_tempat']) ?>
+            </h1>
+        <?php else : ?>
+            <a href="<?= $path ?>" class="absolute top-0 left-0 text-[#5C3211] hover:text-gray-200">
+                <i class="fa-solid fa-arrow-left text-2xl"></i>
+            </a>
+            <h1 class="text-3xl md:text-4xl font-bold text-[#5C3211] text-center mb-8 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
+            <?= esc($tempat['nama_tempat']) ?>
             </h1>
         <?php endif; ?>
     </div>
