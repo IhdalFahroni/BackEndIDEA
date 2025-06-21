@@ -8,10 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const headerDiv = document.getElementById("header");
   const awalDiv = document.getElementById("awal");
   const notification = document.getElementById("notification");
-  const addPlaceForm = document.getElementById("addPlace"); // Ini adalah FORM
+  const addPlaceForm = document.getElementById("addPlace");
   const profile = document.getElementById("profil");
   const manageVerification = document.getElementById("manageVerification");
-  const listManage = document.getElementById('listPlace');
+  const listManage = document.getElementById("listPlace");
 
   const addPlaceModal = document.getElementById("addPlaceModal");
   const claimCulinaryModal = document.getElementById("claimCulinaryModal");
@@ -39,8 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("openManageVerificationBtn"),
   ].filter(Boolean);
   const openManage = [
-    document.getElementById('manageBtn'), 
-    document.getElementById('openManageBtn')
+    document.getElementById("manageBtn"),
+    document.getElementById("openManageBtn"),
   ].filter(Boolean);
 
   // --- ELEMEN PROFIL DAN PENGATURAN AKUN ---
@@ -87,6 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let activePanel = "awal";
 
+  let previousPanel = "awal";
+
   // --- FUNGSI showPanel (untuk mengubah tampilan main content) ---
   function showPanel(panelName) {
     if (headerDiv) headerDiv.classList.add("hidden");
@@ -95,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (addPlaceForm) addPlaceForm.classList.add("hidden");
     if (manageVerification) manageVerification.classList.add("hidden");
     if (profile) profile.classList.add("hidden");
-    if (listManage) listManage.classList.add('hidden');
+    if (listManage) listManage.classList.add("hidden");
 
     switch (panelName) {
       case "awal":
@@ -111,9 +113,9 @@ document.addEventListener("DOMContentLoaded", () => {
       case "manageVerification":
         if (manageVerification) manageVerification.classList.remove("hidden");
         break;
-      case 'listPlace':
-        if(sidebarMenu) sidebarMenu.classList.remove('-translate-x-full');
-        if(listManage) listManage.classList.remove('hidden');
+      case "listPlace":
+        if (sidebarMenu) sidebarMenu.classList.remove("-translate-x-full");
+        if (listManage) listManage.classList.remove("hidden");
         break;
       case "profil":
         if (profile) profile.classList.remove("hidden");
@@ -124,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (accountSetting) accountSetting.classList.add("hidden");
         break;
     }
+    previousPanel = activePanel;
     activePanel = panelName;
 
     if (sidebarMenu && sidebarMenu.classList.contains("translate-x-0")) {
@@ -155,7 +158,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btn) {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
-        showPanel(activePanel === "notification" ? "awal" : "notification");
+        showPanel(
+          activePanel === "notification" ? previousPanel : "notification"
+        );
       });
     }
   });
@@ -164,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btn) {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
-        showPanel(activePanel === "addPlace" ? "awal" : "addPlace");
+        showPanel(activePanel === "addPlace" ? previousPanel : "addPlace");
       });
     }
   });
@@ -173,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btn) {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
-        showPanel(activePanel === "profil" ? "awal" : "profil");
+        showPanel(activePanel === "profil" ? previousPanel : "profil");
         if (editProfilePage && profilPage && bawahProfil && accountSetting) {
           profilPage.classList.remove("hidden");
           bawahProfil.classList.remove("hidden");
@@ -189,26 +194,28 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener("click", (e) => {
         e.preventDefault();
         showPanel(
-          activePanel === "manageVerification" ? "awal" : "manageVerification"
+          activePanel === "manageVerification"
+            ? previousPanel
+            : "manageVerification"
         );
       });
     }
   });
 
-  if (openManage[0]) { 
-        openManage[0].addEventListener('click', (e) => {
-            e.preventDefault();
-            sidebarMenu.classList.remove('-translate-x-full');
-            mainContent.style.marginLeft = '18rem';
-            listManage.classList.remove('hidden');
-        });
-    }
-    if (openManage[1]) { 
-        openManage[1].addEventListener('click', (e) => {
-            e.preventDefault();
-            listManage.classList.toggle('hidden');
-        });
-    }
+  if (openManage[0]) {
+    openManage[0].addEventListener("click", (e) => {
+      e.preventDefault();
+      sidebarMenu.classList.remove("-translate-x-full");
+      mainContent.style.marginLeft = "18rem";
+      listManage.classList.remove("hidden");
+    });
+  }
+  if (openManage[1]) {
+    openManage[1].addEventListener("click", (e) => {
+      e.preventDefault();
+      listManage.classList.toggle("hidden");
+    });
+  }
 
   // --- LOGIKA PROFIL (EDIT, SAVE, CANCEL) ---
   if (editProfileBtn) {
@@ -344,7 +351,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let isValid = true;
     // Bersihkan error lama sebelum validasi baru
     form.querySelectorAll(".error-message").forEach((el) => el.remove());
-    form.querySelectorAll(".border-red-500").forEach((el) => el.classList.remove("border-red-500"));
+    form
+      .querySelectorAll(".border-red-500")
+      .forEach((el) => el.classList.remove("border-red-500"));
 
     const currentPassInput = form.querySelector("#currentPassword");
     const newPassInput = form.querySelector("#newPass");
@@ -357,21 +366,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Validasi Current Password
     if (currentPass.length === 0) {
-        showError(currentPassInput, "Current password is required."); // Asumsi fungsi showError sudah ada
-        isValid = false;
+      showError(currentPassInput, "Current password is required."); // Asumsi fungsi showError sudah ada
+      isValid = false;
     } else {
-        hideError(currentPassInput); // Asumsi fungsi hideError sudah ada
+      hideError(currentPassInput); // Asumsi fungsi hideError sudah ada
     }
 
     // Validasi New Password
     if (newPass.length === 0) {
-        showError(newPassInput, "New password is required.");
-        isValid = false;
+      showError(newPassInput, "New password is required.");
+      isValid = false;
     } else if (!isNewPassLengthValid) {
-        showError(newPassInput, "Password must be 8-20 characters.");
-        isValid = false;
+      showError(newPassInput, "Password must be 8-20 characters.");
+      isValid = false;
     } else {
-        hideError(newPassInput);
+      hideError(newPassInput);
     }
 
     return isValid;
@@ -389,52 +398,63 @@ document.addEventListener("DOMContentLoaded", () => {
     const isNewPassLengthValid = newPass.length >= 8 && newPass.length <= 20;
 
     // Tentukan validitas form secara keseluruhan
-    const isFormValid = currentPass.length > 0 && newPass.length > 0 && isNewPassLengthValid;
+    const isFormValid =
+      currentPass.length > 0 && newPass.length > 0 && isNewPassLengthValid;
 
     // Logika untuk mengatur tombol
     if (isFormValid) {
-        formSavePasswordBtn.disabled = false;
-        formSavePasswordBtn.classList.remove("text-[#FF9800]", "bg-white", "opacity-50", "cursor-not-allowed");
-        formSavePasswordBtn.classList.add("bg-[#FF9800]", "text-white");
+      formSavePasswordBtn.disabled = false;
+      formSavePasswordBtn.classList.remove(
+        "text-[#FF9800]",
+        "bg-white",
+        "opacity-50",
+        "cursor-not-allowed"
+      );
+      formSavePasswordBtn.classList.add("bg-[#FF9800]", "text-white");
     } else {
-        formSavePasswordBtn.disabled = true;
-        formSavePasswordBtn.classList.remove("bg-[#FF9800]", "text-white");
-        formSavePasswordBtn.classList.add("text-[#FF9800]", "bg-white", "opacity-50", "cursor-not-allowed");
+      formSavePasswordBtn.disabled = true;
+      formSavePasswordBtn.classList.remove("bg-[#FF9800]", "text-white");
+      formSavePasswordBtn.classList.add(
+        "text-[#FF9800]",
+        "bg-white",
+        "opacity-50",
+        "cursor-not-allowed"
+      );
     }
   }
 
   if (changePasswordForm) {
     // Saat pengguna mengetik, tampilkan error dan perbarui tombol secara real-time
     changePasswordForm.addEventListener("input", () => {
-        showPasswordFormErrors(changePasswordForm);
-        updatePasswordButtonState(changePasswordForm);
+      showPasswordFormErrors(changePasswordForm);
+      updatePasswordButtonState(changePasswordForm);
     });
 
     // Saat form disubmit, lakukan validasi akhir
     changePasswordForm.addEventListener("submit", (e) => {
-        // Panggil fungsi yang menampilkan error
-        const isFormValid = showPasswordFormErrors(changePasswordForm); 
-        
-        // Panggil juga fungsi untuk memastikan status tombol sudah benar
-        updatePasswordButtonState(changePasswordForm); 
+      // Panggil fungsi yang menampilkan error
+      const isFormValid = showPasswordFormErrors(changePasswordForm);
 
-        if (!isFormValid) {
-            e.preventDefault(); // Hentikan submit jika tidak valid
-            alert("Please fix the errors in the change password form.");
-        }
+      // Panggil juga fungsi untuk memastikan status tombol sudah benar
+      updatePasswordButtonState(changePasswordForm);
+
+      if (!isFormValid) {
+        e.preventDefault(); // Hentikan submit jika tidak valid
+        alert("Please fix the errors in the change password form.");
+      }
     });
   }
 
   // --- Event Listener untuk Tombol Pengaturan Akun & Logout ---
   if (openAccountSettingBtn) {
-      openAccountSettingBtn.addEventListener("click", () => {
-          if (containerProfile) containerProfile.classList.add("hidden");
-          if (bawahProfil) bawahProfil.classList.add("hidden");
-          if (accountSetting) accountSetting.classList.remove("hidden");
-          
-          // KITA PANGGIL FUNGSI YANG HANYA MENGATUR TOMBOL, TANPA MENAMPILKAN ERROR
-          updatePasswordButtonState(changePasswordForm);
-      });
+    openAccountSettingBtn.addEventListener("click", () => {
+      if (containerProfile) containerProfile.classList.add("hidden");
+      if (bawahProfil) bawahProfil.classList.add("hidden");
+      if (accountSetting) accountSetting.classList.remove("hidden");
+
+      // KITA PANGGIL FUNGSI YANG HANYA MENGATUR TOMBOL, TANPA MENAMPILKAN ERROR
+      updatePasswordButtonState(changePasswordForm);
+    });
   }
 
   if (closeAccountSettingBtn) {
@@ -720,7 +740,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
-  
 
   showPanel("awal");
 });

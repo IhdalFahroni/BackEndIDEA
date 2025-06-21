@@ -9,12 +9,10 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('main_content') ?>
-    <?php // Tampilkan konten dashboard utama ?>
     <div id="header" class="header mb-5 ">
         <?php include APPPATH . 'Views/partials/main_content_user.php'; ?>
     </div>
 
-    <?php // Partial untuk Notifikasi, Add Place Form, Profile (disembunyikan secara default) ?>
     <?php if (isset($user_role)) : ?>
         <?php include APPPATH . 'Views/partials/notification_content.php'; ?>
         <?php include APPPATH . 'Views/partials/add_place_form.php'; ?>
@@ -24,4 +22,8 @@
     <?php if (isset($user_role) && $user_role === 'admin') : ?>
         <?php include APPPATH . 'Views/partials/manage_verification.php'; ?>
     <?php endif; ?>
+    <script>
+        window.SHOW_DETAIL_TEMPAT = <?= $show_detail_tempat ? 'true' : 'false' ?>;
+    </script>
+
 <?= $this->endSection() ?>

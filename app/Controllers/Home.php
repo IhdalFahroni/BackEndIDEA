@@ -46,7 +46,7 @@ class Home extends BaseController
         $id_akun = $session->get('ID_akun');
 
         $data = [
-            'title'       => ucfirst($userRole) . ' Dashboard | LombokRec',
+            'title'       => ucfirst($userRole) . ' Homepage | LombokRec',
             'js_file'     => 'home.js',
             'user_role'   => $userRole,
             'isLoggedIn'  => $isLoggedIn,

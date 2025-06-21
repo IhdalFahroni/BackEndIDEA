@@ -46,7 +46,7 @@ $routes->post('/home/verifyRequest', 'Home::verifyRequest');
 // $routes->get('/tempat/(:segment)', 'NamaControllerTempat::detailMethod/$1');
 
 // --- Routing Halaman Detail Tempat ---
-$routes->get('/tempat/(:segment)', 'Tempat::detail/$1');
+// $routes->get('/tempat/(:segment)', 'Tempat::detail/$1');
 
 // --- Routing API / Form Submit Tambahan (jika ada) ---
 // Contoh: Untuk submit review dari halaman detail

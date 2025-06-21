@@ -15,7 +15,6 @@
         const API_URL_CHANGE_PASSWORD = '<?= site_url('home/changePassword') ?>';
         const API_URL_DELETE_ACCOUNT = '<?= site_url('home/deleteAccount') ?>';
         const API_URL_VERIFY_REQUEST = '<?= site_url('home/verifyRequest') ?>';
-        // Tambahkan API URL untuk submit review jika diperlukan AJAX di masa depan
         const API_URL_SUBMIT_REVIEW = '<?= site_url('home/submitReview') ?>';
     </script>
     
@@ -51,7 +50,7 @@
         // jika Anda ingin memuat modal ini secara dinamis.
         // Jika tidak, Anda perlu memuatnya di tempat_detail.php di dalam section.
         // Untuk saat ini, kita akan mengasumsikan $menu dan $promo juga tersedia di scope ini.
-    ?>
+        ?>
         <?php include APPPATH . 'Views/partials/menu_modal.php'; ?>
         <?php include APPPATH . 'Views/partials/promo_modal.php'; ?>
     <?php endif; ?>
