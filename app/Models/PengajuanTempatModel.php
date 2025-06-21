@@ -13,33 +13,15 @@ class PengajuanTempatModel extends Model
         'ID_akun', 'nama_tempat', 'kabupaten_kota', 'kecamatan', 'kelurahan',
         'nama_jalan', 'kategori', 'deskripsi', 'harga_tiket', 'foto', 'google_maps', 'is_verified'
     ];
-    public function getPendingVerifications()
+    public function getAddPlaceForm()
     {
-        // Pilih kolom yang kita butuhkan untuk halaman verifikasi.
-        // Gunakan 'as' untuk membuat alias agar mudah digunakan di controller.
-        $this->select(
-            'form_pengajuantempat.ID_formPengajuanTempat as id,
-             form_pengajuantempat.nama_tempat,
-             akun.username as user,
-             akun.email as email'
-        );
+       $this->select('form_pengajuantempat.*, akun.username, akun.email');
+       $this->from('form_pengajuantempat');
+       $this->join('akun', 'akun.ID_akun = form_pengajuantempat.ID_akun', 'left');
 
-        // Gabungkan dengan tabel 'akun' untuk mendapatkan detail user.
-        // Asumsi foreign key adalah 'ID_akun'. 'left' join lebih aman.
-        $this->join('akun', 'akun.ID_akun = form_pengajuantempat.ID_akun', 'left');
+        // get() dikosongkan karena 'from' sudah didefinisikan sebelumnya
+        $query = $this->get(); 
 
-        // Ini bagian paling penting: Filter hanya untuk pengajuan yang masih pending.
-        // !! PENTING: Sesuaikan 'status_verifikasi' dan 'pending' dengan nama kolom & value di tabel Anda !!
-        $this->where('form_pengajuantempat.status_verifikasi', 'pending');
-
-        // Urutkan data berdasarkan pengajuan terbaru
-        $this->orderBy('form_pengajuantempat.ID_formPengajuanTempat', 'DESC');
-
-          $sql = $this->getCompiledSelect(); // Dapatkan string SQL tanpa menjalankan query
-    echo "<b>Generated SQL Query:</b><br><pre>" . $sql . "</pre>";
-    die(); // Hentikan eksekusi agar kita bisa melihat query-nya
-
-
-        return $this->findAll();
+        return $query->result_array();
     }
 }

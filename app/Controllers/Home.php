@@ -63,7 +63,7 @@ class Home extends BaseController
             'promo'              => null,
             'isOwner'            => false,
             'notifikasi' => $notifModel->getNotifikasiByAkun($id_akun),
-            'verificationItems' => $pengajuanTempatModel->getAddPlaceForm(),
+            // 'verificationItems' => $pengajuanTempatModel->getAddPlaceForm(),
             'session'    => $session 
         ];
 
