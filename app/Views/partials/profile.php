@@ -31,7 +31,11 @@
 
     <div id="containerProfile" class="bg-[#FFFFFF] rounded-xl p-4 flex items-center justify-between shadow-md overflow-hidden mt-8 border border-[#F0D3B3]">
         <div id="profilPage" class="flex items-center w-full relative">
-            <button id="editProfileBtn" class="absolute top-4 right-4 bg-[#FF9800] text-white hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full shadow font-semibold flex items-center gap-2 transition">Edit</button>
+            <?php if (isset($user_role)) : ?>
+                <?php if ($user_role !== 'admin') : ?>
+                <button id="editProfileBtn" class="absolute top-4 right-4 bg-[#FF9800] text-white hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full shadow font-semibold flex items-center gap-2 transition">Edit</button>
+                <?php endif; ?>
+            <?php endif; ?>
             <?php if(session()->get('foto') !== null) :?>
             <img src="<?= base_url('Assets/profil/' . esc(session()->get('foto'))) ; ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
             <?php else: ?>
@@ -43,11 +47,6 @@
                     <div class="w-24 bg-blue-500 text-center text-white rounded-full px-2 py-1 flex items-center gap-2 mb-2">
                         <i class="fas fa-star text-base font-semibold"></i>
                         <span class="pt-1"> Owner </span>
-                    </div>
-                    <?php elseif ($user_role === 'admin') : ?>
-                    <div class="w-24 bg-blue-500 text-center text-white rounded-full px-2 py-1 flex items-center gap-2 mb-2">
-                        <i class="fas fa-star text-base font-semibold"></i>
-                        <span class="pt-1"> Admin </span>
                     </div>
                     <?php endif; ?>
                 <?php endif; ?>
