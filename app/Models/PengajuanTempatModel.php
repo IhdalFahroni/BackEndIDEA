@@ -15,13 +15,9 @@ class PengajuanTempatModel extends Model
     ];
     public function getAddPlaceForm()
     {
-       $this->select('form_pengajuantempat.*, akun.username, akun.email');
-       $this->from('form_pengajuantempat');
-       $this->join('akun', 'akun.ID_akun = form_pengajuantempat.ID_akun', 'left');
-
-        // get() dikosongkan karena 'from' sudah didefinisikan sebelumnya
-        $query = $this->get(); 
-
-        return $query->result_array();
+        return $this->select('form_pengajuantempat.*, akun.username as username, akun.email as email')
+                    ->join('akun', 'akun.ID_akun = form_pengajuantempat.ID_akun', 'left')
+                    ->get()
+                    ->getResultArray();
     }
 }

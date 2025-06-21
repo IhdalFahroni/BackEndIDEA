@@ -9,6 +9,7 @@
 
     <script>
         const BASE_URL = '<?= base_url() ?>';
+        const UPLOADS_URL = '<?= base_url('Assets/') ?>';
         const LOGOUT_URL = '<?= base_url('logout') ?>';
         const API_URL_ADD_ATTRACTION = '<?= site_url('home/submitAddPlace') ?>';
         const API_URL_PROFILE_UPDATE = '<?= site_url('home/updateProfile') ?>';
