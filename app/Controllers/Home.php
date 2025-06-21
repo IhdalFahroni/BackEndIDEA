@@ -243,43 +243,37 @@ class Home extends BaseController
     }
 
     // Method untuk change password
-   public function changePassword()
+    public function changePassword()
     {
         $session = session();
-        // Ensure the user is logged in
         if (!$session->get('isLoggedIn')) {
             return redirect()->to(base_url('login'))->with('error', 'Anda harus login untuk mengganti password.');
         }
 
-        // Define validation rules for password change
         $rules = [
             'current_password' => 'required',
             'new_password'     => 'required|min_length[8]|max_length[20]',
-            'confirm_password' => 'required|matches[new_password]', // Added confirm password rule
         ];
 
-        // Validate the input
         if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors())->with('active_panel', 'profil');
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $akunModel = new AkunModel();
         $akunId = $session->get('ID_akun');
-        $user = $akunModel->find($akunId); // Use find() for retrieving by primary key
+        $user = $akunModel->find($akunId);
 
-        // Verify if user exists and current password is correct
         if (!$user || !password_verify($this->request->getPost('current_password'), $user['password'])) {
-            return redirect()->back()->with('error', 'Password lama salah.')->with('active_panel', 'profil');
+            return redirect()->back()->with('error', 'Password lama yang Anda masukkan salah.');
         }
+        $dataToUpdate = [
+            'password' => password_hash($this->request->getPost('new_password'), PASSWORD_DEFAULT)
+        ];
 
-        // Hash the new password before sending it to the model
-        $hashedNewPassword = password_hash($this->request->getPost('new_password'), PASSWORD_DEFAULT);
-
-        // Call the changePassword method from the AkunModel
-        if ($akunModel->changePassword($akunId, $hashedNewPassword)) {
-            return redirect()->to(base_url('home'))->with('success', 'Password berhasil diubah.')->with('active_panel', 'profil');
+        if ($akunModel->update($akunId, $dataToUpdate)) {
+            return redirect()->to(base_url('home'))->with('success', 'Password berhasil diubah.');
         } else {
-            return redirect()->back()->with('error', 'Gagal mengubah password.')->with('active_panel', 'profil');
+            return redirect()->back()->with('error', 'Gagal mengubah password di database.');
         }
     }
 
