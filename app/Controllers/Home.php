@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\TempatModel;
+use App\Models\PengajuanTempatModel;
 use App\Models\AkunModel;
 use App\Models\ReviewModel; // <--- PASTIKAN BARIS INI ADA
 use App\Models\MenuModel;   // <--- PASTIKAN BARIS INI ADA
@@ -132,16 +133,19 @@ class Home extends BaseController
             'street'        => 'required',
             'gmaps'         => 'required|valid_url|regex_match[/^(https?:\/\/(?:www\.|m\.)?google\.(?:com|co\.\w{2}|ru)\/maps\S*|https?:\/\/maps\.app\.goo\.gl\/\S*)/i]',
             'description'   => 'required|min_length[10]',
-            'file_upload'   => 'uploaded[file_upload]|max_size[file_upload,2048]|ext_in[file_upload,jpg,jpeg,png,gif]', // name="file_upload[]"
+            'harga_tiket'   => 'required|is_natural',
+            'file_upload'   => 'if_exist|uploaded[file_upload]|max_size[file_upload,2048]|ext_in[file_upload,jpg,jpeg,png,gif]',
         ];
 
         if (!$this->validate($rules)) {
+            dd($this->validator->getErrors());
             // Kembali ke halaman sebelumnya dengan input dan error
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors())->with('active_panel', 'addPlace'); // Flash 'active_panel' agar form tetap terbuka
         }
 
         $tempatModel = new TempatModel();
-        $uploadedFiles = $this->request->getFiles('file_upload'); // Sesuaikan dengan name="file_upload[]"
+        $pengajuanTempatModel = new PengajuanTempatModel();
+        $uploadedFiles = $this->request->getFiles();
         $fotoFileNames = [];
 
         if ($uploadedFiles) {
@@ -161,16 +165,26 @@ class Home extends BaseController
             'kecamatan'     => $this->request->getPost('subdistrict'),
             'kelurahan'     => $this->request->getPost('village'),
             'nama_jalan'    => $this->request->getPost('street'),
-            'Maps'          => $this->request->getPost('gmaps'),
+            'google_maps'          => $this->request->getPost('gmaps'),
             'deskripsi'     => $this->request->getPost('description'),
+            'harga_tiket'   => $this->request->getPost('harga_tiket'),
             'foto'          => !empty($fotoFileNames) ? implode(',', $fotoFileNames) : null,
-            'ID_akun'       => $session->get('ID_akun')
         ];
 
-        if ($tempatModel->insert($dataToInsert)) {
-            return redirect()->to(base_url('home'))->with('success', 'Tempat berhasil ditambahkan. Menunggu verifikasi admin.')->with('active_panel', 'awal');
+        if ($session->get('user_role') === 'admin') {
+            if ($tempatModel->insert($dataToInsert)) {
+                return redirect()->to(base_url('home'))->with('success', 'Tempat baru berhasil ditambahkan oleh admin.');
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Gagal menambahkan tempat ke database.')->with('errors', $tempatModel->errors());
+            }
+
         } else {
-            return redirect()->back()->with('error', 'Gagal menambahkan tempat ke database.')->with('active_panel', 'addPlace');
+            $dataToInsert['ID_akun'] = $session->get('ID_akun');
+            if ($pengajuanTempatModel->insert($dataToInsert)) {
+                return redirect()->to(base_url('home'))->with('success', 'Tempat berhasil diajukan dan sedang menunggu verifikasi dari admin.');
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Gagal mengajukan tempat baru.')->with('errors', $pengajuanTempatModel->errors());
+            }
         }
     }
 

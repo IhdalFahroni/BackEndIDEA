@@ -96,6 +96,13 @@
             <?= session()->getFlashdata('errors.description') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.description').'</p>' : '' ?>
         </div>
         <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+            <label for="harga_tiket">Entrance Ticket Price<span class="text-[#FF0000]">*</span></label>
+            <input type="text" id="harga_tiket" name="harga_tiket"
+                class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
+                required placeholder="Answer" value="<?= old('harga_tiket') ?>" />
+            <?= session()->getFlashdata('errors.harga_tiket') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.harga_tiket').'</p>' : '' ?>
+        </div>
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
             <label>Photo(s)</label>
             <div id="fileUploadVisual"
                 class="group flex border-b-0 pb-0 items-center py-2 cursor-pointer transition-all duration-200">
