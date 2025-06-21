@@ -26,7 +26,7 @@ $routes->post('/signup/process', 'SignUp::process');
 
 // --- Routing Dashboard Utama ---
 // Semua dashboard diarahkan ke Home::index()
-$routes->get('/', 'Home::index'); // Route default untuk root situs (setelah login)
+$routes->get('/', 'Landing::landingPage'); // Route default untuk root situs (setelah login)
 $routes->get('/home', 'Home::index'); // Route untuk halaman home dashboard
 // Anda bisa hapus route lama seperti /homeuser, /homepemilik, /homeadmin jika Anda tidak ingin menggunakannya lagi,
 // karena sekarang semua akan melalui /home dan logic role ada di controller Home.
