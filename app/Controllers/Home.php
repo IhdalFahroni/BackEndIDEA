@@ -185,20 +185,19 @@ class Home extends BaseController
 
             if ($pengajuanTempatModel->insert($dataToInsert)) {
                 
-                $notifModel = new NotifikasiModel(); 
+                $notifModel = new NotifikasiModel();
 
                 // 2. Siapkan data untuk notifikasi
                 $notifToInsert = [
                     'ID_akun'   => 1,
                     'header'    => 'Request for new place addition',
-                    'isi_notif' => "$username has submitted a request to add a new place.", 
-                    'tanggal_jam' => date('Y-m-d H:i:s') 
+                    'isi_notif' => "$username has submitted a request to add a new place.",
                 ];
 
                 // 3. Masukkan notifikasi ke database
                 $notifModel->insert($notifToInsert);
                 
-                return redirect()->to(base_url('homeuser'))->with('success', 'Tempat berhasil diajukan dan sedang menunggu verifikasi dari admin.');
+                return redirect()->to(base_url('home'))->with('success', 'Tempat berhasil diajukan dan sedang menunggu verifikasi dari admin.');
 
             } else {
                 return redirect()->back()->withInput()->with('error', 'Gagal mengajukan tempat baru.')->with('errors', $pengajuanTempatModel->errors());
@@ -245,44 +244,44 @@ class Home extends BaseController
 
     // Method untuk change password
    public function changePassword()
-{
-    $session = session();
-    // Ensure the user is logged in
-    if (!$session->get('isLoggedIn')) {
-        return redirect()->to(base_url('login'))->with('error', 'Anda harus login untuk mengganti password.');
+    {
+        $session = session();
+        // Ensure the user is logged in
+        if (!$session->get('isLoggedIn')) {
+            return redirect()->to(base_url('login'))->with('error', 'Anda harus login untuk mengganti password.');
+        }
+
+        // Define validation rules for password change
+        $rules = [
+            'current_password' => 'required',
+            'new_password'     => 'required|min_length[8]|max_length[20]',
+            'confirm_password' => 'required|matches[new_password]', // Added confirm password rule
+        ];
+
+        // Validate the input
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors())->with('active_panel', 'profil');
+        }
+
+        $akunModel = new AkunModel();
+        $akunId = $session->get('ID_akun');
+        $user = $akunModel->find($akunId); // Use find() for retrieving by primary key
+
+        // Verify if user exists and current password is correct
+        if (!$user || !password_verify($this->request->getPost('current_password'), $user['password'])) {
+            return redirect()->back()->with('error', 'Password lama salah.')->with('active_panel', 'profil');
+        }
+
+        // Hash the new password before sending it to the model
+        $hashedNewPassword = password_hash($this->request->getPost('new_password'), PASSWORD_DEFAULT);
+
+        // Call the changePassword method from the AkunModel
+        if ($akunModel->changePassword($akunId, $hashedNewPassword)) {
+            return redirect()->to(base_url('home'))->with('success', 'Password berhasil diubah.')->with('active_panel', 'profil');
+        } else {
+            return redirect()->back()->with('error', 'Gagal mengubah password.')->with('active_panel', 'profil');
+        }
     }
-
-    // Define validation rules for password change
-    $rules = [
-        'current_password' => 'required',
-        'new_password'     => 'required|min_length[8]|max_length[20]',
-        'confirm_password' => 'required|matches[new_password]', // Added confirm password rule
-    ];
-
-    // Validate the input
-    if (!$this->validate($rules)) {
-        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors())->with('active_panel', 'profil');
-    }
-
-    $akunModel = new AkunModel();
-    $akunId = $session->get('ID_akun');
-    $user = $akunModel->find($akunId); // Use find() for retrieving by primary key
-
-    // Verify if user exists and current password is correct
-    if (!$user || !password_verify($this->request->getPost('current_password'), $user['password'])) {
-        return redirect()->back()->with('error', 'Password lama salah.')->with('active_panel', 'profil');
-    }
-
-    // Hash the new password before sending it to the model
-    $hashedNewPassword = password_hash($this->request->getPost('new_password'), PASSWORD_DEFAULT);
-
-    // Call the changePassword method from the AkunModel
-    if ($akunModel->changePassword($akunId, $hashedNewPassword)) {
-        return redirect()->to(base_url('home'))->with('success', 'Password berhasil diubah.')->with('active_panel', 'profil');
-    } else {
-        return redirect()->back()->with('error', 'Gagal mengubah password.')->with('active_panel', 'profil');
-    }
-}
 
     // Method untuk delete akun
     public function deleteAccount()
