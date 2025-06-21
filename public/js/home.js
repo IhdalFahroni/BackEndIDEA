@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const addPlaceModal = document.getElementById("addPlaceModal");
   const claimCulinaryModal = document.getElementById("claimCulinaryModal");
+  const openAddPlaceModal = document.getElementById("addPlaceModal");
+  const openClaimCulinaryModal = document.getElementById("claimCulinaryModal");
 
   const searchInput = document.getElementById("search_input");
   const searchButton = document.getElementById("searchButton");

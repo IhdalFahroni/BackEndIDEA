@@ -11,7 +11,7 @@ class TempatModel extends Model
     protected $useTimestamps = false;
     protected $allowedFields = [
         'nama_tempat', 'kabupaten_kota', 'kecamatan', 'kelurahan',
-        'nama_jalan', 'kategori', 'deskripsi', 'foto', 'Maps'
+        'nama_jalan', 'kategori', 'deskripsi', 'foto', 'google_maps', 'harga_tiket'
     ];
 
     /**
