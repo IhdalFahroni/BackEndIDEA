@@ -484,27 +484,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- BINTANG RATING ---
-  function generateStars(element) {
-    let rating = parseFloat(element.getAttribute("data-rating"));
-    let fullStars = Math.floor(rating);
-    let halfStar = rating % 1 >= 0.5 ? 1 : 0;
-    let emptyStars = 5 - (fullStars + halfStar);
-
-    let starsHTML = "";
-    for (let i = 0; i < fullStars; i++) {
-      starsHTML += '<i class="fa-solid fa-star"></i>';
-    }
-    if (halfStar) {
-      starsHTML += '<i class="fa-solid fa-star-half-alt"></i>';
-    }
-    for (let i = 0; i < emptyStars; i++) {
-      starsHTML += '<i class="fa-regular fa-star"></i>';
-    }
-    element.innerHTML = starsHTML;
-  }
-  document.querySelectorAll(".rating").forEach(generateStars);
-
   // --- FILTER BUTTONS ---
   if (filterButtons.length > 0) {
     filterButtons.forEach((button) => {
@@ -756,6 +735,35 @@ document.querySelectorAll('.modal-close-btn').forEach(btn => {
             }
         });
     });
+
+  const initialPanelData = { activePanelFlash: null };
+  if (
+    typeof window.initialPanelData !== "undefined" &&
+    window.initialPanelData.activePanelFlash
+  ) {
+    panelToActivateOnLoad = window.initialPanelData.activePanelFlash;
+  } else if (showParam) {
+    switch (showParam) {
+      case "detail":
+        panelToActivateOnLoad = "detailPlaceContentPanel";
+        break;
+      case "notification":
+        panelToActivateOnLoad = "notification";
+        break;
+      case "addPlace":
+        panelToActivateOnLoad = "addPlace";
+        break;
+      case "profil":
+        panelToActivateOnLoad = "profil";
+        break;
+      case "manageVerification":
+        panelToActivateOnLoad = "manageVerification";
+        break;
+      case "listPlace":
+        panelToActivateOnLoad = "listPlace";
+        break;
+    }
+  }
 
   showPanel("awal");
 });

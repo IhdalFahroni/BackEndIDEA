@@ -78,24 +78,24 @@ class Landing extends BaseController
             $perPage = 9;
             $result = $tempatModel->getTempat($options, $perPage);
             $data['destinasi'] = $result['data'];
-            $data['js'] = 'Landing.js'; // Jika Anda punya JS khusus untuk LandingPage
             $data['pager'] = $tempatModel->pager;
             $data['current_search_term'] = $searchTerm;
             $data['active_category'] = $category;
             $data['current_query'] = $this->request->getGet();
-            $data['path'] = site_url(''); // Path untuk link filter/search di landing page
-            $data['categories'] = [ // Categories juga perlu jika ada filter/search
-                'tourist_destination' => [
-                    'label' => 'Tourist destination',
-                    'icon'  => 'fa-solid fa-location-dot'
-                ],
-                'culinary' => [
-                    'label' => 'Culinary',
-                    'icon'  => 'fa-solid fa-utensils'
-                ]
-            ];
         }
-
+        $data['js'] = 'Landing.js'; // Jika Anda punya JS khusus untuk LandingPage
+        $data['path'] = site_url(''); // Path untuk link filter/search di landing page
+        $data['categories'] = [ // Categories juga perlu jika ada filter/search
+            'tourist_destination' => [
+                'label' => 'Tourist destination',
+                'icon'  => 'fa-solid fa-location-dot'
+            ],
+            'culinary' => [
+                'label' => 'Culinary',
+                'icon'  => 'fa-solid fa-utensils'
+            ]
+        ];
+        
         return view('pages/LandingPage', $data);
     }
 }
