@@ -44,6 +44,14 @@ class Home extends BaseController
         $pengajuanTempatModel = new PengajuanTempatModel();
 
         $id_akun = $session->get('ID_akun');
+        $addPlaceForm = $pengajuanTempatModel->getAddPlaceForm();
+        $verificationItems = [];
+        if (!empty($addPlaceForm)) {
+            foreach ($addPlaceForm as $item) {
+                $item['type'] = 'addPlace';
+                $verificationItems[] = $item;
+            }
+        }
 
         $data = [
             'title'       => ucfirst($userRole) . ' Homepage | LombokRec',
@@ -63,7 +71,7 @@ class Home extends BaseController
             'promo'              => null,
             'isOwner'            => false,
             'notifikasi' => $notifModel->getNotifikasiByAkun($id_akun),
-            // 'verificationItems' => $pengajuanTempatModel->getAddPlaceForm(),
+            'verificationItems' => $verificationItems,
             'session'    => $session 
         ];
 
