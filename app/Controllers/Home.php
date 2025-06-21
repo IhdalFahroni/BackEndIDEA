@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\TempatModel;
 use App\Models\PengajuanTempatModel;
+use App\Models\NotifikasiModel;
 use App\Models\AkunModel;
 use App\Models\ReviewModel; // <--- PASTIKAN BARIS INI ADA
 use App\Models\MenuModel;   // <--- PASTIKAN BARIS INI ADA
@@ -178,10 +179,27 @@ class Home extends BaseController
                 return redirect()->back()->withInput()->with('error', 'Gagal menambahkan tempat ke database.')->with('errors', $tempatModel->errors());
             }
 
-        } else {
-            $dataToInsert['ID_akun'] = $session->get('ID_akun');
+        } else { 
+            $dataToInsert['ID_akun'] = $session->get('ID_akun'); // Mengambil ID user yang login
+            $username = $session->get('username'); // Mengambil username user yang login
+
             if ($pengajuanTempatModel->insert($dataToInsert)) {
-                return redirect()->to(base_url('home'))->with('success', 'Tempat berhasil diajukan dan sedang menunggu verifikasi dari admin.');
+                
+                $notifModel = new NotifikasiModel(); 
+
+                // 2. Siapkan data untuk notifikasi
+                $notifToInsert = [
+                    'ID_akun'   => 1,
+                    'header'    => 'Request for new place addition',
+                    'isi_notif' => "$username has submitted a request to add a new place.", 
+                    'tanggal_jam' => date('Y-m-d H:i:s') 
+                ];
+
+                // 3. Masukkan notifikasi ke database
+                $notifModel->insert($notifToInsert);
+                
+                return redirect()->to(base_url('homeuser'))->with('success', 'Tempat berhasil diajukan dan sedang menunggu verifikasi dari admin.');
+
             } else {
                 return redirect()->back()->withInput()->with('error', 'Gagal mengajukan tempat baru.')->with('errors', $pengajuanTempatModel->errors());
             }
