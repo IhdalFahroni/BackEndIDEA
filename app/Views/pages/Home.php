@@ -9,24 +9,19 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('main_content') ?>
-    <?php if (isset($show_detail_tempat) && $show_detail_tempat === true) : ?>
-        <?php // Tampilkan detail tempat jika $show_detail_tempat diatur ?>
-        <?php include APPPATH . 'Views/partials/detail_tempat_user.php'; // Atau _pemilik.php, _admin.php sesuai role ?>
-    <?php else : ?>
-        <?php // Tampilkan konten dashboard utama ?>
-        <div id="header" class="header text-center mb-5 ">
-            <?php include APPPATH . 'Views/partials/main_content_user.php'; ?>
-        </div>
+    <?php // Tampilkan konten dashboard utama ?>
+    <div id="header" class="header text-center mb-5 ">
+        <?php include APPPATH . 'Views/partials/main_content_user.php'; ?>
+    </div>
 
-        <?php // Partial untuk Notifikasi, Add Place Form, Profile (disembunyikan secara default) ?>
-        <?php if (isset($user_role)) : ?>
-            <?php include APPPATH . 'Views/partials/notification_content.php'; ?>
-            <?php include APPPATH . 'Views/partials/add_place_form.php'; ?>
-            <?php include APPPATH . 'Views/partials/profile.php'; ?>
-        <?php endif; ?>
+    <?php // Partial untuk Notifikasi, Add Place Form, Profile (disembunyikan secara default) ?>
+    <?php if (isset($user_role)) : ?>
+        <?php include APPPATH . 'Views/partials/notification_content.php'; ?>
+        <?php include APPPATH . 'Views/partials/add_place_form.php'; ?>
+        <?php include APPPATH . 'Views/partials/profile.php'; ?>
+    <?php endif; ?>
 
-        <?php if (isset($user_role) && $user_role === 'admin') : ?>
-            <?php include APPPATH . 'Views/partials/manage_verification.php'; ?>
-        <?php endif; ?>
+    <?php if (isset($user_role) && $user_role === 'admin') : ?>
+        <?php include APPPATH . 'Views/partials/manage_verification.php'; ?>
     <?php endif; ?>
 <?= $this->endSection() ?>

@@ -4,6 +4,9 @@ namespace App\Controllers;
 
 use App\Models\TempatModel;
 use App\Models\AkunModel;
+use App\Models\ReviewModel; // <--- PASTIKAN BARIS INI ADA
+use App\Models\MenuModel;   // <--- PASTIKAN BARIS INI ADA
+use App\Models\PromoModel;  // <--- PASTIKAN BARIS INI ADA
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -27,53 +30,84 @@ class Home extends BaseController
         $userRole = $session->get('user_role');
         $isLoggedIn = $session->get('isLoggedIn');
 
-        // Jika tidak login, arahkan ke halaman login
         if (!$isLoggedIn || !$userRole) {
             return redirect()->to(base_url('login'))->with('error', 'Anda harus login untuk mengakses halaman ini.');
         }
 
         $tempatModel = new TempatModel();
-        $searchTerm = $this->request->getGet('search');
-        $category = $this->request->getGet('category');
-        $page = $this->request->getGet('page') ?? 1;
-        $perPage = 9;
+        $reviewModel = new ReviewModel();
+        $menuModel = new MenuModel();
+        $promoModel = new PromoModel();
 
-        $destinasi = [];
-        $pager = null;
-        
-        // Ambil data destinasi jika diperlukan oleh dashboard utama
-        $options = [
-            'searchTerm' => $searchTerm,
-            'category'   => $category,
-            'page'       => $page,
-        ];
-        $result = $tempatModel->getTempat($options, $perPage);
-        $destinasi = $result['data'];
-        $pager = $tempatModel->pager;
-        
         $data = [
-            'title'       => ucfirst($userRole) . ' Homepage | LombokRec',
-            'js_file'     => 'home.js', // File JS gabungan Anda
+            'title'       => ucfirst($userRole) . ' Dashboard | LombokRec',
+            'js_file'     => 'dashboard.js',
             'user_role'   => $userRole,
-            'destinasi'   => $destinasi,
-            'pager'       => $pager,
-            'current_search_term' => $searchTerm,
-            'active_category'     => $category,
-            'current_query'       => $this->request->getGet(), // Kirim semua query current
+            'isLoggedIn'  => $isLoggedIn,
+            'path'        => site_url('home'),
             'categories' => [
-                'tourist_destination' => [
-                    'label' => 'Tourist destination',
-                    'icon'  => 'fa-solid fa-location-dot'
-                ],
-                'culinary' => [
-                    'label' => 'Culinary',
-                    'icon'  => 'fa-solid fa-utensils'
-                ]
+                'tourist_destination' => ['label' => 'Tourist destination', 'icon'  => 'fa-solid fa-location-dot'],
+                'culinary' => ['label' => 'Culinary', 'icon'  => 'fa-solid fa-utensils']
             ],
-            'path' => site_url('home') // URL dasar untuk filter button
+            // Variabel untuk menentukan tampilan konten utama
+            'show_detail_tempat' => false,
+            'tempat'             => null,
+            'reviews'            => null,
+            'menu'               => null,
+            'promo'              => null,
+            'isOwner'            => false
         ];
 
-        return view('pages/home', $data);
+        // Cek apakah permintaan untuk menampilkan detail tempat
+        $showDetail = $this->request->getGet('show');
+        $idTempat = $this->request->getGet('id');
+
+        if ($showDetail === 'detail' && !empty($idTempat)) {
+            $tempat = $tempatModel
+                        ->select('tempat.*, AVG(review.rating) as average_rating')
+                        ->join('review', 'review.ID_tempat = tempat.ID_tempat', 'left')
+                        ->where('tempat.ID_tempat', $idTempat)
+                        ->groupBy('tempat.ID_tempat')
+                        ->first();
+
+            if ($tempat) {
+                $data['show_detail_tempat'] = true;
+                $data['tempat'] = $tempat;
+                $data['reviews'] = $reviewModel->getReviewsWithUser($idTempat); // Pastikan method ini ada di ReviewModel
+
+                if ($tempat['kategori'] === 'culinary') {
+                    $data['menu'] = $menuModel->where('ID_tempat', $idTempat)->findAll();
+                    $data['promo'] = $promoModel->where('ID_tempat', $idTempat)->findAll();
+                }
+
+                if ($session->get('isLoggedIn') && $session->get('ID_akun') === $tempat['ID_akun']) {
+                    $data['isOwner'] = true;
+                }
+            } else {
+                // Jika ID tempat tidak ditemukan, redirect kembali ke home
+                return redirect()->to(base_url('home'))->with('error', 'Detail tempat tidak ditemukan.');
+            }
+        } else {
+            // Logika untuk tampilan dashboard utama (main_content_user)
+            $searchTerm = $this->request->getGet('search');
+            $category = $this->request->getGet('category');
+            $page = $this->request->getGet('page') ?? 1;
+            $perPage = 9;
+
+            $options = [
+                'searchTerm' => $searchTerm,
+                'category'   => $category,
+                'page'       => $page,
+            ];
+            $result = $tempatModel->getTempat($options, $perPage);
+            $data['destinasi'] = $result['data'];
+            $data['pager'] = $tempatModel->pager;
+            $data['current_search_term'] = $searchTerm;
+            $data['active_category'] = $category;
+            $data['current_query'] = $this->request->getGet();
+        }
+
+        return view('pages/home', $data); // Render pages/home.php
     }
 
     // --- ENDPOINTS UNTUK FORM SUBMISSION (FULL PAGE RELOAD) ---
@@ -178,37 +212,45 @@ class Home extends BaseController
     }
 
     // Method untuk change password
-    public function changePassword()
-    {
-        $session = session();
-        if (!$session->get('isLoggedIn')) {
-            return redirect()->to(base_url('login'))->with('error', 'Anda harus login untuk mengganti password.');
-        }
-
-        $rules = [
-            'current_password' => 'required',
-            'new_password'     => 'required|min_length[8]|max_length[20]',
-        ];
-        if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors())->with('active_panel', 'profil');
-        }
-
-        $akunModel = new AkunModel();
-        $akunId = $session->get('ID_akun');
-        $user = $akunModel->getAkunById($akunId);
-
-        if (!$user || !password_verify($this->request->getPost('current_password'), $user['password'])) {
-            return redirect()->back()->with('error', 'Password lama salah.')->with('active_panel', 'profil');
-        }
-
-        $hashedNewPassword = password_hash($this->request->getPost('new_password'), PASSWORD_DEFAULT);
-
-        if ($akunModel->changePassword($akunId, $hashedNewPassword)) {
-            return redirect()->to(base_url('home'))->with('success', 'Password berhasil diubah.')->with('active_panel', 'profil');
-        } else {
-            return redirect()->back()->with('error', 'Gagal mengubah password.')->with('active_panel', 'profil');
-        }
+   public function changePassword()
+{
+    $session = session();
+    // Ensure the user is logged in
+    if (!$session->get('isLoggedIn')) {
+        return redirect()->to(base_url('login'))->with('error', 'Anda harus login untuk mengganti password.');
     }
+
+    // Define validation rules for password change
+    $rules = [
+        'current_password' => 'required',
+        'new_password'     => 'required|min_length[8]|max_length[20]',
+        'confirm_password' => 'required|matches[new_password]', // Added confirm password rule
+    ];
+
+    // Validate the input
+    if (!$this->validate($rules)) {
+        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors())->with('active_panel', 'profil');
+    }
+
+    $akunModel = new AkunModel();
+    $akunId = $session->get('ID_akun');
+    $user = $akunModel->find($akunId); // Use find() for retrieving by primary key
+
+    // Verify if user exists and current password is correct
+    if (!$user || !password_verify($this->request->getPost('current_password'), $user['password'])) {
+        return redirect()->back()->with('error', 'Password lama salah.')->with('active_panel', 'profil');
+    }
+
+    // Hash the new password before sending it to the model
+    $hashedNewPassword = password_hash($this->request->getPost('new_password'), PASSWORD_DEFAULT);
+
+    // Call the changePassword method from the AkunModel
+    if ($akunModel->changePassword($akunId, $hashedNewPassword)) {
+        return redirect()->to(base_url('home'))->with('success', 'Password berhasil diubah.')->with('active_panel', 'profil');
+    } else {
+        return redirect()->back()->with('error', 'Gagal mengubah password.')->with('active_panel', 'profil');
+    }
+}
 
     // Method untuk delete akun
     public function deleteAccount()
@@ -270,6 +312,43 @@ class Home extends BaseController
             return redirect()->to(base_url('home'))->with('success', $message)->with('active_panel', 'manageVerification');
         } else {
             return redirect()->back()->with('error', 'Gagal memproses permintaan verifikasi.')->with('active_panel', 'manageVerification');
+        }
+    }
+
+        public function submitReview()
+    {
+        $session = session();
+        if (!$session->get('isLoggedIn')) {
+            return redirect()->to(base_url('login'))->with('error', 'Anda harus login untuk mengirim ulasan.');
+        }
+
+        $rules = [
+            'ID_tempat' => 'required|integer',
+            'rating'    => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[5]',
+            'komentar'  => 'permit_empty|max_length[500]',
+        ];
+
+        if (!$this->validate($rules)) {
+            // Kembali ke halaman detail tempat dengan error validasi
+            // PENTING: Redirect ke URL detail tempat yang benar
+            $idTempat = $this->request->getPost('ID_tempat');
+            return redirect()->to(base_url("home?show=detail&id={$idTempat}"))->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $reviewModel = new ReviewModel();
+        $dataToInsert = [
+            'ID_tempat' => $this->request->getPost('ID_tempat'),
+            'ID_akun'   => $session->get('ID_akun'),
+            'rating'    => $this->request->getPost('rating'),
+            'komentar'  => $this->request->getPost('komentar'),
+        ];
+
+        if ($reviewModel->insert($dataToInsert)) {
+            $idTempat = $dataToInsert['ID_tempat'];
+            return redirect()->to(base_url("home?show=detail&id={$idTempat}"))->with('success', 'Ulasan Anda berhasil dikirim.');
+        } else {
+            $idTempat = $dataToInsert['ID_tempat'];
+            return redirect()->to(base_url("home?show=detail&id={$idTempat}"))->with('error', 'Gagal mengirim ulasan ke database.');
         }
     }
 }
