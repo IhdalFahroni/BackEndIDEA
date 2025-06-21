@@ -421,19 +421,19 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Please fix the errors in the change password form.");
         }
     });
-}
+  }
 
-// --- Event Listener untuk Tombol Pengaturan Akun & Logout ---
-if (openAccountSettingBtn) {
-    openAccountSettingBtn.addEventListener("click", () => {
-        if (containerProfile) containerProfile.classList.add("hidden");
-        if (bawahProfil) bawahProfil.classList.add("hidden");
-        if (accountSetting) accountSetting.classList.remove("hidden");
-        
-        // KITA PANGGIL FUNGSI YANG HANYA MENGATUR TOMBOL, TANPA MENAMPILKAN ERROR
-        updatePasswordButtonState(changePasswordForm);
-    });
-}
+  // --- Event Listener untuk Tombol Pengaturan Akun & Logout ---
+  if (openAccountSettingBtn) {
+      openAccountSettingBtn.addEventListener("click", () => {
+          if (containerProfile) containerProfile.classList.add("hidden");
+          if (bawahProfil) bawahProfil.classList.add("hidden");
+          if (accountSetting) accountSetting.classList.remove("hidden");
+          
+          // KITA PANGGIL FUNGSI YANG HANYA MENGATUR TOMBOL, TANPA MENAMPILKAN ERROR
+          updatePasswordButtonState(changePasswordForm);
+      });
+  }
 
   if (closeAccountSettingBtn) {
     closeAccountSettingBtn.addEventListener("click", () => {
