@@ -36,9 +36,9 @@ foreach ($categories as $key => $details) {
     ];
 }
 ?>
-<!-- <?php if ($path == site_url('home')) : ?>
+<?php if ($path == site_url('home')) : ?>
 <h1 class="text-white text-center text-3xl md:text-5xl font-bold mb-5 pt-10 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">Where do you want to go?</h1>    gaperlu soalnya udh di anuk di Home.php
-<?php endif; ?> -->
+<?php endif; ?>
 <div class="filter-tabs flex justify-center gap-5 mb-5">
     <?php foreach ($filter_buttons as $button) : ?>
         <a href="<?= $button['url'] ?>"

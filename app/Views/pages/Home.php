@@ -15,15 +15,6 @@
     <?php else : ?>
         <?php // Tampilkan konten dashboard utama ?>
         <div id="header" class="header text-center mb-5 ">
-            <?php if (isset($user_role)) : ?>
-                <?php if ($user_role === 'user') : ?>
-                    <h1 class="text-white text-3xl md:text-5xl font-bold mb-5 pt-10 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">Where do you want to go?</h1>
-                <?php elseif ($user_role === 'pemilik') : ?>
-                    <h1 class="text-white text-3xl md:text-5xl font-bold mb-5 pt-10 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">Welcome, Owner!</h1>
-                <?php elseif ($user_role === 'admin') : ?>
-                    <h1 class="text-white text-3xl md:text-5xl font-bold mb-5 pt-10 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">Admin Dashboard</h1>
-                <?php endif; ?>
-            <?php endif; ?>
             <?php include APPPATH . 'Views/partials/main_content_user.php'; ?>
         </div>
 
