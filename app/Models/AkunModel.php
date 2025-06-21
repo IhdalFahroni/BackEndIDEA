@@ -71,10 +71,10 @@ class AkunModel extends Model
      * @param string $hashedPassword Password baru yang sudah di-hash.
      * @return bool True jika berhasil diubah, false jika gagal.
      */
-    public function changePassword(int $id, string $hashedPassword)
-    {
-        return $this->update($id, ['password' => $hashedPassword]);
-    }
+    // public function changePassword(int $id, string $hashedPassword)
+    // {
+    //     return $this->update($id, ['password' => $hashedPassword]);
+    // }
 
     /**
      * Menghapus akun pengguna dari database.

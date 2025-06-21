@@ -4,14 +4,14 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class PengajuanTempatModel extends Model
+class KlaimKulinerModel extends Model
 {
-    protected $table         = 'form_pengajuantempat';
-    protected $primaryKey    = 'ID_formPengajuanTempat';
+    protected $table         = 'form_klaim';
+    protected $primaryKey    = 'ID_formKlaim';
     protected $useTimestamps = false;
     protected $allowedFields = [
-        'ID_akun', 'nama_tempat', 'kabupaten_kota', 'kecamatan', 'kelurahan',
-        'nama_jalan', 'kategori', 'deskripsi', 'harga_tiket', 'foto', 'google_maps', 'is_verified'
+        'ID_akun', 'nama_lengkap', 'no_hp', 'npwp', 'email',
+        'dokumen_pendukung', 'is_verified'
     ];
     public function getPendingVerifications()
     {
@@ -34,11 +34,6 @@ class PengajuanTempatModel extends Model
 
         // Urutkan data berdasarkan pengajuan terbaru
         $this->orderBy('form_pengajuantempat.ID_formPengajuanTempat', 'DESC');
-
-          $sql = $this->getCompiledSelect(); // Dapatkan string SQL tanpa menjalankan query
-    echo "<b>Generated SQL Query:</b><br><pre>" . $sql . "</pre>";
-    die(); // Hentikan eksekusi agar kita bisa melihat query-nya
-
 
         return $this->findAll();
     }
