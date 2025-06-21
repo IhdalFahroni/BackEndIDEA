@@ -29,12 +29,18 @@ foreach ($categories as $key => $details) {
         <a href="<?= base_url('/home') ?>" class="absolute top-0 left-0 text-white hover:text-gray-200">
             <i class="fa-solid fa-arrow-left text-2xl"></i>
         </a>
-        <h1 class="text-3xl md:text-4xl font-bold text-[#FFFFFF] text-center mb-8 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
-            <?= esc($tempat['nama_tempat']) ?>
-        </h1>
+        <?php if ($tempat['kategori'] === 'culinary' && session()->get('isLoggedIn') && !$isOwner) : ?>
+             <h1 class="text-3xl md:text-4xl font-bold text-[#FFFFFF] text-center [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
+                <?= esc($tempat['nama_tempat']) ?>
+            </h1>
+        <?php endif; ?>
+        <?php if ($tempat['kategori'] === 'tourist_destination' && session()->get('isLoggedIn') && !$isOwner) : ?>
+             <h1 class="text-3xl md:text-4xl font-bold text-[#FFFFFF] text-center mb-8 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
+                <?= esc($tempat['nama_tempat']) ?>
+            </h1>
+        <?php endif; ?>
     </div>
 
-    <div class="p-6 md:p-8 -mt-24 relative z-10">
         <?php if ($tempat['kategori'] === 'culinary' && session()->get('isLoggedIn') && !$isOwner) : ?>
              <div class="flex justify-end items-center space-x-3 mb-3">
                 <span class="text-base font-bold text-white text-shadow-sm" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.4);">Own this place?</span>
@@ -90,7 +96,6 @@ foreach ($categories as $key => $details) {
                 </div>
             </div>
         </div>
-    </div>
     <?php include APPPATH . 'Views/partials/review_dan_modalnya.php'; ?>
 </div>
 <?php else : ?>
