@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveEditBtn = document.getElementById('saveEditBtn');
     const cancelEditBtn = document.getElementById('cancelEditBtn');
     const editUsernameInput = document.getElementById('editUsername');
+    const editFullNameInput = document.getElementById('editFullName');
     const usernameError = document.getElementById('usernameError');
 
     //INI BUAT UBAH CONTAINER
@@ -71,6 +72,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeEditMenu = document.getElementById('closeEditMenu');
     const closeEditPromo = document.getElementById('closeEditPromo');
 
+    const addMenuBtn = document.getElementById('addMenuBtn');
+    const addMenu = document.getElementById('addMenu');
+    const addMenuImageInput = document.getElementById('addMenuImageInput');
+    const addImagePlaceholder = document.getElementById('addImagePlaceholder');
+    const addImagePreview = document.getElementById('addImagePreview');
+
+    const addPromoBtn = document.getElementById('addPromoBtn');
+    const addPromo = document.getElementById('addPromo');
+
     const review = document.getElementById('review');
 
     const addReview = document.getElementById('addReview');
@@ -94,7 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const openAfterImage = document.getElementById('openAfterImage');
     const openAfterRating = document.getElementById('openAfterRating');
 
-    let activePanel = 'awal'; 
+    let activePanel = 'awal';
 
     function showPanel(panelName) {
         awalDiv.classList.add('hidden');
@@ -212,9 +222,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Tambahin ini juga
     function validateProfileForm() {
-        if (!editUsernameInput || !saveEditBtn) return; // Pengaman jika elemen tidak ada
+        if (!editUsernameInput || !editFullNameInput || !saveEditBtn) return; // Pengaman jika elemen tidak ada
 
         const username = editUsernameInput.value.trim();
+        const fullName = editFullNameInput.value.trim();
         const isUsernameLengthValid = username.length >= 8 && username.length <= 20;
         
         if (username.length > 0 && !isUsernameLengthValid) {
@@ -222,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             usernameError.classList.add('hidden');
         }
-        const isFormValid = isUsernameLengthValid > 0;
+        const isFormValid = isUsernameLengthValid && fullName.length > 0;
         if (isFormValid) {
             saveEditBtn.disabled = false;
             saveEditBtn.classList.remove('text-[#FF9800]', 'bg-white', 'opacity-50', 'cursor-not-allowed');
@@ -263,8 +274,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // 3. PASANG EVENT LISTENER 'INPUT' UNTUK VALIDASI REAL-TIME
-    if (editUsernameInput) {
+    if (editUsernameInput && editFullNameInput) {
         editUsernameInput.addEventListener('input', validateProfileForm);
+        editFullNameInput.addEventListener('input', validateProfileForm);
     }
 
     if (passwordInput) {
@@ -546,6 +558,49 @@ document.addEventListener('DOMContentLoaded', () => {
             editMenuModal.classList.remove('hidden');
         });
     }
+
+    if (addMenuBtn && addMenu) {
+        addMenuBtn.addEventListener('click', () => {
+            // Tampilkan atau sembunyikan form addMenu
+            addMenu.classList.toggle('hidden');
+
+            // Ambil elemen ikon di dalam tombol
+            const icon = addMenuBtn.querySelector('i');
+            
+            // Ubah ikon dari plus menjadi minus, atau sebaliknya untuk UX yang lebih baik
+            if (icon.classList.contains('fa-circle-plus')) {
+                icon.classList.remove('fa-circle-plus');
+                icon.classList.add('fa-circle-minus');
+                addMenuBtn.setAttribute('title', 'Cancel add menu');
+            } else {
+                icon.classList.remove('fa-circle-minus');
+                icon.classList.add('fa-circle-plus');
+                addMenuBtn.setAttribute('title', 'Add new menu');
+            }
+        });
+    }
+
+    // Logika untuk menampilkan preview gambar saat file dipilih
+    if (addMenuImageInput && addImagePlaceholder && addImagePreview) {
+        addMenuImageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    // Tampilkan elemen <img> untuk preview
+                    addImagePreview.src = e.target.result;
+                    addImagePreview.classList.remove('hidden');
+                    
+                    // Sembunyikan placeholder ikon dan teks
+                    addImagePlaceholder.classList.add('hidden');
+                }
+                
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
     if(closeEditMenu) {
         closeEditMenu.addEventListener('click', function() {
             editMenuModal.classList.add('hidden');
@@ -554,6 +609,26 @@ document.addEventListener('DOMContentLoaded', () => {
     if(editPromo) {
         editPromo.addEventListener('click', function() {
             editPromoModal.classList.remove('hidden');
+        });
+    }
+    if (addPromoBtn && addPromo) {
+        addPromoBtn.addEventListener('click', () => {
+            // Tampilkan atau sembunyikan form addMenu
+            addPromo.classList.toggle('hidden');
+
+            // Ambil elemen ikon di dalam tombol
+            const icon = addPromoBtn.querySelector('i');
+            
+            // Ubah ikon dari plus menjadi minus, atau sebaliknya untuk UX yang lebih baik
+            if (icon.classList.contains('fa-circle-plus')) {
+                icon.classList.remove('fa-circle-plus');
+                icon.classList.add('fa-circle-minus');
+                addPromoBtn.setAttribute('title', 'Cancel add promo');
+            } else {
+                icon.classList.remove('fa-circle-minus');
+                icon.classList.add('fa-circle-plus');
+                addPromoBtn.setAttribute('title', 'Add new promo');
+            }
         });
     }
     if(closeEditPromo) {
