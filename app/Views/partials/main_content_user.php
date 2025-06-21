@@ -1,17 +1,4 @@
 <?php
-if (!isset($categories)) {
-    $categories = [
-        'tourist_destination' => [
-            'label' => 'Tourist destination',
-            'icon'  => 'fa-solid fa-location-dot'
-        ],
-        'culinary' => [
-            'label' => 'Culinary',
-            'icon'  => 'fa-solid fa-utensils'
-        ]
-    ];
-}
-
 if (!isset($current_query)) {
     $current_query = request()->getGet();
 }
@@ -37,10 +24,7 @@ foreach ($categories as $key => $details) {
 }
 ?>
 <?php if (isset($show_detail_tempat) && $show_detail_tempat === true) : ?>
-    <?php
-    // --- TAMPILAN DETAIL TEMPAT ---
-    // Variabel $tempat, $reviews, $menu, $promo, $isOwner, $isLoggedIn sudah dari controller Home
-    ?>
+<div id="detailPlaceContentPanel">
     <div class="relative z-10 text-left">
         <a href="<?= base_url('/home') ?>" class="absolute top-0 left-0 text-white hover:text-gray-200">
             <i class="fa-solid fa-arrow-left text-2xl"></i>
@@ -51,31 +35,7 @@ foreach ($categories as $key => $details) {
     </div>
 
     <div class="p-6 md:p-8 -mt-24 relative z-10">
-        <?php // Logika untuk menampilkan flashdata pesan sukses/error (jika ada) ?>
-        <?php if (session()->getFlashdata('success') || session()->getFlashdata('error') || session()->getFlashdata('errors')) : ?>
-            <div class="mx-auto max-w-xl p-4 mb-4 rounded-lg
-                <?= session()->getFlashdata('error') || session()->getFlashdata('errors') ? 'bg-red-100 text-red-700 border border-red-400' : 'bg-green-100 text-green-700 border border-green-400' ?>" role="alert">
-                <?= session()->getFlashdata('success') ?? session()->getFlashdata('error') ?>
-                <?php if (session()->getFlashdata('errors')) : ?>
-                    <ul>
-                        <?php foreach (session()->getFlashdata('errors') as $field => $error) : ?>
-                            <li><?= $error ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                <?php endif; ?>
-            </div>
-            <script> setTimeout(() => { const alertDiv = document.querySelector('.alert'); if(alertDiv) alertDiv.remove(); }, 5000); </script>
-        <?php endif; ?>
-
-        <?php // Logika tombol "Claim" ?>
-        <?php if ($tempat['kategori'] === 'culinary' && !session()->get('isLoggedIn')) : ?>
-        <div class="flex justify-end items-center space-x-3 mb-3">
-            <span class="text-base font-bold text-white text-shadow-sm" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.4);">Own this place?</span>
-            <div id="openClaim" class="bg-[#FF9800] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
-                Claim
-            </div>
-        </div>
-        <?php elseif ($tempat['kategori'] === 'culinary' && session()->get('isLoggedIn') && !$isOwner) : ?>
+        <?php if ($tempat['kategori'] === 'culinary' && session()->get('isLoggedIn') && !$isOwner) : ?>
              <div class="flex justify-end items-center space-x-3 mb-3">
                 <span class="text-base font-bold text-white text-shadow-sm" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.4);">Own this place?</span>
                 <div id="openClaim" class="bg-[#FF9800] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
@@ -130,8 +90,9 @@ foreach ($categories as $key => $details) {
                 </div>
             </div>
         </div>
-        <?php include APPPATH . 'Views/partials/review_dan_modalnya.php'; ?>
-
+    </div>
+    <?php include APPPATH . 'Views/partials/review_dan_modalnya.php'; ?>
+</div>
 <?php else : ?>
 <?php if ($path == site_url('home')) : ?>
 <h1 class="text-white text-center text-3xl md:text-5xl font-bold mb-5 pt-10 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">Where do you want to go?</h1>

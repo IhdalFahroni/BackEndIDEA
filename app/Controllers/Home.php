@@ -41,7 +41,7 @@ class Home extends BaseController
         $promoModel = new PromoModel();
 
         $data = [
-            'title'       => ucfirst($userRole) . ' Dashboard | LombokRec',
+            'title'       => ucfirst($userRole) . ' Homepage | LombokRec',
             'js_file'     => 'home.js',
             'user_role'   => $userRole,
             'isLoggedIn'  => $isLoggedIn,
