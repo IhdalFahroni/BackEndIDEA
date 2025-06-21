@@ -13,7 +13,7 @@
                     <div class="bg-white rounded-lg p-3 sm:p-4 mb-4 border border-[#F0D3B3]">
                         <h3 class="font-semibold text-lg text-[#5C3211]"><?= esc($item['nama_promo']) ?></h3>
                         <p class="text-sm text-gray-700 mb-2"><?= esc($item['deskripsi_promo']) ?></p>
-                        <p class="text-xs text-gray-500">Periode: <?= esc($item['tanggal_mulai']) ?> - <?= esc($item['tanggal_akhir']) ?></p>
+                        <p class="text-xs text-gray-500">Valid hingga: <?= esc($item['valid_until']) ?></p>
                     </div>
                 <?php endforeach; ?>
             <?php else : ?>

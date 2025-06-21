@@ -13,7 +13,7 @@
                     <div class="bg-white rounded-lg p-3 sm:p-4 mb-4 border border-[#F0D3B3]">
                         <h3 class="font-semibold text-lg text-[#5C3211]"><?= esc($item['nama_menu']) ?></h3>
                         <p class="text-sm text-gray-700"><?= esc($item['deskripsi_menu']) ?></p>
-                        <p class="text-base font-bold text-[#FF9800] mt-2">Rp<?= number_format($item['harga'], 0, ',', '.') ?></p>
+                        <p class="text-base font-bold text-[#FF9800] mt-2">Rp<?= number_format($item['harga_menu'], 0, ',', '.') ?></p>
                     </div>
                 <?php endforeach; ?>
             <?php else : ?>

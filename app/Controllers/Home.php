@@ -41,7 +41,7 @@ class Home extends BaseController
 
         $data = [
             'title'       => ucfirst($userRole) . ' Dashboard | LombokRec',
-            'js_file'     => 'dashboard.js',
+            'js_file'     => 'home.js',
             'user_role'   => $userRole,
             'isLoggedIn'  => $isLoggedIn,
             'path'        => site_url('home'),

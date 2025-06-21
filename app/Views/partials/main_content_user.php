@@ -41,7 +41,7 @@ foreach ($categories as $key => $details) {
     // --- TAMPILAN DETAIL TEMPAT ---
     // Variabel $tempat, $reviews, $menu, $promo, $isOwner, $isLoggedIn sudah dari controller Home
     ?>
-    <div class="relative z-10">
+    <div class="relative z-10 text-left">
         <a href="<?= base_url('/home') ?>" class="absolute top-0 left-0 text-white hover:text-gray-200">
             <i class="fa-solid fa-arrow-left text-2xl"></i>
         </a>
@@ -200,7 +200,11 @@ document.addEventListener('DOMContentLoaded', function() {
     </h3>
     <div id="afterSearch" class="space-y-4 text-left font-josefin">
         <?php if (!empty($destinasi) && is_array($destinasi)) : ?>
-            <?php foreach ($destinasi as $tempat) : ?>
+            <?php foreach ($destinasi as $tempat) : 
+                $detailUrl = (isset($isLoggedIn) && $isLoggedIn) ? 
+                              site_url('home?show=detail&id=' . $tempat['ID_tempat']) : 
+                              site_url('/?show=detail&id=' . $tempat['ID_tempat']); // URL landing page
+                ?>
                 <div class="bg-white rounded-xl p-4 flex items-center shadow-md border border-[#F0D3B3] gap-4">
                     <img src="<?= base_url('Assets/' . esc($tempat['foto'])) ?>" alt="<?= esc($tempat['nama_tempat']) ?>" class="w-32 h-32 object-cover rounded-lg flex-shrink-0">
                     
@@ -228,9 +232,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <?php else : ?>
     <div id="awal" class="space-y-6 text-[#5C3211]">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 flex-grow">
-
             <?php if (!empty($destinasi) && is_array($destinasi)) : ?>
-                <?php foreach ($destinasi as $tempat) : ?>
+                <?php foreach ($destinasi as $tempat) : 
+                    $detailUrl = (isset($isLoggedIn) && $isLoggedIn) ? 
+                                  site_url('home?show=detail&id=' . $tempat['ID_tempat']) : 
+                                  site_url('/?show=detail&id=' . $tempat['ID_tempat']); // URL landing page
+                    ?>
                     <div class="destination-card bg-[#FFFFFF] rounded-xl overflow-hidden shadow-lg transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer flex flex-col">
                         
                         <img src="<?= base_url('Assets/' . esc($tempat['foto'])) ?>" alt="<?= esc($tempat['nama_tempat']) ?>" class="w-full h-52 object-cover">
@@ -257,8 +264,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <?php endif; ?>
 <?php endif; ?>
 
-<div class="mt-8 flex justify-center text-[#FF9800] font-bold">
-    <?php if ($pager) : ?>
-        <?= $pager->links() ?>
-    <?php endif ?>
-</div>
+<?php if (!isset($show_detail_tempat) || $show_detail_tempat === false) : ?>
+    <div class="mt-8 flex justify-center text-[#FF9800] font-bold">
+        <?php if ($pager) : ?>
+            <?= $pager->links() ?>
+        <?php endif ?>
+    </div>
+<?php endif; ?>

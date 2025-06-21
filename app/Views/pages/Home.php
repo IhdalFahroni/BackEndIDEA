@@ -10,7 +10,7 @@
 
 <?= $this->section('main_content') ?>
     <?php // Tampilkan konten dashboard utama ?>
-    <div id="header" class="header text-center mb-5 ">
+    <div id="header" class="header mb-5 ">
         <?php include APPPATH . 'Views/partials/main_content_user.php'; ?>
     </div>
 
