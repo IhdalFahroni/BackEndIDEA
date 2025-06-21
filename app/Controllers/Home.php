@@ -347,25 +347,40 @@ class Home extends BaseController
         }
     }
 
-        public function submitReview()
+       public function submitReview()
     {
         $session = session();
         if (!$session->get('isLoggedIn')) {
             return redirect()->to(base_url('login'))->with('error', 'Anda harus login untuk mengirim ulasan.');
         }
 
+        // Aturan validasi yang sudah diperbaiki
         $rules = [
             'ID_tempat' => 'required|integer',
-            'rating'    => 'required|integer|greater_than_equal_to[1]|less_than_equal_to[5]',
+            // Memperbolehkan angka desimal, bukan hanya integer
+            'rating'    => 'required|numeric|greater_than_equal_to[1]|less_than_equal_to[5]',
             'komentar'  => 'permit_empty|max_length[500]',
+            // Validasi untuk foto (opsional, maks 2MB, hanya gambar)
+            'review_photo' => 'permit_empty|is_image[review_photo]|max_size[review_photo,2048]|ext_in[review_photo,png,jpg,jpeg]',
         ];
 
         if (!$this->validate($rules)) {
-            // Kembali ke halaman detail tempat dengan error validasi
-            // PENTING: Redirect ke URL detail tempat yang benar
             $idTempat = $this->request->getPost('ID_tempat');
             return redirect()->to(base_url("home?show=detail&id={$idTempat}"))->withInput()->with('errors', $this->validator->getErrors());
         }
+
+        // --- LOGIKA UPLOAD GAMBAR ---
+        $reviewPhotoName = null;
+        $reviewPhoto = $this->request->getFile('review_photo');
+
+        // Cek jika ada file valid yang diupload dan belum dipindahkan
+        if ($reviewPhoto && $reviewPhoto->isValid() && !$reviewPhoto->hasMoved()) {
+            // Buat nama acak untuk file agar tidak bentrok
+            $reviewPhotoName = $reviewPhoto->getRandomName();
+            // Pindahkan file ke folder tujuan
+            $reviewPhoto->move(ROOTPATH . 'public/Assets/', $reviewPhotoName);
+        }
+        // --- AKHIR LOGIKA UPLOAD GAMBAR ---
 
         $reviewModel = new ReviewModel();
         $dataToInsert = [
@@ -373,14 +388,18 @@ class Home extends BaseController
             'ID_akun'   => $session->get('ID_akun'),
             'rating'    => $this->request->getPost('rating'),
             'komentar'  => $this->request->getPost('komentar'),
+            // Simpan nama file ke database (null jika tidak ada foto)
+            'foto' => $reviewPhotoName,
         ];
 
+        // PENTING: Pastikan 'foto_review' sudah ada di $allowedFields pada ReviewModel.php
+        
         if ($reviewModel->insert($dataToInsert)) {
             $idTempat = $dataToInsert['ID_tempat'];
             return redirect()->to(base_url("home?show=detail&id={$idTempat}"))->with('success', 'Ulasan Anda berhasil dikirim.');
         } else {
             $idTempat = $dataToInsert['ID_tempat'];
-            return redirect()->to(base_url("home?show=detail&id={$idTempat}"))->with('error', 'Gagal mengirim ulasan ke database.');
+            return redirect()->to(base_url("home?show=detail&id={$idTempat}"))->with('error', 'Gagal menyimpan ulasan ke database.');
         }
     }
 }

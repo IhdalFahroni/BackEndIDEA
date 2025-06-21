@@ -45,7 +45,7 @@ class TempatModel extends Model
 
         // 4. Kelompokkan hasil untuk kalkulasi AVG() dan paginasi yang benar.
         $this->groupBy('tempat.ID_tempat');
-        $this->orderBy('tempat.nama_tempat', 'ASC');
+        $this->orderBy('average_rating', 'DESC');
         // 5. Kembalikan data yang sudah dipaginasi beserta objek pager-nya.
         return [
             'data'  => $this->paginate($perPage),

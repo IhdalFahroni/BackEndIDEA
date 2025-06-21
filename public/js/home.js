@@ -741,5 +741,80 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // --- REVIEW UI BARU ---
+  const addReviewBtn = document.getElementById("addReview");
+  const fillReviewDiv = document.getElementById("fillReview");
+  const reviewTextInput = document.getElementById("reviewTextInput");
+  const closeReviewBtn = document.getElementById("closeReview");
+
+  const openRatingBtn = document.getElementById("openRating");
+  const openImageBtn = document.getElementById("openImage");
+  const ratingInput = document.getElementById("ratingInput");
+  const displayRatingValue = document.getElementById("displayRatingValue");
+  const hiddenRatingInput = document.getElementById("hiddenRatingInput");
+  const cancelRatingBtn = document.getElementById("cancelRating");
+  const openAfterRatingBtn = document.getElementById("openAfterRating");
+  const afterRatingDiv = document.getElementById("afterRating");
+
+  const reviewImageUploadInput = document.getElementById("reviewFileUpload");
+  const displayImageName = document.getElementById("displayImageName");
+  const cancelImageBtn = document.getElementById("cancelImage");
+  const openAfterImageBtn = document.getElementById("openAfterImage");
+  const afterImageDiv = document.getElementById("afterImage");
+
+  const reviewForm = document.getElementById("reviewForm");
+
+  // --- INISIALISASI PANEL SAAT HALAMAN DIMUAT ---
+  const urlParams = new URLSearchParams(window.location.search);
+  const showParam = urlParams.get("show");
+  let panelToActivateOnLoad = "awal";
+
+  const addReview = document.getElementById("addReview");
+  const fillReview = document.getElementById("fillReview");
+  const closeReview = document.getElementById("closeReview");
+
+  if (addReview && fillReview) {
+    addReview.addEventListener("click", () => {
+      fillReview.classList.remove("hidden");
+      addReview.classList.add("hidden");
+    });
+  }
+
+  if (closeReview && fillReview) {
+    closeReview.addEventListener("click", () => {
+      fillReview.classList.add("hidden");
+      addReview.classList.remove("hidden");
+    });
+  }
+
+  const initialPanelData = { activePanelFlash: null };
+  if (
+    typeof window.initialPanelData !== "undefined" &&
+    window.initialPanelData.activePanelFlash
+  ) {
+    panelToActivateOnLoad = window.initialPanelData.activePanelFlash;
+  } else if (showParam) {
+    switch (showParam) {
+      case "detail":
+        panelToActivateOnLoad = "detailPlaceContentPanel";
+        break;
+      case "notification":
+        panelToActivateOnLoad = "notification";
+        break;
+      case "addPlace":
+        panelToActivateOnLoad = "addPlace";
+        break;
+      case "profil":
+        panelToActivateOnLoad = "profil";
+        break;
+      case "manageVerification":
+        panelToActivateOnLoad = "manageVerification";
+        break;
+      case "listPlace":
+        panelToActivateOnLoad = "listPlace";
+        break;
+    }
+  }
+
   showPanel("awal");
 });

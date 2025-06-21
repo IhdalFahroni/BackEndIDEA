@@ -26,16 +26,18 @@ foreach ($categories as $key => $details) {
 <?php if (isset($show_detail_tempat) && $show_detail_tempat === true) : ?>
 <div id="detailPlaceContentPanel">
     <div class="relative z-10 text-left">
-        <a href="<?= base_url('/home') ?>" class="absolute top-0 left-0 text-white hover:text-gray-200">
-            <i class="fa-solid fa-arrow-left text-2xl"></i>
-        </a>
-        <?php if ($tempat['kategori'] === 'culinary' && session()->get('isLoggedIn') && !$isOwner) : ?>
-             <h1 class="text-3xl md:text-4xl font-bold text-[#FFFFFF] text-center [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
+        <?php if ($path == site_url('')) : ?>
+            <a href="<?= base_url('') ?>" class="absolute top-0 left-0 text-[#5C3211] hover:text-gray-200">
+                <i class="fa-solid fa-arrow-left text-2xl"></i>
+            </a>
+            <h1 class="text-3xl md:text-4xl font-bold text-[#5C3211] text-center mb-8 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
                 <?= esc($tempat['nama_tempat']) ?>
             </h1>
-        <?php endif; ?>
-        <?php if ($tempat['kategori'] === 'tourist_destination' && session()->get('isLoggedIn') && !$isOwner) : ?>
-             <h1 class="text-3xl md:text-4xl font-bold text-[#FFFFFF] text-center mb-8 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
+        <?php else : ?>
+            <a href="<?= base_url('/home') ?>" class="absolute top-0 left-0 text-white hover:text-gray-200">
+                <i class="fa-solid fa-arrow-left text-2xl"></i>
+            </a>
+            <h1 class="text-3xl md:text-4xl font-bold text-[#FFFFFF] text-center mb-8 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
                 <?= esc($tempat['nama_tempat']) ?>
             </h1>
         <?php endif; ?>
@@ -78,9 +80,9 @@ foreach ($categories as $key => $details) {
                     <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-3 mt-4">
                         <p class="text-[#5C3211] text-base font-light">Kategori</p>
                         <?php if ($tempat['kategori'] === 'culinary') : ?>
-                            <p class="text-[#5C3211] font-medium text-base">Tempat kuliner</p>
+                            <p class="text-[#5C3211] font-medium text-base">Tempat Kuliner</p>
                         <?php else : ?>
-                            <p class="text-[#5C3211] font-medium text-base">Tempat wisata</p>
+                            <p class="text-[#5C3211] font-medium text-base">Tempat Wisata</p>
                         <?php endif; ?>
 
                         <?php if ($tempat['kategori'] !== 'culinary' && !empty($tempat['harga_tiket'])) : ?>
@@ -161,9 +163,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <?php if (!empty($current_search_term) || !empty($active_category)) : ?>
+    <?php if (!empty($current_search_term)) : ?>
     <h3 class="text-2xl font-bold text-[#5C3211] mb-4 text-center">
         Search Results for: "<?= esc($current_search_term) ?>"
     </h3>
+    <?php endif; ?>
     <div id="afterSearch" class="space-y-4 text-left font-josefin">
         <?php if (!empty($destinasi) && is_array($destinasi)) : ?>
             <?php foreach ($destinasi as $tempat) : 
@@ -184,7 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <?= esc($tempat['deskripsi']) ?>
                             </p>
                         </div>
-                        <a href="<?= site_url('home?show=detail&id=' . $tempat['ID_tempat']) ?>"  class="text-[#5C3211] text-sm font-medium hover:underline flex items-center gap-1 mt-auto">
+                        <a href="<?= $detailUrl ?>"  class="text-[#5C3211] text-sm font-medium hover:underline flex items-center gap-1 mt-auto">
                             <span class="relative top-0.5">See details</span>
                         </a>
                     </div>
@@ -216,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <div class="text-yellow-500 text-sm rating" data-rating="<?= esc($rating) ?>">
                                     <span class="font-bold">★ <?= esc($rating) ?></span>
                                 </div> 
-                                <a href="<?= site_url('home?show=detail&id=' . $tempat['ID_tempat']) ?>" class="text-xs font-medium hover:underline">See details</a>
+                                <a href="<?= $detailUrl ?>" class="text-xs font-medium hover:underline">See details</a>
                             </div>
                         </div>
                     </div>
