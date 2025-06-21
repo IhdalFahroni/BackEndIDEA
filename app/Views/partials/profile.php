@@ -62,8 +62,8 @@
                 <?php endif; ?>
             </div>
         </div>
-        <div id="editProfilePage" class="flex items-center w-full relative <?= $user_role === 'admin' ? 'hidden' : '' ?>">
-            <form id="editProfileForm" action="<?= site_url('home/updateProfile') ?>" method="post">
+        <div id="editProfilePage" class="flex items-start w-full relative <?= $user_role === 'admin' ? 'hidden' : '' ?>">
+            <form id="editProfileForm" class="flex items-start w-full" action="<?= site_url('home/updateProfile') ?>" method="post">
                 <div class="absolute top-4 right-4 flex items-center gap-3">
                     <button type="button" id="cancelEditBtn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-7 py-1 rounded-full shadow font-semibold transition">
                         Cancel
@@ -78,7 +78,7 @@
                 <?php else: ?>
                 <img src="<?= base_url('Assets/profil/default.png') ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
                 <?php endif; ?>                       
-                <div class="ml-6 flex flex-col">
+                <div class="ml-6 mt-12 flex flex-col flex-grow">
                     <div class="relative">
                         <input type="text" id="editUsername" name="username" class="text-5xl py-2 font-normal text-[#5C3211] border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF9800] px-3 pt-3" placeholder="Username" value="<?= esc(old('username', session()->get('username'))) ?>" />                           
                         <p id="usernameError" class="absolute top-full mt-1 text-sm text-[#FF0000] hidden">
