@@ -1,10 +1,16 @@
-<?php // app/Views/tempat_detail.php ?>
+<?php // app/Views/partials/detail_tempat.php (atau tempat_detail.php jika itu nama file Anda) ?>
 
 <?= $this->extend('layouts/home_template') ; ?>
 
-<?php // Section untuk Main Content (sekarang berada di dalam layout) ?>
+<?php // SECTION UNTUK SIDEBAR ?>
+<?= $this->section('sidebar') ?>
+    <?php // Pastikan $user_role tersedia dari controller Tempat::detail() ?>
+    <?php include APPPATH . 'Views/partials/sidebar.php'; ?>
+<?= $this->endSection() ?>
+
+<?php // Section untuk Main Content ?>
 <?= $this->section('main_content') ?>
-+<?= $this->section('sidebar') ?>
+
 <div class="relative z-10">
     <a href="<?= base_url('/home') ?>" class="absolute top-0 left-0 text-white hover:text-gray-200">
         <i class="fa-solid fa-arrow-left text-2xl"></i>
@@ -14,7 +20,8 @@
     </h1>
 </div>
 
-<div class="p-6 md:p-8 -mt-24 relative z-10"> <?php // Logika untuk menampilkan flashdata pesan sukses/error (seperti di partials/profile.php) ?>
+<div class="p-6 md:p-8 -mt-24 relative z-10">
+    <?php // Logika untuk menampilkan flashdata pesan sukses/error ?>
     <?php if (session()->getFlashdata('success') || session()->getFlashdata('error') || session()->getFlashdata('errors')) : ?>
         <div class="mx-auto max-w-xl p-4 mb-4 rounded-lg
             <?= session()->getFlashdata('error') || session()->getFlashdata('errors') ? 'bg-red-100 text-red-700 border border-red-400' : 'bg-green-100 text-green-700 border border-green-400' ?>" role="alert">
@@ -30,6 +37,7 @@
         <script> setTimeout(() => { const alertDiv = document.querySelector('.alert'); if(alertDiv) alertDiv.remove(); }, 5000); </script>
     <?php endif; ?>
 
+    <?php // Logika tombol "Claim" ?>
     <?php if ($tempat['kategori'] === 'culinary' && !session()->get('isLoggedIn')) : ?>
     <div class="flex justify-end items-center space-x-3 mb-3">
         <span class="text-base font-bold text-white text-shadow-sm" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.4);">Own this place?</span>
@@ -93,7 +101,5 @@
         </div>
     </div>
     <?php include APPPATH . 'Views/partials/review_dan_modalnya.php'; ?>
-
-<?php // Semua modal (claimCulinaryModal, menuModal, promoModal) sekarang di-include di home_template.php ?>
 
 <?= $this->endSection() ?>

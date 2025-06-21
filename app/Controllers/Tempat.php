@@ -14,7 +14,7 @@ class Tempat extends BaseController
 
     public function detail($id_tempat)
     {
-        $session = session(); // Ambil sesi untuk cek login/pemilik
+        $session = session();
         $tempatModel = new TempatModel();
         $reviewModel = new ReviewModel();
 
@@ -29,7 +29,6 @@ class Tempat extends BaseController
             throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
         }
 
-        // Ambil review (gunakan method yang sudah ada di ReviewModel)
         $reviews = $reviewModel->getReviewsWithUser($id_tempat);
 
         $menu = null;
@@ -47,16 +46,18 @@ class Tempat extends BaseController
         }
 
         $data = [
-            'title'     => esc($tempat['nama_tempat']) . ' | LombokRec', // Title untuk home_template
-            'js_file'   => 'tempat_detail.js', // JavaScript khusus halaman ini
-            'tempat'    => $tempat, // Data tempat
-            'reviews'   => $reviews, // Data review
-            'menu'      => $menu, // Data menu
-            'promo'     => $promo, // Data promo
-            'isOwner'   => $isOwner, // Flag apakah user adalah pemilik tempat
-            'user_role' => $session->get('user_role') // Kirim user_role untuk kondisi sidebar/lainnya di template
+            'title'     => esc($tempat['nama_tempat']) . ' | LombokRec',
+            'js_file'   => 'dashboard.js', // Gunakan dashboard.js
+            'tempat'    => $tempat,
+            'reviews'   => $reviews,
+            'menu'      => $menu,
+            'promo'     => $promo,
+            'isOwner'   => $isOwner,
+            'user_role' => $session->get('user_role'),
+            'isLoggedIn' => $session->get('isLoggedIn'),
+            'show_detail_tempat' => true // Tambahkan variabel ini
         ];
 
-        return view('partials/detail_tempat', $data); // Merender tempat_detail.php
+        return view('pages/dashboard', $data); // Render dashboard, bukan tempat_detail
     }
 }

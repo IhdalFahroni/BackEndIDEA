@@ -695,6 +695,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
+  
 
   showPanel("awal");
 });
