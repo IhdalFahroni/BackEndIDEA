@@ -497,27 +497,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- BINTANG RATING ---
-  function generateStars(element) {
-    let rating = parseFloat(element.getAttribute("data-rating"));
-    let fullStars = Math.floor(rating);
-    let halfStar = rating % 1 >= 0.5 ? 1 : 0;
-    let emptyStars = 5 - (fullStars + halfStar);
-
-    let starsHTML = "";
-    for (let i = 0; i < fullStars; i++) {
-      starsHTML += '<i class="fa-solid fa-star"></i>';
-    }
-    if (halfStar) {
-      starsHTML += '<i class="fa-solid fa-star-half-alt"></i>';
-    }
-    for (let i = 0; i < emptyStars; i++) {
-      starsHTML += '<i class="fa-regular fa-star"></i>';
-    }
-    element.innerHTML = starsHTML;
-  }
-  document.querySelectorAll(".rating").forEach(generateStars);
-
   // --- FILTER BUTTONS ---
   if (filterButtons.length > 0) {
     filterButtons.forEach((button) => {
@@ -740,52 +719,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
-
-  // --- REVIEW UI BARU ---
-  const addReviewBtn = document.getElementById("addReview");
-  const fillReviewDiv = document.getElementById("fillReview");
-  const reviewTextInput = document.getElementById("reviewTextInput");
-  const closeReviewBtn = document.getElementById("closeReview");
-
-  const openRatingBtn = document.getElementById("openRating");
-  const openImageBtn = document.getElementById("openImage");
-  const ratingInput = document.getElementById("ratingInput");
-  const displayRatingValue = document.getElementById("displayRatingValue");
-  const hiddenRatingInput = document.getElementById("hiddenRatingInput");
-  const cancelRatingBtn = document.getElementById("cancelRating");
-  const openAfterRatingBtn = document.getElementById("openAfterRating");
-  const afterRatingDiv = document.getElementById("afterRating");
-
-  const reviewImageUploadInput = document.getElementById("reviewFileUpload");
-  const displayImageName = document.getElementById("displayImageName");
-  const cancelImageBtn = document.getElementById("cancelImage");
-  const openAfterImageBtn = document.getElementById("openAfterImage");
-  const afterImageDiv = document.getElementById("afterImage");
-
-  const reviewForm = document.getElementById("reviewForm");
-
-  // --- INISIALISASI PANEL SAAT HALAMAN DIMUAT ---
-  const urlParams = new URLSearchParams(window.location.search);
-  const showParam = urlParams.get("show");
-  let panelToActivateOnLoad = "awal";
-
-  const addReview = document.getElementById("addReview");
-  const fillReview = document.getElementById("fillReview");
-  const closeReview = document.getElementById("closeReview");
-
-  if (addReview && fillReview) {
-    addReview.addEventListener("click", () => {
-      fillReview.classList.remove("hidden");
-      addReview.classList.add("hidden");
-    });
-  }
-
-  if (closeReview && fillReview) {
-    closeReview.addEventListener("click", () => {
-      fillReview.classList.add("hidden");
-      addReview.classList.remove("hidden");
-    });
-  }
 
   const initialPanelData = { activePanelFlash: null };
   if (

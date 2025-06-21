@@ -158,6 +158,56 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+    function generateStars(element) {
+        // Pastikan elemennya ada
+        if (!element) return;
+        
+        // Ambil nilai rating dari atribut data-rating
+        let rating = parseFloat(element.getAttribute("data-rating"));
+        if (isNaN(rating)) return;
+
+        let fullStars = Math.floor(rating);
+        let halfStar = rating % 1 >= 0.5 ? 1 : 0;
+        let emptyStars = 5 - (fullStars + halfStar);
+
+        let starsHTML = "";
+        for (let i = 0; i < fullStars; i++) {
+            starsHTML += '<i class="fa-solid fa-star"></i>';
+        }
+        if (halfStar) {
+            starsHTML += '<i class="fa-solid fa-star-half-alt"></i>';
+        }
+        for (let i = 0; i < emptyStars; i++) {
+            starsHTML += '<i class="fa-regular fa-star"></i>';
+        }
+        element.innerHTML += starsHTML; // Menggunakan += agar tidak menimpa tulisan rating (misal: ★ 4.5)
+    }
+    
+    // Panggil fungsi untuk setiap elemen rating yang ditemukan
+    document.querySelectorAll(".rating").forEach(generateStars);
+
+
+    /**
+     * LOGIKA UNTUK MENAMPILKAN DAN MENYEMBUNYIKAN FORM REVIEW
+     * Kode ini hanya relevan di halaman detail tempat.
+     */
+    const addReview = document.getElementById("addReview");
+    const fillReview = document.getElementById("fillReview");
+    const closeReview = document.getElementById("closeReview");
+
+    if (addReview && fillReview) {
+        addReview.addEventListener("click", () => {
+            fillReview.classList.remove("hidden");
+            addReview.classList.add("hidden");
+        });
+    }
+
+    if (closeReview && fillReview && addReview) {
+        closeReview.addEventListener("click", () => {
+            fillReview.classList.add("hidden");
+            addReview.classList.remove("hidden");
+        });
+    }
 });
 </script>
 
@@ -182,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div>
                             <h2 class="text-lg font-bold text-[#5C3211] text-left"><?= esc($tempat['nama_tempat']) ?></h2>
                             <div class="text-yellow-500 my-1 text-sm rating" data-rating="<?= number_format($tempat['average_rating'] ?? 0, 1) ?>">
-                                <span class="font-bold">★ <?= number_format($tempat['average_rating'] ?? 0, 1) ?></span>
+                                <!-- <span class="font-bold">★ <?= number_format($tempat['average_rating'] ?? 0, 1) ?></span> -->
                             </div>
                             <p class="text-sm text-[#5C3211] line-clamp-2 text-left">
                                 <?= esc($tempat['deskripsi']) ?>
@@ -218,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     $rating = number_format($tempat['average_rating'] ?? 0, 1);
                                 ?>
                                 <div class="text-yellow-500 text-sm rating" data-rating="<?= esc($rating) ?>">
-                                    <span class="font-bold">★ <?= esc($rating) ?></span>
+                                    <!-- <span class="font-bold">★ <?= esc($rating) ?></span> -->
                                 </div> 
                                 <a href="<?= $detailUrl ?>" class="text-xs font-medium hover:underline">See details</a>
                             </div>
