@@ -40,6 +40,10 @@ class Home extends BaseController
         $reviewModel = new ReviewModel();
         $menuModel = new MenuModel();
         $promoModel = new PromoModel();
+        $notifModel = new NotifikasiModel();
+        $pengajuanTempatModel = new PengajuanTempatModel();
+
+        $id_akun = $session->get('ID_akun');
 
         $data = [
             'title'       => ucfirst($userRole) . ' Dashboard | LombokRec',
@@ -57,7 +61,10 @@ class Home extends BaseController
             'reviews'            => null,
             'menu'               => null,
             'promo'              => null,
-            'isOwner'            => false
+            'isOwner'            => false,
+            'notifikasi' => $notifModel->getNotifikasiByAkun($id_akun),
+            'verificationItems' => $pengajuanTempatModel->getAddPlaceForm(),
+            'session'    => $session 
         ];
 
         // Cek apakah permintaan untuk menampilkan detail tempat

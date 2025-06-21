@@ -8,16 +8,19 @@ class NotifikasiModel extends Model
 {
     protected $table = 'notifikasi';
     protected $primaryKey = 'ID_notif';
-
-    // Fitur timestamps tetap diaktifkan
     protected $useTimestamps = true; 
-
-    // Arahkan 'created_at' bawaan ke kolom 'tanggal_jam' Anda
     protected $createdField  = 'tanggal_jam';
-
-    // Nonaktifkan 'updated_at' karena Anda tidak memiliki kolomnya
     protected $updatedField  = '';
-
-    // Hapus 'tanggal_jam' dari sini karena akan diisi otomatis oleh useTimestamps
     protected $allowedFields = ['ID_akun', 'header', 'isi_notif'];
+
+    /**
+     * @param int $id_akun ID dari akun yang sedang login.
+     * @return array
+     */
+    public function getNotifikasiByAkun(int $id_akun): array
+    {
+        return $this->where('ID_akun', $id_akun)
+                    ->orderBy('tanggal_jam', 'DESC') // Urutkan dari yang terbaru
+                    ->findAll();
+    }
 }
