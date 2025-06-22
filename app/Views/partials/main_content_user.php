@@ -42,6 +42,13 @@ foreach ($categories as $key => $details) {
             </h1>
         <?php endif; ?>
     </div>
+    <?php if ((isset($isOwner) && $isOwner) || session()->get('user_role') === 'admin') : ?>
+        <div class="text-right mt-4 pb-4">
+            <button type="button" id="openEditTempatModal" class="inline-block bg-[#FF9800] text-white px-6 py-2 rounded-full text-base font-semibold shadow-md hover:bg-yellow-500 transition">
+                Edit
+            </button>
+        </div>
+    <?php endif; ?>
 
         <?php if ($tempat['kategori'] === 'culinary' && session()->get('isLoggedIn') && !$isOwner) : ?>
              <div class="flex justify-end items-center space-x-3 mb-3">
@@ -53,6 +60,7 @@ foreach ($categories as $key => $details) {
         <?php endif; ?>
 
         <div class="bg-white p-6 rounded-2xl shadow-lg mb-8 border border-[#F0B845]">
+            
             <div class="flex flex-col md:flex-row gap-6">
                 <div class="md:w-1/3 flex-shrink-0">
                     <img src="<?= base_url('Assets/' . esc($tempat['foto'])) ?>" alt="<?= esc($tempat['nama_tempat']) ?>" class="rounded-xl w-full h-auto object-cover shadow-md mb-3">
@@ -211,9 +219,27 @@ foreach ($categories as $key => $details) {
         <?php endif ?>
     </div>
 <?php endif; ?>
+<?php include APPPATH . 'Views/partials/modal_edit_tempat.php'; ?>
 <script>
+
 document.addEventListener('DOMContentLoaded', function() {
-    
+    const openEditTempatModalBtn = document.getElementById('openEditTempatModal');
+    const editTempatModal = document.getElementById('editTempatModal');
+    const closeEditTempatModalBtn = document.getElementById('closeEditTempatModal');
+    const cancelEditTempatBtn = document.getElementById('cancelEditTempatBtn');
+
+    if(openEditTempatModalBtn) {
+        openEditTempatModalBtn.addEventListener('click', () => openModal(editTempatModal));
+    }
+    if(closeEditTempatModalBtn) {
+        closeEditTempatModalBtn.addEventListener('click', () => closeModal(editTempatModal));
+    }
+    if(cancelEditTempatBtn) {
+        cancelEditTempatBtn.addEventListener('click', () => closeModal(editTempatModal));
+    }
+    if(editTempatModal) {
+        editTempatModal.addEventListener('click', (e) => { if(e.target === editTempatModal) closeModal(editTempatModal); });
+    }
     // --- LOGIKA PENCARIAN ---
     const searchInput = document.getElementById('search_input');
     const searchButton = document.getElementById('searchButton');

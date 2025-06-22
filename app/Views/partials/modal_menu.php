@@ -3,7 +3,7 @@
 <div id="menuModal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4 hidden">
     <div class="bg-white p-4 rounded-2xl shadow-2xl border border-[#5C3211]/30 w-6/12 text-[#5C3211]">
         <div class="border border-[#5C3211] rounded-xl p-8 relative">
-            <button id="closeMenuModal" class="absolute top-3 right-3 w-8 h-8 rounded-full border border-[#5C3211] flex items-center justify-center text-[#8E5E38] hover:bg-gray-100 transition focus:outline-none">
+            <button id="closeMenuModal" class="absolute top-3 right-3 w-5 h-5 rounded-full flex items-center justify-center text-[#8E5E38] hover:bg-gray-100 transition focus:outline-none">
                 <i class="fas fa-xmark text-lg"></i>
             </button>
             

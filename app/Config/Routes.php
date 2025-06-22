@@ -19,6 +19,8 @@ $routes->get('/logout', 'Login::logout'); // Route untuk logout
 // Routing untuk Sign Up
 $routes->get('/signup', 'SignUp::signup');
 $routes->post('/signup/process', 'SignUp::process');
+$routes->get('/forgotpass', 'ForgotPassword::forgotPassword'); // Route untuk proses lupa password
+$routes->post('password/process-reset', 'AuthController::processResetPassword');
 
 // Route untuk halaman Forgot Password & Change Password jika ada
 // $routes->get('/forgotpass', 'ForgotPassword::forgotpass');
@@ -46,6 +48,9 @@ $routes->post('menu/add', 'Akun::addMenuItem');
 $routes->post('promo/add', 'Akun::addPromoItem');
 $routes->post('menu/delete', 'Akun::deleteMenuItem');
 $routes->post('promo/delete', 'Akun::deletePromoItem');
+$routes->post('tempat/update/deskripsi', 'Akun::updateDeskripsi');
+
+$routes->post('tempat/update', 'Akun::updateTempat');
 
 $routes->post('verify', 'Admin::verifyRequest');
 $routes->post('review/delete', 'Admin::deleteReview');

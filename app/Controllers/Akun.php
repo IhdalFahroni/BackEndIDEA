@@ -524,4 +524,56 @@ public function deleteMenuItem()
             return redirect()->back()->withInput()->with('error', 'Gagal mengajukan form klaim.')->with('errors', $klaimKulinerModel->errors());
         }
     }
+    public function updateTempat()
+{
+    $session = session();
+    $id_tempat = $this->request->getPost('id_tempat'); // Ambil ID dari hidden input
+    $tempatModel = new TempatModel();
+
+    // Keamanan: Pastikan user login
+    if (!$session->get('isLoggedIn')) {
+        return redirect()->to(base_url('login'));
+    }
+
+    // Keamanan: Validasi dasar
+    $rules = [
+        'id_tempat'   => 'required|integer',
+        'nama_tempat' => 'required|max_length[255]',
+        'deskripsi'   => 'required',
+        // Tambahkan aturan validasi lain sesuai field di form edit Anda
+        // 'kecamatan' => 'required',
+    ];
+
+    if (!$this->validate($rules)) {
+        // Jika validasi gagal, kembali ke halaman edit dengan error dan input lama
+        return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+    }
+
+    // Keamanan: Cek kepemilikan sebelum update
+    $tempat = $tempatModel->find($id_tempat);
+    if (!$tempat) {
+        return redirect()->to(base_url('home'))->with('error', 'Tempat tidak ditemukan.');
+    }
+
+    if ($session->get('user_role') !== 'admin' && $session->get('ID_akun') != $tempat['ID_akun']) {
+        return redirect()->to(base_url('home'))->with('error', 'Anda tidak memiliki izin untuk mengedit tempat ini.');
+    }
+
+    // Siapkan data yang akan di-update
+    $dataToUpdate = [
+        'nama_tempat' => $this->request->getPost('nama_tempat'),
+        'deskripsi'   => $this->request->getPost('deskripsi'),
+        // 'kecamatan'   => $this->request->getPost('kecamatan'),
+        // Tambahkan field lain dari form Anda di sini
+    ];
+
+    // Lakukan proses update
+    if ($tempatModel->update($id_tempat, $dataToUpdate)) {
+        // Jika berhasil, kembali ke halaman detail dengan pesan sukses
+        return redirect()->to(site_url('home?show=detail&id=' . $id_tempat))->with('success', 'Informasi tempat berhasil diperbarui.');
+    } else {
+        // Jika gagal, kembali ke halaman edit dengan pesan error
+        return redirect()->back()->withInput()->with('error', 'Gagal memperbarui informasi tempat.');
+    }
+}
 }

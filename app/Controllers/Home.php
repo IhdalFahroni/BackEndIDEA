@@ -87,6 +87,17 @@ class Home extends BaseController
             'idTempat' => $idTempat
         ];
 
+        // =========================================================
+        //          BAGIAN BARU: AMBIL DATA TEMPAT MILIK OWNER
+        // =========================================================
+        $data['owned_places'] = []; // Inisialisasi sebagai array kosong
+        if ($userRole === 'pemilik') {
+            $id_akun_pemilik = $session->get('ID_akun');
+            $data['owned_places'] = $tempatModel->where('ID_akun', $id_akun_pemilik)->findAll();
+        }
+        // =========================================================
+
+
         // Cek apakah permintaan untuk menampilkan detail tempat
         
 

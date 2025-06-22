@@ -3,29 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password | LombokRec</title>
+    <title>Reset Password | LombokRec</title>
     <link href="<?= base_url('css/output.css') ?>" rel="stylesheet">
-    <script src="<?= base_url('js/forgotPassword.js') ?>"></script>
+    <script src="<?= base_url('js/forgotPassword.js') ?>" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 <body class="min-h-screen flex justify-center items-center font-jaldi bg-Landing bg-cover h-screen">
 
     <div class="absolute inset-0 w-full h-full backdrop-blur-sm flex justify-center items-center">
         <div class="bg-[#FFFFFF] p-8 rounded-[15px] shadow-lg text-center w-[400px] relative z-10">
 
-            <h2 class="text-[22px] font-bold mb-5 text-[#5C3211] tracking-wider">Forgot Password</h2>
-            <input 
-                type="text" 
-                id="email" 
-                class="bg-[#FFFFFF] text-[#5C3211] w-full p-2.5 my-2.5 border border-[#D7D5BA] rounded-md bg-lombok-bg text-sm placeholder:text-[#5C3211] pr-10 focus:outline-[#D7D5BA]" 
-                placeholder="Email">
-            <p id="emailError" class="text-red-600 text-xs text-left hidden">Email must contain "@"</p>
+            <h2 class="text-[22px] font-bold mb-5 text-[#5C3211] tracking-wider">Reset Password</h2>
 
+            <form action="<?= site_url('password/process-reset') ?>" method="POST">
+                <?= csrf_field() ?>
 
-            <button 
-                id="forgotBtn" 
-                class="bg-[#5C3211] block w-full py-3 mt-4 mb-2.5 text-white font-bold rounded-full cursor-not-allowed opacity-50 text-base hover:bg-[#a89e8c] no-underline">
-                Send Link to Email
-            </button>
+                <input 
+                    type="text" 
+                    name="email"
+                    id="email" 
+                    class="bg-[#FFFFFF] text-[#5C3211] w-full p-2.5 my-2.5 border border-[#D7D5BA] rounded-md text-sm placeholder:text-[#5C3211] focus:outline-[#D7D5BA]" 
+                    placeholder="Masukkan Email Anda">
+                <p id="emailError" class="text-red-600 text-xs text-left hidden">Format email tidak valid.</p>
+
+                <div class="relative w-full">
+                    <input 
+                        type="password"
+                        name="new_password" 
+                        id="newPassword" 
+                        class="bg-[#FFFFFF] text-[#5C3211] w-full p-2.5 my-2.5 border border-[#D7D5BA] rounded-md text-sm placeholder:text-[#5C3211] pr-10 focus:outline-[#D7D5BA]" 
+                        placeholder="Password Baru">
+                    <i class="fas fa-eye absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#5C3211]/60 toggle-password"></i>
+                </div>
+                <p id="passwordError" class="text-red-600 text-xs text-left hidden">Password minimal harus 8 karakter.</p>
+
+                <div class="relative w-full">
+                    <input 
+                        type="password" 
+                        name="confirm_password"
+                        id="confirmPassword" 
+                        class="bg-[#FFFFFF] text-[#5C3211] w-full p-2.5 my-2.5 border border-[#D7D5BA] rounded-md text-sm placeholder:text-[#5C3211] pr-10 focus:outline-[#D7D5BA]" 
+                        placeholder="Konfirmasi Password Baru">
+                    <i class="fas fa-eye absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#5C3211]/60 toggle-password"></i>
+                </div>
+                <p id="confirmError" class="text-red-600 text-xs text-left hidden">Password tidak cocok.</p>
+
+                <button 
+                    type="submit"
+                    id="resetBtn" 
+                    class="bg-[#5C3211] block w-full py-3 mt-4 mb-2.5 text-white font-bold rounded-full cursor-not-allowed opacity-50 text-base transition duration-300">
+                    Reset Password
+                </button>
+            </form>
 
         </div>
     </div>
