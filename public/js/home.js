@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const manageVerification = document.getElementById("manageVerification");
   const listManage = document.getElementById("listPlace");
 
-  const addPlaceModal = document.getElementById("addPlaceModal");
-  const claimCulinaryModal = document.getElementById("claimCulinaryModal");
+  const openClaimBtn = document.getElementById("openClaim");
+  const claimForm = document.getElementById("claimForm");
 
   const searchInput = document.getElementById("search_input");
   const searchButton = document.getElementById("searchButton");
@@ -78,40 +78,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- FUNGSI showPanel (untuk mengubah tampilan main content) ---
   function showPanel(panelName) {
-    if (headerDiv) headerDiv.classList.add("hidden");
-    if (awalDiv) awalDiv.classList.add("hidden");
-    if (notification) notification.classList.add("hidden");
-    if (addPlaceForm) addPlaceForm.classList.add("hidden");
-    if (manageVerification) manageVerification.classList.add("hidden");
-    if (profile) profile.classList.add("hidden");
-    if (listManage) listManage.classList.add("hidden");
+     console.log("Menyembunyikan semua panel...");
+    // Sembunyikan semua panel
+    // Pastikan ID-nya sesuai dengan HTML kamu!
+    const allPanels = [headerDiv, awalDiv, notification, addPlaceForm, claimForm, manageVerification, profile, listManage];
+    allPanels.forEach(panel => {
+        if (panel) { // Hanya sembunyikan jika elemen itu ada (tidak null)
+            panel.classList.add("hidden");
+            console.log(`Menyembunyikan: ${panel.id}`);
+        }
+    });
 
+    console.log(`Mencoba menampilkan panel: ${panelName}`);
     switch (panelName) {
-      case "awal":
-        if (headerDiv) headerDiv.classList.remove("hidden");
-        if (awalDiv) awalDiv.classList.remove("hidden");
-        break;
-      case "notification":
-        if (notification) notification.classList.remove("hidden");
-        break;
-      case "addPlace":
-        if (addPlaceForm) addPlaceForm.classList.remove("hidden");
-        break;
-      case "manageVerification":
-        if (manageVerification) manageVerification.classList.remove("hidden");
-        break;
-      case "listPlace":
-        if (sidebarMenu) sidebarMenu.classList.remove("-translate-x-full");
-        if (listManage) listManage.classList.remove("hidden");
-        break;
-      case "profil":
-        if (profile) profile.classList.remove("hidden");
-        if (containerProfile) containerProfile.classList.remove("hidden");
-        if (profilPage) profilPage.classList.remove("hidden");
-        if (bawahProfil) bawahProfil.classList.remove("hidden");
-        if (editProfilePage) editProfilePage.classList.add("hidden");
-        if (accountSetting) accountSetting.classList.add("hidden");
-        break;
+        case "awal":
+            if (headerDiv) { headerDiv.classList.remove("hidden"); console.log("Menampilkan headerDiv"); }
+            if (awalDiv) { awalDiv.classList.remove("hidden"); console.log("Menampilkan awalDiv"); }
+            break;
+        case "notification":
+            if (notification) { notification.classList.remove("hidden"); console.log("Menampilkan notification"); }
+            break;
+        case "addPlace":
+            if (addPlaceForm) { addPlaceForm.classList.remove("hidden"); console.log("Menampilkan addPlaceForm"); }
+            break;
+        case "claimForm":
+            if (claimForm) { claimForm.classList.remove("hidden"); console.log("Menampilkan claimForm"); }
+            break;
+        case "manageVerification":
+            if (manageVerification) { manageVerification.classList.remove("hidden"); console.log("Menampilkan manageVerification"); }
+            break;
+        case "listPlace":
+            if (sidebarMenu) sidebarMenu.classList.remove("-translate-x-full"); // Ini bukan elemen utama
+            if (listManage) { listManage.classList.remove("hidden"); console.log("Menampilkan listManage"); }
+            break;
+        case "profil":
+            if (profile) { profile.classList.remove("hidden"); console.log("Menampilkan profile"); }
+            if (containerProfile) { containerProfile.classList.remove("hidden"); console.log("Menampilkan containerProfile"); }
+            if (profilPage) { profilPage.classList.remove("hidden"); console.log("Menampilkan profilPage"); }
+            if (bawahProfil) { bawahProfil.classList.remove("hidden"); console.log("Menampilkan bawahProfil"); }
+            if (editProfilePage) { editProfilePage.classList.add("hidden"); console.log("Menyembunyikan editProfilePage"); }
+            if (accountSetting) { accountSetting.classList.add("hidden"); console.log("Menyembunyikan accountSetting"); }
+            break;
     }
     previousPanel = activePanel;
     activePanel = panelName;
@@ -188,6 +195,14 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
+    if (openClaimBtn) {
+      openClaimBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        showPanel(
+          "claimForm"
+        );
+      });
+    }
 
   if (openManage[0]) {
     openManage[0].addEventListener("click", (e) => {
@@ -716,35 +731,6 @@ document.querySelectorAll('.modal-close-btn').forEach(btn => {
             }
         });
     });
-
-  const initialPanelData = { activePanelFlash: null };
-  if (
-    typeof window.initialPanelData !== "undefined" &&
-    window.initialPanelData.activePanelFlash
-  ) {
-    panelToActivateOnLoad = window.initialPanelData.activePanelFlash;
-  } else if (showParam) {
-    switch (showParam) {
-      case "detail":
-        panelToActivateOnLoad = "detailPlaceContentPanel";
-        break;
-      case "notification":
-        panelToActivateOnLoad = "notification";
-        break;
-      case "addPlace":
-        panelToActivateOnLoad = "addPlace";
-        break;
-      case "profil":
-        panelToActivateOnLoad = "profil";
-        break;
-      case "manageVerification":
-        panelToActivateOnLoad = "manageVerification";
-        break;
-      case "listPlace":
-        panelToActivateOnLoad = "listPlace";
-        break;
-    }
-  }
 
   showPanel("awal");
 });

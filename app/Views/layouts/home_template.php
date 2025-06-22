@@ -38,7 +38,5 @@
             <?= $this->renderSection('main_content') ?>
         </div>
     </main>
-
-    <?php include APPPATH . 'Views/partials/claim_culinary_modal.php'; ?>
 </body>
 </html>

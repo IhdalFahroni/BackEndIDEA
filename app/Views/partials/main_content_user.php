@@ -102,6 +102,7 @@ foreach ($categories as $key => $details) {
     include APPPATH . 'Views/partials/review_dan_modalnya.php';
     include APPPATH . 'Views/partials/modal_menu.php';
     include APPPATH . 'Views/partials/modal_promo.php';
+    include APPPATH . 'Views/partials/claim_culinary.php';
     ?>
 
 </div>
