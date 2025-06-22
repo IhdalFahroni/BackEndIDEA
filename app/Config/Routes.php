@@ -20,7 +20,7 @@ $routes->get('/logout', 'Login::logout'); // Route untuk logout
 $routes->get('/signup', 'SignUp::signup');
 $routes->post('/signup/process', 'SignUp::process');
 $routes->get('/forgotpass', 'ForgotPassword::forgotPassword'); // Route untuk proses lupa password
-$routes->post('password/process-reset', 'AuthController::processResetPassword');
+$routes->post('password/process-reset', 'ForgotPassword::processResetPassword');
 
 // Route untuk halaman Forgot Password & Change Password jika ada
 // $routes->get('/forgotpass', 'ForgotPassword::forgotpass');

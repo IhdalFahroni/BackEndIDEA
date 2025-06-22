@@ -47,11 +47,7 @@
                             </div>
                         </div>
                     <?php endforeach; ?>
-                    <?php if (isset($isOwner) && $isOwner) : ?>
-                        <button id="addMenuItemBtn" title="Tambah Menu Baru" class="absolute px-4 m-2 bottom-5 right-4 w-14 h-14 bg-[#FFC107] rounded-full text-white flex items-center justify-center shadow-lg hover:bg-opacity-80 transition">
-                            <i class="fas fa-plus text-xl"></i>
-                        </button>
-                    <?php endif; ?>
+
                 <?php else : ?>
                     <p class="text-center text-gray-500 py-8">Saat ini belum ada menu yang tersedia untuk tempat ini.</p>
                 <?php endif; ?>
@@ -85,7 +81,12 @@
                         </div>
                     </form>
                 </div>
-            </div>       
+            </div>      
+            <?php if (isset($isOwner) && $isOwner) : ?>
+                <button id="addMenuItemBtn" title="Tambah Menu Baru" class="absolute px-4 m-2 bottom-5 right-4 w-14 h-14 bg-[#FFC107] rounded-full text-white flex items-center justify-center shadow-lg hover:bg-opacity-80 transition">
+                    <i class="fas fa-plus text-xl"></i>
+                </button>
+            <?php endif; ?>
         </div>
     </div>
 </div>
