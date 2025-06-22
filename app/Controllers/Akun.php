@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\TempatModel;
 use App\Models\PengajuanTempatModel;
+use App\Models\KlaimKulinerModel;
 use App\Models\NotifikasiModel;
 use App\Models\MenuModel;
 use App\Models\PromoModel;
@@ -212,7 +213,7 @@ class Akun extends BaseController
         }
     }
     // public function addPromoItem() { ... }
-public function submitAddPlace()
+    public function submitAddPlace()
     {
         $session = session();
         if (!$session->get('isLoggedIn')) {
@@ -262,7 +263,7 @@ public function submitAddPlace()
             'kecamatan'     => $this->request->getPost('subdistrict'),
             'kelurahan'     => $this->request->getPost('village'),
             'nama_jalan'    => $this->request->getPost('street'),
-            'google_maps'          => $this->request->getPost('gmaps'),
+            'google_maps'   => $this->request->getPost('gmaps'),
             'deskripsi'     => $this->request->getPost('description'),
             'harga_tiket'   => $this->request->getPost('harga_tiket'),
             'foto'          => !empty($fotoFileNames) ? implode(',', $fotoFileNames) : null,
@@ -298,6 +299,111 @@ public function submitAddPlace()
             } else {
                 return redirect()->back()->withInput()->with('error', 'Gagal mengajukan tempat baru.')->with('errors', $pengajuanTempatModel->errors());
             }
+        }
+    }
+
+
+    public function submitClaimForm()
+    {
+        $session = session();
+
+
+        if (!$session->get('isLoggedIn')) {
+            return redirect()->to(base_url('login'))->with('error', 'Anda harus login untuk menambahkan tempat.');
+        }
+        if (!in_array($session->get('user_role'), ['user', 'pemilik', 'admin'])) {
+            return redirect()->to(base_url('home'))->with('error', 'Anda tidak memiliki izin untuk menambahkan tempat.');
+        }
+
+        $idTempat = $this->request->getPost('ID_tempat');
+        if (empty($idTempat) || !is_numeric($idTempat)) {
+            return redirect()->back()->with('error', 'ID Tempat tidak valid atau tidak ditemukan di URL.')->with('active_panel', 'claimForm');
+        }
+
+        $rules = [
+            'nama_lengkap'    => 'required|min_length[3]|max_length[255]',
+            'email' => 'required',
+            'npwp'   => 'required',
+            'no_hp'   => 'required|is_natural',
+            'dokumen_pendukung' => 'permit_empty|max_size[dokumen_pendukung,2048]|ext_in[dokumen_pendukung,jpg,jpeg,png,gif]',
+        ];
+
+        $validationMessages = [
+            'dokumen_pendukung' => [
+                'uploaded'  => 'Anda harus memilih file untuk dokumen pendukung.', // Although with permit_empty, this won't trigger if no file is selected
+                'max_size'  => 'Ukuran file dokumen pendukung terlalu besar (maksimal 2MB).',
+                'ext_in'    => 'Format file dokumen pendukung tidak didukung. Hanya JPG, JPEG, PNG, GIF yang diizinkan.',
+            ],
+        ];
+
+        //   dd($_FILES);
+
+        $file = $this->request->getFile('dokumen_pendukung');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            // If a file is provided, add the 'uploaded' rule
+            $rules['dokumen_pendukung'] = 'uploaded[dokumen_pendukung]|' . $rules['dokumen_pendukung'];
+        }
+
+        if (!$this->validate($rules, $validationMessages)) {
+            dd($this->validator->getErrors());
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors())->with('active_panel', 'addPlace');
+        }
+
+        $klaimKulinerModel = new KlaimKulinerModel();
+        $uploadedFiles = $this->request->getFiles();
+        $fotoFileNames = [];
+
+        if (isset($uploadedFiles['dokumen_pendukung'])) {
+            foreach ($uploadedFiles['dokumen_pendukung'] as $file) {
+                if ($file->isValid() && !$file->hasMoved()) {
+                    $newName = $file->getRandomName();
+                    $file->move(FCPATH . 'Assets', $newName); // Pindahkan ke public/Assets/
+                    $fotoFileNames[] = $newName;
+                }
+            }
+        }
+        // dd(['fotoFileNames_uploaded' => $fotoFileNames]);
+        
+        $dataToInsert = [
+            'nama_lengkap'          => $this->request->getPost('nama_lengkap'),
+            'email'                 => $this->request->getPost('email'),
+            'npwp'                  => $this->request->getPost('npwp'),
+            'no_hp'                 => $this->request->getPost('no_hp'),
+            'dokumen_pendukung'     => !empty($fotoFileNames) ? implode(',', $fotoFileNames) : null,
+            'ID_akun' => $session->get('ID_akun'), // Mengambil ID user yang login
+            'ID_tempat' => $idTempat, // Mengambil ID tempat dari URL
+            'is_verified'           => 0, // Status verifikasi awal adalah 0 (
+        ];
+        // dd($dataToInsert);
+
+        $insertResult = $klaimKulinerModel->insert($dataToInsert);
+      
+        // if ($insertResult === false) {
+        //     dd($klaimKulinerModel->errors()); // <--- INI AKAN MENAMPILKAN ERROR JIKA INSERT GAGAL
+        // } else {
+        //     dd('Insert ke form_klaim berhasil. ID baru: ' . $insertResult); // Jika berhasil, tampilkan ID yang baru diinsert
+        // }
+
+        $username = $session->get('username'); // Mengambil username user yang login
+
+        if ($insertResult) {
+            
+            $notifModel = new NotifikasiModel();
+
+            // 2. Siapkan data untuk notifikasi
+            $notifToInsert = [
+                'ID_akun'   => 1,
+                'header'    => 'Request for culinary site claim',
+                'isi_notif' => "$username has submitted a request to claim a culinary site.",
+            ];
+
+            // 3. Masukkan notifikasi ke database
+            $notifModel->insert($notifToInsert);
+            
+            return redirect()->to(base_url('home'))->with('success', 'Form klaim berhasil diajukan dan sedang menunggu verifikasi dari admin.');
+
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Gagal mengajukan form klaim.')->with('errors', $klaimKulinerModel->errors());
         }
     }
 }

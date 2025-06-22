@@ -52,6 +52,9 @@ class Home extends BaseController
             }
         }
 
+        $showDetail = $this->request->getGet('show');
+        $idTempat = $this->request->getGet('id');
+
         $data = [
             'title'       => ucfirst($userRole) . ' Homepage | LombokRec',
             'js_file'     => 'home.js',
@@ -71,12 +74,12 @@ class Home extends BaseController
             'isOwner'            => false,
             'notifikasi' => $notifModel->getNotifikasiByAkun($id_akun),
             'verificationItems' => $verificationItems,
-            'session'    => $session 
+            'session'    => $session,
+            'idTempat' => $idTempat
         ];
 
         // Cek apakah permintaan untuk menampilkan detail tempat
-        $showDetail = $this->request->getGet('show');
-        $idTempat = $this->request->getGet('id');
+        
 
         if ($showDetail === 'detail' && !empty($idTempat)) {
             $tempat = $tempatModel

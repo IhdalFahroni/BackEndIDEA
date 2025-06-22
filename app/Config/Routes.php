@@ -40,7 +40,8 @@ $routes->post('account/delete', 'Akun::deleteAccount');
 
 // -- Aksi terkait Konten (Review, Tempat, Menu) --
 $routes->post('review/submit', 'Akun::submitReview');
-$routes->post('tempat/submit', 'Akun::submitAddPlace');
+$routes->post('formAddPlace/submit', 'Akun::submitAddPlace');
+$routes->post('formKlaim/submit', 'Akun::submitClaimForm');
 $routes->post('menu/add', 'Akun::addMenuItem');
 
 $routes->post('verify', 'Admin::verifyRequest');

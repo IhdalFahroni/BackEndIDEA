@@ -6,11 +6,11 @@ use CodeIgniter\Model;
 
 class KlaimKulinerModel extends Model
 {
-    protected $table         = 'form_klaim';
+    protected $table         = 'form_klaim'; 
     protected $primaryKey    = 'ID_formKlaim';
     protected $useTimestamps = false;
     protected $allowedFields = [
-        'ID_akun', 'nama_lengkap', 'no_hp', 'npwp', 'email',
+        'ID_akun', 'ID_tempat', 'nama_lengkap', 'no_hp', 'npwp', 'email',
         'dokumen_pendukung', 'is_verified'
     ];
     public function getPendingVerifications()
