@@ -5,36 +5,52 @@
         <?php if (!empty($verificationItems)) : ?>
 
             <?php foreach ($verificationItems as $item) : ?>
+            <?php // START OF PHP BLOCK - KEEP THIS OPEN UNTIL AFTER DATA ATTRIBUTES ?>
+                <?php
+                    // Initialize with default values for 'not yet verified' (is_verified == 0)
+                    $dataIsVerified = 'false';
+                    $dataSelected = '';
+                    $requestId = ''; // Also initialize requestId here
+
+                    // Determine requestId based on type
+                    if ($item['type'] == 'addPlace') {
+                        $requestId = $item['ID_formPengajuanTempat'];
+                    } elseif ($item['type'] == 'claimCulinary') {
+                        $requestId = $item['ID_formKlaim'];
+                    }
+
+                    // Determine is_verified status and selected action for data attributes
+                    if ($item['is_verified'] == 1) { // Denied
+                        $dataIsVerified = 'true';
+                        $dataSelected = 'deny';
+                    } elseif ($item['is_verified'] == 2) { // Approved
+                        $dataIsVerified = 'true';
+                        $dataSelected = 'approve';
+                    }
+                ?>
             <div class="verification-item mb-4 p-4 border border-gray-200 rounded-lg shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-            <?php if ($item['type'] == 'addPlace') : ?>
-                data-request-id="<?= esc($item['ID_formPengajuanTempat']) ?>"
+                data-request-id="<?= esc($requestId) ?>"
                 data-type="<?= esc($item['type']) ?>"
-                data-is-verified="<?= esc($item['is_verified'] ? 'true' : 'false') ?>"
+                data-is-verified="<?= esc($dataIsVerified) ?>"
+                data-selected="<?= esc($dataSelected) ?>"
                 data-user="<?= esc($item['username']) ?>"
                 data-email="<?= esc($item['email']) ?>"
-                data-place-name="<?= esc($item['nama_tempat']) ?>"
-                data-category="<?= esc($item['kategori']) ?>"
-                data-district="<?= esc($item['kabupaten_kota']) ?>"
-                data-subdistrict="<?= esc($item['kecamatan']) ?>"
-                data-village="<?= esc($item['kelurahan']) ?>"
-                data-street="<?= esc($item['nama_jalan']) ?>"
-                data-gmaps="<?= esc($item['google_maps']) ?>"
-                data-description="<?= esc($item['deskripsi']) ?>"
-                data-photo-link="<?= esc(json_encode(explode(',', $item['foto']))) ?>"
-            <?php else :?>
-                data-request-id="<?= esc($item['ID_formKlaim']) ?>"
-                data-type="<?= esc($item['type']) ?>"
-                data-is-verified="<?= esc($item['is_verified'] ? 'true' : 'false') ?>"
-                data-user="<?= esc($item['username']) ?>"
-                data-email="<?= esc($item['email']) ?>"
-                data-place-name="<?= esc($item['nama_tempat']) ?>"
-                data-full-name="<?= esc($item['nama_lengkap']) ?>"
-                data-phone="<?= esc($item['no_hp']) ?>"
-                data-email="<?= esc($item['email']) ?>"
-                data-tin="<?= esc($item['npwp']) ?>"
-                data-supporting-document="<?= esc(json_encode(explode(',', $item['dokumen_pendukung']))) ?>"
-            <?php endif; ?>
+                data-place-name="<?= esc($item['nama_tempat'] ?? '') ?>"
+                data-category="<?= esc($item['kategori'] ?? '') ?>"
+                data-district="<?= esc($item['kabupaten_kota'] ?? '') ?>"
+                data-subdistrict="<?= esc($item['kecamatan'] ?? '') ?>"
+                data-village="<?= esc($item['kelurahan'] ?? '') ?>"
+                data-street="<?= esc($item['nama_jalan'] ?? '') ?>"
+                data-gmaps="<?= esc($item['Maps'] ?? '') ?>"
+                data-entry-price="<?= esc($item['harga_tiket'] ?? '') ?>"
+                data-description="<?= esc($item['deskripsi'] ?? '') ?>"
+                data-photo-link="<?= esc(json_encode(explode(',', $item['foto'] ?? ''))) ?>"
+                data-full-name="<?= esc($item['nama_lengkap'] ?? '') ?>"
+                data-phone="<?= esc($item['no_hp'] ?? '') ?>"
+                data-tin="<?= esc($item['npwp'] ?? '') ?>"
+                data-supporting-document="<?= esc(json_encode(explode(',', $item['dokumen_pendukung'] ?? ''))) ?>"
             >
+            <?php // END OF PHP BLOCK - NOW THE HTML CONTENT FOLLOWS ?>
                 <div class="flex-grow">
                     <p class="font-semibold text-lg"><?= esc($item['username']) ?></p>
                     <p class="text-sm text-gray-500"><?= esc($item['email']) ?></p>
@@ -49,36 +65,42 @@
                         <i class="fa-solid fa-file-alt mr-1"></i> <span class="relative top-0.5 hover:underline">See form</span>
                     </a>
                 </div>
-                <div class="flex-shrink-0 flex gap-2"> 
+                <div class="flex-shrink-0 flex gap-2">
                     <?php if($item['is_verified'] == 0): ?>
-                        <form action="<?= site_url('home/verifyRequest') ?>" method="post" class="inline" data-action-form>
+                        <form action="<?= site_url('verify') ?>" method="post" class="inline" data-action-form>
                             <?php if ($item['type'] == 'addPlace') : ?>
-                                <input type="hidden" name="request_id" value="<?= esc($item['ID_formPengajuanTempat']) ?>">
+                                <input type="hidden" name="pengajuan_id" value="<?= esc($item['ID_formPengajuanTempat']) ?>">
                             <?php else :?>
-                                <input type="hidden" name="request_id" value="<?= esc($item['ID_formKlaim']) ?>">
+                                <input type="hidden" name="klaim_id" value="<?= esc($item['ID_formKlaim']) ?>">
                             <?php endif; ?>
+                            
                             <input type="hidden" name="action" value="deny">
-                            <button type="submit" class="deny-btn border border-red-500 text-red-500 text-xs px-3 py-1 rounded-full hover:bg-red-500 hover:text-white"
-                                <?= esc($item['is_verified'] ? 'disabled' : '') ?>>
+                            
+                            <input type="hidden" name="request_type" value="<?= esc($item['type']) ?>">
+
+                            <button type="submit" class="deny-btn opacity-50 cursor-not-allowed border border-red-500 text-red-500 text-xs px-3 py-1 rounded-full hover:bg-red-500 hover:text-white">
                                 <i class="fa-solid fa-times"></i> Deny
                             </button>
                         </form>
-                        <form action="<?= site_url('home/verifyRequest') ?>" method="post" class="inline" data-action-form>
+                        <form action="<?= site_url('verify') ?>" method="post" class="inline" data-action-form>
                             <?php if ($item['type'] == 'addPlace') : ?>
-                                <input type="hidden" name="request_id" value="<?= esc($item['ID_formPengajuanTempat']) ?>">
+                                <input type="hidden" name="pengajuan_id" value="<?= esc($item['ID_formPengajuanTempat']) ?>">
                             <?php else :?>
-                                <input type="hidden" name="request_id" value="<?= esc($item['ID_formKlaim']) ?>">
+                                <input type="hidden" name="klaim_id" value="<?= esc($item['ID_formKlaim']) ?>">
                             <?php endif; ?>
+                            
                             <input type="hidden" name="action" value="approve">
-                            <button type="submit" class="approve-btn border border-blue-500 text-blue-500 text-xs px-3 py-1 rounded-full hover:bg-blue-500 hover:text-white"
-                                <?= esc($item['is_verified'] ? 'disabled' : '') ?>>
+                            
+                            <input type="hidden" name="request_type" value="<?= esc($item['type']) ?>">
+
+                            <button type="submit" class="approve-btn opacity-50 cursor-not-allowed border border-blue-500 text-blue-500 text-xs px-3 py-1 rounded-full hover:bg-blue-500 hover:text-white">
                                 <i class="fa-solid fa-check"></i> Approve
                             </button>
                         </form>
                     <?php elseif($item['is_verified'] == 1): ?>
-                        <div class="deny text-red-500 text-base px-3 py-1 hidden">Denied</div>
+                        <div class="deny text-red-500 text-base px-3 py-1 ">Denied</div>
                     <?php elseif($item['is_verified'] == 2): ?>
-                        <div class="approve text-blue-500 text-base px-3 py-1 hidden">Approved</div>
+                        <div class="approve text-blue-500 text-base px-3 py-1 ">Approved</div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -106,6 +128,7 @@
             <div class="bg-white rounded-lg p-3 sm:p-4 mb-4"><label class="block text-[#4B5563] text-sm mb-1">Street*</label><p id="add_street" class="text-[#1F2937] font-semibold"></p></div>
             <div class="bg-white rounded-lg p-3 sm:p-4 mb-4"><label class="block text-[#4B5563] text-sm mb-1">Google Map Location*</label><a id="add_gmaps" href="#" target="_blank" class="text-blue-700 underline break-all"></a></div>
             <div class="bg-white rounded-lg p-3 sm:p-4 mb-4"><label class="block text-[#4B5563] text-sm mb-1">Place description*</label><p id="add_description" class="text-[#1F2937] font-semibold"></p></div>
+            <div class="bg-white rounded-lg p-3 sm:p-4 mb-4"><label class="block text-[#4B5563] text-sm mb-1">Entry Price</label><p id="add_price" class="text-[#1F2937] font-semibold"></p></div>
             <div class="bg-white rounded-lg p-3 sm:p-4 mb-4"><label class="block text-[#4B5563] text-sm mb-1">Photo(s)</label><div id="add_photo_link"></div></div> </div>
     </div>
 </div>

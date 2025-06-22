@@ -591,192 +591,336 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- LOGIKA VERIFIKASI (UNTUK ADMIN) ---
   // Inisialisasi: semua tombol approve/deny disabled & style awal
-  document.querySelectorAll('.verification-item').forEach(item => {
-        item.querySelectorAll('.approve-btn, .deny-btn').forEach(button => {
-            button.classList.add('opacity-50', 'cursor-not-allowed');
-            button.disabled = true;
-            // Style awal: border & text color
-            if (button.classList.contains('deny-btn')) {
-                button.classList.add('border', 'border-red-500', 'text-red-500');
-                button.classList.remove('bg-red-500', 'text-white');
-            } else if (button.classList.contains('approve-btn')) {
-                button.classList.add('border', 'border-blue-500', 'text-blue-500');
-                button.classList.remove('bg-blue-500', 'text-white');
-            }
-        });
-        // Tandai status verifikasi di dataset
-        item.dataset.verified = 'false';
-        item.dataset.selected = '';
-    });
+  // document.querySelectorAll('.verification-item').forEach(item => {
+  //       item.querySelectorAll('.approve-btn, .deny-btn').forEach(button => {
+  //           button.classList.add('opacity-50', 'cursor-not-allowed');
+  //           button.disabled = true;
+  //           // Style awal: border & text color
+  //           if (button.classList.contains('deny-btn')) {
+  //               button.classList.add('border', 'border-red-500', 'text-red-500');
+  //               button.classList.remove('bg-red-500', 'text-white');
+  //           } else if (button.classList.contains('approve-btn')) {
+  //               button.classList.add('border', 'border-blue-500', 'text-blue-500');
+  //               button.classList.remove('bg-blue-500', 'text-white');
+  //           }
+  //       });
+  //       // Tandai status verifikasi di dataset
+  //       item.dataset.verified = 'false';
+  //       item.dataset.selected = '';
+  //   });
 
-  function setButtonState(parentItem, selected) {
-        const approveBtn = parentItem.querySelector('.approve-btn');
-        const denyBtn = parentItem.querySelector('.deny-btn');
-        const Approve = parentItem.querySelector('.approve');
-        const Deny = parentItem.querySelector('.deny');
-        if (parentItem.dataset.verified === 'true') {
-            // Sudah diverifikasi, disable semua tombol
-            approveBtn.disabled = true;
-            denyBtn.disabled = true;
-            approveBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            denyBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            // Style sesuai hasil
-            if (parentItem.dataset.selected === 'approve') {
-                approveBtn.classList.add('hidden');
-                denyBtn.classList.add('hidden');
-                Approve.classList.remove('hidden');
-            } else if (parentItem.dataset.selected === 'deny') {
-                approveBtn.classList.add('hidden');
-                denyBtn.classList.add('hidden');
-                Deny.classList.remove('hidden');
-            }
-        } else {
-            // Belum diverifikasi, enable tombol
-            approveBtn.disabled = false;
-            denyBtn.disabled = false;
-            approveBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            denyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-            // Style default
-            approveBtn.classList.remove('bg-blue-500', 'text-white');
-            approveBtn.classList.add('border', 'border-blue-500', 'text-blue-500', 'bg-white');
-            denyBtn.classList.remove('bg-red-500', 'text-white');
-            denyBtn.classList.add('border', 'border-red-500', 'text-red-500', 'bg-white');
-        }
-    }
+  // function setButtonState(parentItem, selected) {
+  //       const approveBtn = parentItem.querySelector('.approve-btn');
+  //       const denyBtn = parentItem.querySelector('.deny-btn');
+  //       const Approve = parentItem.querySelector('.approve');
+  //       const Deny = parentItem.querySelector('.deny');
+  //       if (parentItem.dataset.verified === 'true') {
+  //           // Sudah diverifikasi, disable semua tombol
+  //           approveBtn.disabled = true;
+  //           denyBtn.disabled = true;
+  //           approveBtn.classList.add('opacity-50', 'cursor-not-allowed');
+  //           denyBtn.classList.add('opacity-50', 'cursor-not-allowed');
+  //           // Style sesuai hasil
+  //           if (parentItem.dataset.selected === 'approve') {
+  //               approveBtn.classList.add('hidden');
+  //               denyBtn.classList.add('hidden');
+  //               Approve.classList.remove('hidden');
+  //           } else if (parentItem.dataset.selected === 'deny') {
+  //               approveBtn.classList.add('hidden');
+  //               denyBtn.classList.add('hidden');
+  //               Deny.classList.remove('hidden');
+  //           }
+  //       } else {
+  //           // Belum diverifikasi, enable tombol
+  //           approveBtn.disabled = false;
+  //           denyBtn.disabled = false;
+  //           approveBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+  //           denyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+  //           // Style default
+  //           approveBtn.classList.remove('bg-blue-500', 'text-white');
+  //           approveBtn.classList.add('border', 'border-blue-500', 'text-blue-500', 'bg-white');
+  //           denyBtn.classList.remove('bg-red-500', 'text-white');
+  //           denyBtn.classList.add('border', 'border-red-500', 'text-red-500', 'bg-white');
+  //       }
+  //   }
 
-  document.querySelectorAll(".view-form-link").forEach((link) => {
-  if (link) {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      const parentItem = link.closest(".verification-item");
+//   document.querySelectorAll(".view-form-link").forEach((link) => {
+//   if (link) {
+//     link.addEventListener("click", (e) => {
+//       e.preventDefault();
+//       const parentItem = link.closest(".verification-item");
 
       
-      // Extract all data from the parentItem's dataset
-      const requestId = parentItem.dataset.requestId;
-      const requestType = parentItem.dataset.type;
-      const isVerified = parentItem.dataset.isVerified; // Access the is_verified status if needed
-      const username = parentItem.dataset.user; // Get username from data attribute
-      const email = parentItem.dataset.email;   // Get email from data attribute
+//       // Extract all data from the parentItem's dataset
+//       const requestId = parentItem.dataset.requestId;
+//       const requestType = parentItem.dataset.type;
+//       const isVerified = parentItem.dataset.isVerified; // Access the is_verified status if needed
+//       const username = parentItem.dataset.user; // Get username from data attribute
+//       const email = parentItem.dataset.email;   // Get email from data attribute
       
-      setButtonState(parentItem);
-      let dataToDisplay = {};
+//       setButtonState(parentItem);
+//       let dataToDisplay = {};
 
-      if (requestType === "addPlace") { // Note: 'addPlace' not 'add-place' as per your PHP
-        dataToDisplay = {
-          placeName: parentItem.dataset.placeName,
-          category: parentItem.dataset.category,
-          district: parentItem.dataset.district,
-          subdistrict: parentItem.dataset.subdistrict,
-          village: parentItem.dataset.village,
-          street: parentItem.dataset.street,
-          gmaps: parentItem.dataset.gmaps,
-          description: parentItem.dataset.description,
-          // data_photo_link: "<?= esc(json_encode(explode(',', $item['foto']))) ?>"
-          photo_link: JSON.parse(parentItem.dataset.photoLink || '[]'), // Ensure it's parsed as JSON, default to empty array
-        };
-        openAddPlaceModal(dataToDisplay);
-      } else if (requestType === "claimCulinary") {
-        dataToDisplay = {
-          fullName: parentItem.dataset.fullName,
-          phone: parentItem.dataset.phone,
-          email: parentItem.dataset.email,
-          tin: parentItem.dataset.tin,
-          supporting_document: JSON.parse(parentItem.dataset.supportingDocument || '[]'),
-        };
-        openClaimCulinaryModal(dataToDisplay);
+//       if (requestType === "addPlace") { // Note: 'addPlace' not 'add-place' as per your PHP
+//         dataToDisplay = {
+//           placeName: parentItem.dataset.placeName,
+//           category: parentItem.dataset.category,
+//           district: parentItem.dataset.district,
+//           subdistrict: parentItem.dataset.subdistrict,
+//           village: parentItem.dataset.village,
+//           street: parentItem.dataset.street,
+//           gmaps: parentItem.dataset.gmaps,
+//           description: parentItem.dataset.description,
+//           entryPrice: parentItem.dataset.entryPrice,
+//           // data_photo_link: "<?= esc(json_encode(explode(',', $item['foto']))) ?>"
+//           photo_link: JSON.parse(parentItem.dataset.photoLink || '[]'), // Ensure it's parsed as JSON, default to empty array
+//         };
+//         openAddPlaceModal(dataToDisplay);
+//       } else if (requestType === "claimCulinary") {
+//         dataToDisplay = {
+//           fullName: parentItem.dataset.fullName,
+//           phone: parentItem.dataset.phone,
+//           email: parentItem.dataset.email,
+//           tin: parentItem.dataset.tin,
+//           supporting_document: JSON.parse(parentItem.dataset.supportingDocument || '[]'),
+//         };
+//         openClaimCulinaryModal(dataToDisplay);
+//       }
+//     });
+//   }
+// });
+
+
+// // Helper function to populate and open the addPlace modal
+      function openAddPlaceModal(data) {
+          document.getElementById('add_placeName').textContent = data.placeName;
+          document.getElementById('add_category').textContent = data.category;
+          document.getElementById('add_district').textContent = data.district;
+          document.getElementById('add_subdistrict').textContent = data.subdistrict;
+          document.getElementById('add_village').textContent = data.village;
+          document.getElementById('add_street').textContent = data.street;
+          document.getElementById('add_gmaps').href = data.gmaps;
+          document.getElementById('add_gmaps').textContent = data.gmaps; // Display the link text
+          document.getElementById('add_description').textContent = data.description;
+          document.getElementById('add_price').textContent = data.entryPrice;
+
+          const photoLinkDiv = document.getElementById('add_photo_link');
+          photoLinkDiv.innerHTML = ''; // Clear previous images
+          if (data.photo_link && data.photo_link.length > 0) {
+              data.photo_link.forEach(photo => {
+                  const img = document.createElement('img');
+                  img.src = UPLOADS_URL + photo.trim(); // Adjust path as needed
+                  img.alt = 'Place Photo';
+                  img.classList.add('w-24', 'h-auto', 'inline-block', 'mr-2', 'mb-2', 'rounded'); // Tailwind classes
+                  photoLinkDiv.appendChild(img);
+              });
+          } else {
+              photoLinkDiv.textContent = 'No photos available.';
+          }
+
+          document.getElementById('addPlaceModal').classList.remove('hidden');
       }
-    });
-  }
-});
-
-
-// Helper function to populate and open the addPlace modal
-function openAddPlaceModal(data) {
-    document.getElementById('add_placeName').textContent = data.placeName;
-    document.getElementById('add_category').textContent = data.category;
-    document.getElementById('add_district').textContent = data.district;
-    document.getElementById('add_subdistrict').textContent = data.subdistrict;
-    document.getElementById('add_village').textContent = data.village;
-    document.getElementById('add_street').textContent = data.street;
-    document.getElementById('add_gmaps').href = data.gmaps;
-    document.getElementById('add_gmaps').textContent = data.gmaps; // Display the link text
-    document.getElementById('add_description').textContent = data.description;
-
-    const photoLinkDiv = document.getElementById('add_photo_link');
-    photoLinkDiv.innerHTML = ''; // Clear previous images
-    if (data.photo_link && data.photo_link.length > 0) {
-        data.photo_link.forEach(photo => {
-            const img = document.createElement('img');
-            img.src = UPLOADS_URL + photo.trim(); // Adjust path as needed
-            img.alt = 'Place Photo';
-            img.classList.add('w-24', 'h-auto', 'inline-block', 'mr-2', 'mb-2', 'rounded'); // Tailwind classes
-            photoLinkDiv.appendChild(img);
-        });
-    } else {
-        photoLinkDiv.textContent = 'No photos available.';
-    }
-
-    document.getElementById('addPlaceModal').classList.remove('hidden');
-}
 
 // Helper function to populate and open the claimCulinary modal
-function openClaimCulinaryModal(data) {
-    document.getElementById('place_to_claim').textContent = data.placeName;
-    document.getElementById('claim_fullName').textContent = data.fullName;
-    document.getElementById('claim_phone').textContent = data.phone;
-    document.getElementById('claim_email').textContent = data.email;
-    document.getElementById('claim_tin').textContent = data.tin;
+      function openClaimCulinaryModal(data) {
+          document.getElementById('place_to_claim').textContent = data.placeName;
+          document.getElementById('claim_fullName').textContent = data.fullName;
+          document.getElementById('claim_phone').textContent = data.phone;
+          document.getElementById('claim_email').textContent = data.email;
+          document.getElementById('claim_tin').textContent = data.tin;
 
-    const supportingDocumentDiv = document.getElementById('claim_supporting_document');
-    supportingDocumentDiv.innerHTML = ''; // Clear previous documents
-    if (data.supporting_document && data.supporting_document.length > 0) {
-        data.supporting_document.forEach(doc => {
-            const link = document.createElement('a');
-            link.href = UPLOADS_URL + doc.trim(); // Adjust path as needed
-            link.textContent = doc.trim();
-            link.target = '_blank';
-            link.classList.add('text-blue-700', 'underline', 'block');
-            supportingDocumentDiv.appendChild(link);
-        });
-    } else {
-        supportingDocumentDiv.textContent = 'No supporting documents available.';
-    }
+          const supportingDocumentDiv = document.getElementById('claim_supporting_document');
+          supportingDocumentDiv.innerHTML = ''; // Clear previous documents
+          if (data.supporting_document && data.supporting_document.length > 0) {
+              data.supporting_document.forEach(doc => {
+                  const link = document.createElement('a');
+                  link.href = UPLOADS_URL + doc.trim(); // Adjust path as needed
+                  link.textContent = doc.trim();
+                  link.target = '_blank';
+                  link.classList.add('text-blue-700', 'underline', 'block');
+                  supportingDocumentDiv.appendChild(link);
+              });
+          } else {
+              supportingDocumentDiv.textContent = 'No supporting documents available.';
+          }
 
-    document.getElementById('claimCulinaryModal').classList.remove('hidden');
-}
+          document.getElementById('claimCulinaryModal').classList.remove('hidden');
+      }
 
 
 // Existing modal close functionality (ensure this is present and correct)
-document.querySelectorAll('.modal-close-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const modalId = btn.dataset.closeModal;
-        document.getElementById(modalId).classList.add('hidden');
-    });
-});
+    document.querySelectorAll('.modal-close-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const modalId = btn.dataset.closeModal;
+            document.getElementById(modalId).classList.add('hidden');
+        });
+    }); 
 
-  // --- TOMBOL DENY/APPROVE (TANPA AJAX) ---
-  // Event listener untuk tombol Deny (form submission)
-  document.querySelectorAll('.deny-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            if (button.disabled) return;
-            if (window.confirm('Are you sure you want to DENY this request?')) {
-                const parentItem = button.closest('.verification-item');
-                parentItem.dataset.verified = 'true';
-                parentItem.dataset.selected = 'deny';
-                setButtonState(parentItem, 'deny');
+//   // --- TOMBOL DENY/APPROVE (TANPA AJAX) ---
+//   // Event listener untuk tombol Deny (form submission)
+//     document.querySelectorAll('.deny-btn').forEach(button => {
+//         button.addEventListener('click', () => {
+//             if (button.disabled) return;
+//             if (window.confirm('Are you sure you want to DENY this request?')) {
+//                 const parentItem = button.closest('.verification-item');
+//                 parentItem.dataset.verified = 'true';
+//                 parentItem.dataset.selected = 'deny';
+//                 setButtonState(parentItem, 'deny');
+//             }
+//         });
+//     });
+
+//     document.querySelectorAll('.approve-btn').forEach(button => {
+//         button.addEventListener('click', () => {
+//             if (button.disabled) return;
+//             if (window.confirm('Are you sure you want to APPROVE this request?')) {
+//                 const parentItem = button.closest('.verification-item');
+//                 parentItem.dataset.verified = 'true';
+//                 parentItem.dataset.selected = 'approve';
+//                 setButtonState(parentItem, 'approve');
+//             }
+//         });
+//     });
+
+
+// manage verif baru
+    function setButtonStateBasedOnVerification(parentItem, activatedBySeeForm = false) {
+        const approveBtn = parentItem.querySelector('.approve-btn');
+        const denyBtn = parentItem.querySelector('.deny-btn');
+        const ApproveText = parentItem.querySelector('.approve');
+        const DenyText = parentItem.querySelector('.deny');
+
+        const isVerifiedFromHtml = parentItem.dataset.isVerified === 'true'; // status dari PHP
+        const selectedFromHtml = parentItem.dataset.selected; // 'approve', 'deny', atau '' dari PHP
+
+        // Awalnya sembunyikan teks status
+        if (ApproveText) ApproveText.classList.add('hidden');
+        if (DenyText) DenyText.classList.add('hidden');
+
+        if (isVerifiedFromHtml) {
+            // Jika sudah diverifikasi (1 atau 2 di DB)
+            if (approveBtn) approveBtn.classList.add('hidden'); // Sembunyikan tombol
+            if (denyBtn) denyBtn.classList.add('hidden');     // Sembunyikan tombol
+
+            // Tampilkan teks status yang sesuai
+            if (selectedFromHtml === 'approve' && ApproveText) {
+                ApproveText.classList.remove('hidden');
+            } else if (selectedFromHtml === 'deny' && DenyText) {
+                DenyText.classList.remove('hidden');
             }
+        } else {
+            // Jika belum diverifikasi (0 di DB)
+            // Tampilkan tombol dan atur statusnya
+            if (approveBtn) {
+                approveBtn.classList.remove('hidden'); // Tampilkan tombol
+                approveBtn.classList.remove('bg-blue-500', 'text-white'); // Reset warna jika pernah di-hover
+                approveBtn.classList.add('border', 'border-blue-500', 'text-blue-500', 'bg-white');
+
+                // GUNAKAN PARAMETER activatedBySeeForm DI SINI
+                if (activatedBySeeForm) {
+                    // Jika dipanggil dari klik "See form", aktifkan tombol
+                    approveBtn.disabled = false;
+                    approveBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    // Default saat page load: disabled dan pudar
+                    approveBtn.disabled = true;
+                    approveBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            }
+            if (denyBtn) {
+                denyBtn.classList.remove('hidden');    // Tampilkan tombol
+                denyBtn.classList.remove('bg-red-500', 'text-white'); // Reset warna jika pernah di-hover
+                denyBtn.classList.add('border', 'border-red-500', 'text-red-500', 'bg-white');
+
+                // GUNAKAN PARAMETER activatedBySeeForm DI SINI
+                if (activatedBySeeForm) {
+                    // Jika dipanggil dari klik "See form", aktifkan tombol
+                    denyBtn.disabled = false;
+                    denyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    // Default saat page load: disabled dan pudar
+                    denyBtn.disabled = true;
+                    denyBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            }
+        }
+    }
+
+
+    // 1. Inisialisasi awal saat halaman dimuat (untuk setiap item verifikasi)
+    // Ini memastikan bahwa status dari PHP (database) direfleksikan di UI
+    document.querySelectorAll('.verification-item').forEach(item => {
+        setButtonStateBasedOnVerification(item, false); // Pastikan ini dipanggil dengan 'false'
+    });
+
+    // 2. Event Listener untuk link "See form" (untuk mengaktifkan tombol setelah form dibuka)
+    document.querySelectorAll(".view-form-link").forEach((link) => {
+        if (link) {
+            link.addEventListener("click", (e) => {
+                e.preventDefault();
+                const parentItem = link.closest(".verification-item");
+
+                // ... (data extraction code seperti sebelumnya) ...
+                const requestId = parentItem.dataset.requestId;
+                const requestType = parentItem.dataset.type;
+                const isVerified = parentItem.dataset.isVerified; // Ambil isVerified
+
+                // Panggil fungsi modal yang sesuai
+                let dataToDisplay = {};
+                if (requestType === "addPlace") {
+                    dataToDisplay = {
+                        placeName: parentItem.dataset.placeName,
+                        category: parentItem.dataset.category,
+                        district: parentItem.dataset.district,
+                        subdistrict: parentItem.dataset.subdistrict,
+                        village: parentItem.dataset.village,
+                        street: parentItem.dataset.street,
+                        gmaps: parentItem.dataset.gmaps,
+                        description: parentItem.dataset.description,
+                        entryPrice: parentItem.dataset.entryPrice,
+                        photo_link: JSON.parse(parentItem.dataset.photoLink || '[]'),
+                    };
+                    openAddPlaceModal(dataToDisplay);
+                } else if (requestType === "claimCulinary") {
+                    dataToDisplay = {
+                        placeName: parentItem.dataset.placeName,
+                        fullName: parentItem.dataset.fullName,
+                        phone: parentItem.dataset.phone,
+                        email: parentItem.dataset.email,
+                        tin: parentItem.dataset.tin,
+                        supporting_document: JSON.parse(parentItem.dataset.supportingDocument || '[]'),
+                    };
+                    openClaimCulinaryModal(dataToDisplay);
+                }
+
+                // PENTING: Panggil fungsi ini lagi dengan parameter 'true' HANYA JIKA BELUM DIVERIFIKASI
+                if (isVerified === 'false') {
+                    setButtonStateBasedOnVerification(parentItem, true); // Aktifkan tombol jika belum verified
+                }
+            });
+        }
+    });
+
+
+    // 3. Event listener untuk tombol Deny/Approve (Hanya konfirmasi, biarkan form submit secara natural)
+    // Tidak ada lagi perubahan dataset lokal di sini, karena status akan datang dari server setelah reload.
+    document.querySelectorAll('.deny-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            // Tidak perlu cek button.disabled di sini karena PHP akan menghandle jika tombol tersembunyi
+            // atau jika statusnya sudah berubah.
+            if (!window.confirm('Are you sure you want to DENY this request?')) {
+                e.preventDefault(); // Hentikan submit jika user tidak konfirmasi
+            }
+            // Jika dikonfirmasi, form akan otomatis disubmit dan halaman direload
         });
     });
 
     document.querySelectorAll('.approve-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            if (button.disabled) return;
-            if (window.confirm('Are you sure you want to APPROVE this request?')) {
-                const parentItem = button.closest('.verification-item');
-                parentItem.dataset.verified = 'true';
-                parentItem.dataset.selected = 'approve';
-                setButtonState(parentItem, 'approve');
+        button.addEventListener('click', (e) => {
+            if (!window.confirm('Are you sure you want to APPROVE this request?')) {
+                e.preventDefault(); // Hentikan submit jika user tidak konfirmasi
             }
+            // Jika dikonfirmasi, form akan otomatis disubmit dan halaman direload
         });
     });
 
