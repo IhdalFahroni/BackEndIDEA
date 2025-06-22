@@ -49,7 +49,7 @@
                         <i class="fa-solid fa-file-alt mr-1"></i> <span class="relative top-0.5 hover:underline">See form</span>
                     </a>
                 </div>
-                <div class="flex-shrink-0 flex gap-2">
+                <div class="flex-shrink-0 flex gap-2"> 
                     <?php if($item['is_verified'] == 0): ?>
                         <form action="<?= site_url('home/verifyRequest') ?>" method="post" class="inline" data-action-form>
                             <?php if ($item['type'] == 'addPlace') : ?>
