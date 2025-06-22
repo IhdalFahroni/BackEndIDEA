@@ -302,5 +302,24 @@ document.addEventListener('DOMContentLoaded', function() {
             if(addMenuForm) addMenuForm.reset();
         });
     }
+    const addPromoItemBtn = document.getElementById('addPromoItemBtn');
+    const addPromoFormContainer = document.getElementById('addPromoFormContainer');
+    const cancelAddPromoBtn = document.getElementById('cancelAddPromoBtn');
+    const promoListContainer = document.getElementById('promoListContainer');
+
+if (addPromoItemBtn && addPromoFormContainer && cancelAddPromoBtn) {
+    addPromoItemBtn.addEventListener('click', () => {
+        addPromoFormContainer.classList.remove('hidden');
+        addPromoItemBtn.classList.add('hidden');
+        if (promoListContainer) promoListContainer.scrollTop = promoListContainer.scrollHeight;
+    });
+
+    cancelAddPromoBtn.addEventListener('click', () => {
+        addPromoFormContainer.classList.add('hidden');
+        addPromoItemBtn.classList.remove('hidden');
+        const addPromoForm = document.getElementById('addPromoForm');
+        if(addPromoForm) addPromoForm.reset();
+    });
+}
 });
 </script>

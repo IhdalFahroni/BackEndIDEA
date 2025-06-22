@@ -42,6 +42,9 @@ $routes->post('account/delete', 'Akun::deleteAccount');
 $routes->post('review/submit', 'Akun::submitReview');
 $routes->post('tempat/submit', 'Akun::submitAddPlace');
 $routes->post('menu/add', 'Akun::addMenuItem');
+$routes->post('promo/add', 'Akun::addPromoItem');
+$routes->post('menu/delete', 'Akun::deleteMenuItem');
+$routes->post('promo/delete', 'Akun::deletePromoItem');
 
 $routes->post('verify', 'Admin::verifyRequest');
 $routes->post('review/delete', 'Admin::deleteReview');

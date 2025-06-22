@@ -299,4 +299,123 @@ public function submitAddPlace()
             }
         }
     }
+    public function addPromoItem()
+{
+    // 1. Cek Keamanan
+    $session = session();
+    if (!$session->get('isLoggedIn')) {
+        return redirect()->to(base_url('login'))->with('error', 'Anda harus login.');
+    }
+    // Asumsi ada logika untuk cek kepemilikan tempat
+
+    $idTempat = $this->request->getPost('ID_tempat');
+
+    // 2. Validasi Input
+    $rules = [
+        'ID_tempat'       => 'required|integer',
+        'nama_promo'      => 'required|max_length[150]',
+        'deskripsi_promo' => 'required|max_length[500]',
+        'valid_until'     => 'permit_empty|valid_date', // Memastikan format tanggal benar
+    ];
+
+    if (!$this->validate($rules)) {
+        return redirect()->to(base_url('home?show=detail&id=' . $idTempat))
+                         ->withInput()
+                         ->with('errors', $this->validator->getErrors());
+    }
+
+    // 3. Siapkan Data dan Simpan
+    $promoModel = new PromoModel();
+    $dataToSave = [
+        'ID_tempat'       => $idTempat,
+        'nama_promo'      => $this->request->getPost('nama_promo'),
+        'deskripsi_promo' => $this->request->getPost('deskripsi_promo'),
+        'valid_until'     => $this->request->getPost('valid_until'),
+    ];
+
+    if ($promoModel->save($dataToSave)) {
+        return redirect()->to(base_url('home?show=detail&id=' . $idTempat))->with('success', 'Promo baru berhasil ditambahkan!');
+    } else {
+        return redirect()->to(base_url('home?show=detail&id=' . $idTempat))->with('error', 'Gagal menyimpan promo ke database.');
+    }
+}
+
+public function deleteMenuItem()
+    {
+        $session = session();
+        $id_menu = $this->request->getPost('id_menu');
+        $id_tempat = $this->request->getPost('id_tempat');
+
+        // Validasi dasar
+        if (empty($id_menu) || empty($id_tempat)) {
+            return redirect()->back()->with('error', 'Data tidak valid.');
+        }
+
+        $menuModel = new MenuModel();
+        $tempatModel = new TempatModel();
+        
+        // Ambil data menu untuk mendapatkan nama file foto & ID tempat asli
+        $menuItem = $menuModel->find($id_menu);
+        if (!$menuItem) {
+            return redirect()->back()->with('error', 'Menu tidak ditemukan.');
+        }
+
+        // Ambil data tempat untuk cek kepemilikan
+        $tempat = $tempatModel->find($menuItem['ID_tempat']);
+
+        // KEAMANAN: Pastikan yang menghapus adalah admin atau pemilik tempat
+        if (session()->get('user_role') !== 'admin' && session()->get('ID_akun') !== $tempat['ID_akun']) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk melakukan aksi ini.');
+        }
+
+        // Hapus file foto terkait jika ada
+        if (!empty($menuItem['foto_menu'])) {
+            $filePath = FCPATH . 'Assets/menu_photos/' . $menuItem['foto_menu'];
+            if (is_file($filePath)) {
+                unlink($filePath);
+            }
+        }
+
+        // Hapus data dari database
+        if ($menuModel->delete($id_menu)) {
+            return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('success', 'Menu berhasil dihapus.');
+        } else {
+            return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('error', 'Gagal menghapus menu.');
+        }
+    }
+
+    /**
+     * Menghapus item promo
+     */
+    public function deletePromoItem()
+    {
+        $session = session();
+        $id_promo = $this->request->getPost('id_promo');
+        $id_tempat = $this->request->getPost('id_tempat');
+
+        if (empty($id_promo) || empty($id_tempat)) {
+            return redirect()->back()->with('error', 'Data tidak valid.');
+        }
+        
+        $promoModel = new PromoModel();
+        $tempatModel = new TempatModel();
+
+        $promoItem = $promoModel->find($id_promo);
+        if (!$promoItem) {
+            return redirect()->back()->with('error', 'Promo tidak ditemukan.');
+        }
+        
+        $tempat = $tempatModel->find($promoItem['ID_tempat']);
+
+        // KEAMANAN: Pastikan yang menghapus adalah admin atau pemilik tempat
+        if (session()->get('user_role') !== 'admin' && session()->get('ID_akun') !== $tempat['ID_akun']) {
+            return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk melakukan aksi ini.');
+        }
+
+        if ($promoModel->delete($id_promo)) {
+            return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('success', 'Promo berhasil dihapus.');
+        } else {
+            return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('error', 'Gagal menghapus promo.');
+        }
+    }
 }

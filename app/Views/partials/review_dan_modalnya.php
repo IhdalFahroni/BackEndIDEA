@@ -91,7 +91,7 @@
                     <?= esc($review['komentar']) ?>
                 </p>
                 <?php if (!empty($review['foto'])) : ?>
-                    <img src="<?= base_url('Assets/' . esc($review['foto'])) ?>" alt="Review Image" class="rounded-xl w-80 h-52 object-cover shadow-md mb-3">
+                    <img src="<?= base_url('Assets/review_photos/' . esc($review['foto'])) ?>" alt="Review Image" class="rounded-xl w-80 h-52 object-cover shadow-md mb-3">
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>

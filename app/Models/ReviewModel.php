@@ -17,4 +17,5 @@ class ReviewModel extends Model {
                     ->orderBy('review.waktu', 'DESC')
                     ->findAll();
     }
+    
 }
