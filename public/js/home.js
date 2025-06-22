@@ -15,6 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const openClaimBtn = document.getElementById("openClaimBtn");
   const claimForm = document.getElementById("claimForm");
+  const closeClaimFormBtn = document.getElementById("closeClaimFormBtn");
+
+  //file input untuk claim form
+  const fileInputClaim = document.getElementById("file-uploadClaim");
+  const fileListClaim = document.getElementById("file-listClaim");
+  const fileUploadVisualClaim = document.getElementById("fileUploadVisualClaim");
+  const fileUploadPlaceholderClaim = document.getElementById("fileUploadPlaceholderClaim");
 
   const searchInput = document.getElementById("search_input");
   const searchButton = document.getElementById("searchButton");
@@ -59,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     "closeAccountSettingBtn"
   );
 
-  // --- FILE UPLOAD & GOOGLE MAPS ---
+  // --- FILE UPLOAD & GOOGLE MAPS untuk form addplace ---
   const fileInput = document.getElementById("file-upload");
   const fileList = document.getElementById("file-list");
   const fileUploadVisual = document.getElementById("fileUploadVisual");
@@ -540,6 +547,47 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   } else {
     console.error("Error: Input 'file-upload' tidak ditemukan!");
+  }
+
+  //untuk claim form
+  if (fileUploadVisualClaim) {
+    fileUploadVisualClaim.onclick = () => {
+      if (fileInputClaim) fileInputClaim.click();
+    };
+  } else {
+    console.error("Error: Div 'fileUploadVisualClaim' tidak ditemukan!");
+  }
+
+  if (fileInputClaim) {
+    fileInputClaim.onchange = () => {
+      if (fileInputClaim.files.length > 0) {
+        let filesText = Array.from(fileInputClaim.files)
+          .map((file) => file.name)
+          .join(", ");
+        fileListClaim.textContent = `Selected: ${filesText}`;
+        fileUploadPlaceholderClaim.value = `${fileInputClaim.files.length} file(s) selected`;
+      } else {
+        fileListClaim.textContent = "";
+        fileUploadPlaceholderClaim.value = "";
+        fileUploadPlaceholderClaim.placeholder = "Upload File(s)";
+      }
+    };
+  } else {
+    console.error("Error: Input 'file-uploadClaim' tidak ditemukan!");
+  }
+
+  //untuk close culinary form
+  if (closeClaimFormBtn) {
+    closeClaimFormBtn.addEventListener("click", () => {
+      if (claimForm) claimForm.classList.add("hidden");
+      if (fileInputClaim) fileInputClaim.value = ""; // Reset file input
+      if (fileListClaim) fileListClaim.textContent = ""; // Clear file list
+      if (fileUploadPlaceholderClaim) {
+        fileUploadPlaceholderClaim.value = "";
+        fileUploadPlaceholderClaim.placeholder = "Upload File(s)";
+      }
+      showPanel("awal")
+    });
   }
 
   // --- LOGIKA VERIFIKASI (UNTUK ADMIN) ---

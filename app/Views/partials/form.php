@@ -129,11 +129,11 @@
     </form>
 </div>
 <div id="claimForm" class="header mb-5 hidden">
-    <h2 class="text-white text-center text-3xl md:text-5xl font-bold mb-5 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
+    <h2 class="text-white text-center text-3xl md:text-5xl font-bold [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
         Claim culinary site
     </h2>
-     <div class="modal-close-btn" data-close-modal="claimForm">
-        <i class="fa-solid fa-xmark text-lg text-[#FFFFFF]"></i>
+     <div class="flex justify-end mb-4 mr-4">
+        <i id="closeClaimFormBtn" class="fa-solid fa-xmark text-2xl font-bold text-[#FFFFFF]"></i>
     </div>
     <p class="text-xs font-light text-black text-center bg-white p-2 rounded-lg mb-6 shadow-sm border border-yellow-200">
         All questions (<span class="text-[#FF0000]">*</span>) must be answered. Once submitted, answers cannot be changed. <br>
