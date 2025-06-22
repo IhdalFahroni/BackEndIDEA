@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 19 Jun 2025 pada 03.44
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.2.12
+-- Generation Time: Jun 22, 2025 at 10:05 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `akun`
+-- Table structure for table `akun`
 --
 
 CREATE TABLE `akun` (
@@ -40,57 +40,78 @@ CREATE TABLE `akun` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `akun`
+-- Dumping data for table `akun`
 --
 
 INSERT INTO `akun` (`ID_akun`, `username`, `foto_profil`, `password`, `email`, `nama_depan`, `nama_belakang`, `is_pemilik`, `is_admin`) VALUES
 (1, 'admin', NULL, '$2y$10$07UmwluqUZuJyELThW2jBO4oyWKYuyUWHQQM4ph1lnYWulwBOfhYi', 'admin@gmail.com', 'Admin', 'Admin', 0, 1),
 (3, 'idalpemilik', NULL, '$2y$10$9D0/HOyGwMKoVGVhgQ0vQeQajOWGC3eU2r.A0piWI.r4wdfo/3GDu', 'ihdalfahroni@gmail.com', 'Ihdal', 'Fahroni', 1, 0),
 (4, 'vivivi', NULL, '$2y$10$DOuBOqln9RMpioTHDoTITu5P3u2uHRDf2aQhNNOw6mk.iV6w6atjC', 'devitaamalia@gmail.com', 'Devita', 'Amalia', 0, 0),
-(11, 'enjikeren', NULL, '$2y$10$Wcrcjf1kJVENnvc25oGpKeyCqAcV05IzBR/4qS.4JeSh8iHvrXdQm', 'enji@123', 'enji', 'enji', 0, 0);
+(12, 'enjikeren', NULL, '$2y$10$zAzVn5nZchFCQS.0APuaUuM82MjG.mXSITioGq7GAzmWcLwMQm2gS', 'enji@keren', 'enji', 'juwitaaa', 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `form_klaim`
+-- Table structure for table `form_klaim`
 --
 
 CREATE TABLE `form_klaim` (
   `ID_formKlaim` int(11) NOT NULL,
-  `ID_akun` int(11) NOT NULL,
+  `ID_akun` int(11) DEFAULT NULL,
+  `ID_tempat` int(11) NOT NULL,
   `nama_lengkap` tinytext NOT NULL,
   `no_hp` varchar(20) NOT NULL,
   `npwp` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `dokumen_pendukung` varchar(500) DEFAULT NULL,
-  `is_verified` tinyint(1) NOT NULL DEFAULT 0
+  `is_verified` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `form_klaim`
+--
+
+INSERT INTO `form_klaim` (`ID_formKlaim`, `ID_akun`, `ID_tempat`, `nama_lengkap`, `no_hp`, `npwp`, `email`, `dokumen_pendukung`, `is_verified`) VALUES
+(2, 12, 2, 'anggijuwita', '123', '123', 'angg@123', '1750573768_2a978a9f4f5d6436809e.png', 0);
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `form_pengajuantempat`
+-- Table structure for table `form_pengajuantempat`
 --
 
 CREATE TABLE `form_pengajuantempat` (
   `ID_formPengajuanTempat` int(11) NOT NULL,
   `ID_akun` int(11) NOT NULL,
   `nama_tempat` varchar(255) NOT NULL,
-  `kabupatan_kota` enum('mataram','lombok_barat','lombok_tengah','lombok_timur','lombok_utara') NOT NULL,
+  `kabupaten_kota` enum('mataram','lombok_barat','lombok_tengah','lombok_timur','lombok_utara') NOT NULL,
   `kecamatan` varchar(255) NOT NULL,
   `kelurahan` varchar(255) NOT NULL,
   `nama_jalan` varchar(255) NOT NULL,
   `kategori` enum('tourist_destination','culinary') NOT NULL,
   `foto` varchar(500) DEFAULT NULL,
   `deskripsi` text NOT NULL,
+  `harga_tiket` int(20) DEFAULT NULL,
   `google_maps` varchar(255) NOT NULL,
   `is_verified` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `form_pengajuantempat`
+--
+
+INSERT INTO `form_pengajuantempat` (`ID_formPengajuanTempat`, `ID_akun`, `nama_tempat`, `kabupaten_kota`, `kecamatan`, `kelurahan`, `nama_jalan`, `kategori`, `foto`, `deskripsi`, `harga_tiket`, `google_maps`, `is_verified`) VALUES
+(1, 12, 'Pantai Parkiran', 'lombok_utara', 'Mangsit', 'Mangsit', 'Jalan Raya Senggigi', 'tourist_destination', '1750478769_8c1e0ebf108209fb6e5a.jpg', 'pantai dengan parkiran', 10000, 'https://maps.app.goo.gl/ES7BxjhcjqiP497JA', 0),
+(2, 3, 'Taman Wisata Pusuk Sembalun', 'lombok_timur', 'Sembalun', 'Sembalun Bumbung', 'Jalan Wisata Gunung Rinjani', 'tourist_destination', '1750479438_35ff0ef1c17cd6aab9aa.png', 'Bukit yang dikelilingi oleh bukit-bukit lain di sekeliling Gunung Rinjani, dengan kabut dan hawa dingin yang sangat khas dari tempat wisata ini.', 10000, 'https://maps.app.goo.gl/tpVyGRt51nnEEXeS8', 0),
+(3, 12, 'Gili Kondo', 'lombok_timur', 'Sambelia', 'Gili Kondo', 'Gili Kondo', 'tourist_destination', '1750480620_7fcc98288ae92794be6e.png', 'Gili dengan pasir putih, dan hutan kecil dengan pepohonan hijau, air pantai biru muda yang sangat jernih.', 150000, 'https://maps.app.goo.gl/yrTALvkEg5eJ3pgZ7', 0),
+(4, 12, 'Pantai Serangan', 'lombok_tengah', 'Praya Barat', 'Serangan', 'Jalan Twin Peaks', 'tourist_destination', '1750489358_560b4869ca7fcbcf10e0.png', 'Pantai pasir putih keren', 5000, 'https://maps.app.goo.gl/6gjCFYXdRJXePjYz6', 0),
+(5, 12, 'Pantai Serangan', 'lombok_tengah', 'Praya Barat', 'Serangan', 'Jalan Twin Peaks', 'tourist_destination', '1750489689_7f3f5f158b32b0bb24a0.png', 'Pantai pasir putih keren', 5000, 'https://maps.app.goo.gl/6gjCFYXdRJXePjYz6', 0),
+(6, 12, 'Pantai Serangan', 'lombok_tengah', 'Praya Barat', 'Serangan', 'Jalan Twin Peaks', 'tourist_destination', '1750489701_baa12e5b1c77151f35de.png', 'Pantai pasir putih keren', 5000, 'https://maps.app.goo.gl/6gjCFYXdRJXePjYz6', 0);
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `menu`
+-- Table structure for table `menu`
 --
 
 CREATE TABLE `menu` (
@@ -103,7 +124,7 @@ CREATE TABLE `menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `menu`
+-- Dumping data for table `menu`
 --
 
 INSERT INTO `menu` (`ID_menu`, `ID_tempat`, `foto_menu`, `nama_menu`, `deskripsi_menu`, `harga_menu`) VALUES
@@ -113,7 +134,7 @@ INSERT INTO `menu` (`ID_menu`, `ID_tempat`, `foto_menu`, `nama_menu`, `deskripsi
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `notifikasi`
+-- Table structure for table `notifikasi`
 --
 
 CREATE TABLE `notifikasi` (
@@ -124,10 +145,18 @@ CREATE TABLE `notifikasi` (
   `tanggal_jam` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `notifikasi`
+--
+
+INSERT INTO `notifikasi` (`ID_notif`, `ID_akun`, `header`, `isi_notif`, `tanggal_jam`) VALUES
+(1, 1, 'Request for new place addition', 'enjikeren has submitted a request to add a new place.', '2025-06-21 07:08:09'),
+(3, 1, 'Request for culinary site claim', 'enjikeren has submitted a request to claim a culinary site.', '2025-06-22 06:29:28');
+
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `promo`
+-- Table structure for table `promo`
 --
 
 CREATE TABLE `promo` (
@@ -139,7 +168,7 @@ CREATE TABLE `promo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `promo`
+-- Dumping data for table `promo`
 --
 
 INSERT INTO `promo` (`ID_promo`, `ID_tempat`, `nama_promo`, `deskripsi_promo`, `valid_until`) VALUES
@@ -149,7 +178,7 @@ INSERT INTO `promo` (`ID_promo`, `ID_tempat`, `nama_promo`, `deskripsi_promo`, `
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `review`
+-- Table structure for table `review`
 --
 
 CREATE TABLE `review` (
@@ -163,17 +192,18 @@ CREATE TABLE `review` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `review`
+-- Dumping data for table `review`
 --
 
 INSERT INTO `review` (`ID_review`, `ID_akun`, `ID_tempat`, `komentar`, `rating`, `foto`, `waktu`) VALUES
 (1, 3, 1, 'Pantai Selong Belanak adalah salah satu destinasi pantai paling memukau di Lombok, Nusa Tenggara Barat. \r\nPantai ini sangat cocok untuk wisatawan yang ingin bersantai, menikmati matahari, atau belajar surfing—karena ombak di bagian ujung pantai cukup tenang untuk pemula. Di sepanjang pantai, pengunjung juga bisa menemukan \r\nderetan warung yang menyajikan makanan lokal dan minuman segar.', 4.50, 'C:\\xampp\\htdocs\\TubesWeb\\PemWebIDEA\\Assets\\review_selong_belanak.png', '2025-06-09 08:00:00'),
-(2, 3, 2, 'Pegawainya ramah, pagi2 menu sudah banyak yang siap, tempatnya bersih, kalau untuk rasa saya agak kurang cocok, makanan yang saya pesan rawon dan gulai kambing.', 4.70, 'C:\\xampp\\htdocs\\TubesWeb\\PemWebIDEA\\Assets\\review_sumberRejeki.png', '2025-06-09 03:09:58');
+(2, 3, 2, 'Pegawainya ramah, pagi2 menu sudah banyak yang siap, tempatnya bersih, kalau untuk rasa saya agak kurang cocok, makanan yang saya pesan rawon dan gulai kambing.', 4.70, 'C:\\xampp\\htdocs\\TubesWeb\\PemWebIDEA\\Assets\\review_sumberRejeki.png', '2025-06-09 03:09:58'),
+(3, 12, 4, 'keren bgt oiiiii', 5.00, '1750508747_4f009b376a1610830153.png', '2025-06-21 12:25:47');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tempat`
+-- Table structure for table `tempat`
 --
 
 CREATE TABLE `tempat` (
@@ -192,7 +222,7 @@ CREATE TABLE `tempat` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tempat`
+-- Dumping data for table `tempat`
 --
 
 INSERT INTO `tempat` (`ID_tempat`, `nama_tempat`, `kabupaten_kota`, `kecamatan`, `kelurahan`, `nama_jalan`, `kategori`, `deskripsi`, `foto`, `google_maps`, `harga_tiket`, `ID_akun`) VALUES
@@ -214,48 +244,49 @@ INSERT INTO `tempat` (`ID_tempat`, `nama_tempat`, `kabupaten_kota`, `kecamatan`,
 --
 
 --
--- Indeks untuk tabel `akun`
+-- Indexes for table `akun`
 --
 ALTER TABLE `akun`
   ADD PRIMARY KEY (`ID_akun`);
 
 --
--- Indeks untuk tabel `form_klaim`
+-- Indexes for table `form_klaim`
 --
 ALTER TABLE `form_klaim`
   ADD PRIMARY KEY (`ID_formKlaim`),
-  ADD KEY `form_klaim_ibfk_1` (`ID_akun`);
+  ADD KEY `form_klaim_ibfk_1` (`ID_akun`),
+  ADD KEY `form_klaim_ibfk_2` (`ID_tempat`);
 
 --
--- Indeks untuk tabel `form_pengajuantempat`
+-- Indexes for table `form_pengajuantempat`
 --
 ALTER TABLE `form_pengajuantempat`
   ADD PRIMARY KEY (`ID_formPengajuanTempat`),
   ADD KEY `form_pengajuantempat_ibfk_1` (`ID_akun`);
 
 --
--- Indeks untuk tabel `menu`
+-- Indexes for table `menu`
 --
 ALTER TABLE `menu`
   ADD PRIMARY KEY (`ID_menu`),
   ADD KEY `ID_tempat` (`ID_tempat`);
 
 --
--- Indeks untuk tabel `notifikasi`
+-- Indexes for table `notifikasi`
 --
 ALTER TABLE `notifikasi`
   ADD PRIMARY KEY (`ID_notif`),
   ADD KEY `ID_akun` (`ID_akun`);
 
 --
--- Indeks untuk tabel `promo`
+-- Indexes for table `promo`
 --
 ALTER TABLE `promo`
   ADD PRIMARY KEY (`ID_promo`),
   ADD KEY `promo_ibfk_1` (`ID_tempat`);
 
 --
--- Indeks untuk tabel `review`
+-- Indexes for table `review`
 --
 ALTER TABLE `review`
   ADD PRIMARY KEY (`ID_review`),
@@ -263,110 +294,111 @@ ALTER TABLE `review`
   ADD KEY `ID_tempat` (`ID_tempat`);
 
 --
--- Indeks untuk tabel `tempat`
+-- Indexes for table `tempat`
 --
 ALTER TABLE `tempat`
   ADD PRIMARY KEY (`ID_tempat`),
-  ADD KEY `ID_akun` (`ID_akun`);
+  ADD KEY `tempat_ibfk_1` (`ID_akun`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `akun`
+-- AUTO_INCREMENT for table `akun`
 --
 ALTER TABLE `akun`
-  MODIFY `ID_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `ID_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
--- AUTO_INCREMENT untuk tabel `form_klaim`
+-- AUTO_INCREMENT for table `form_klaim`
 --
 ALTER TABLE `form_klaim`
-  MODIFY `ID_formKlaim` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID_formKlaim` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `form_pengajuantempat`
+-- AUTO_INCREMENT for table `form_pengajuantempat`
 --
 ALTER TABLE `form_pengajuantempat`
-  MODIFY `ID_formPengajuanTempat` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_formPengajuanTempat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT untuk tabel `menu`
+-- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
   MODIFY `ID_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `notifikasi`
+-- AUTO_INCREMENT for table `notifikasi`
 --
 ALTER TABLE `notifikasi`
-  MODIFY `ID_notif` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID_notif` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT untuk tabel `promo`
+-- AUTO_INCREMENT for table `promo`
 --
 ALTER TABLE `promo`
   MODIFY `ID_promo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `review`
+-- AUTO_INCREMENT for table `review`
 --
 ALTER TABLE `review`
-  MODIFY `ID_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `ID_review` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT untuk tabel `tempat`
+-- AUTO_INCREMENT for table `tempat`
 --
 ALTER TABLE `tempat`
-  MODIFY `ID_tempat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `ID_tempat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `form_klaim`
+-- Constraints for table `form_klaim`
 --
 ALTER TABLE `form_klaim`
-  ADD CONSTRAINT `form_klaim_ibfk_1` FOREIGN KEY (`ID_akun`) REFERENCES `akun` (`ID_akun`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `form_klaim_ibfk_1` FOREIGN KEY (`ID_akun`) REFERENCES `akun` (`ID_akun`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `form_klaim_ibfk_2` FOREIGN KEY (`ID_tempat`) REFERENCES `tempat` (`ID_tempat`);
 
 --
--- Ketidakleluasaan untuk tabel `form_pengajuantempat`
+-- Constraints for table `form_pengajuantempat`
 --
 ALTER TABLE `form_pengajuantempat`
   ADD CONSTRAINT `form_pengajuantempat_ibfk_1` FOREIGN KEY (`ID_akun`) REFERENCES `akun` (`ID_akun`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `menu`
+-- Constraints for table `menu`
 --
 ALTER TABLE `menu`
   ADD CONSTRAINT `menu_ibfk_1` FOREIGN KEY (`ID_tempat`) REFERENCES `tempat` (`ID_tempat`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `notifikasi`
+-- Constraints for table `notifikasi`
 --
 ALTER TABLE `notifikasi`
   ADD CONSTRAINT `notifikasi_ibfk_1` FOREIGN KEY (`ID_akun`) REFERENCES `akun` (`ID_akun`);
 
 --
--- Ketidakleluasaan untuk tabel `promo`
+-- Constraints for table `promo`
 --
 ALTER TABLE `promo`
   ADD CONSTRAINT `promo_ibfk_1` FOREIGN KEY (`ID_tempat`) REFERENCES `tempat` (`ID_tempat`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `review`
+-- Constraints for table `review`
 --
 ALTER TABLE `review`
   ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`ID_akun`) REFERENCES `akun` (`ID_akun`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `review_ibfk_2` FOREIGN KEY (`ID_tempat`) REFERENCES `tempat` (`ID_tempat`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `tempat`
+-- Constraints for table `tempat`
 --
 ALTER TABLE `tempat`
-  ADD CONSTRAINT `tempat_ibfk_1` FOREIGN KEY (`ID_akun`) REFERENCES `akun` (`ID_akun`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `tempat_ibfk_1` FOREIGN KEY (`ID_akun`) REFERENCES `akun` (`ID_akun`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
