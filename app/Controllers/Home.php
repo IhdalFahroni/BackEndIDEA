@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\KlaimKulinerModel;
 use App\Models\TempatModel;
 use App\Models\PengajuanTempatModel;
 use App\Models\NotifikasiModel;
@@ -41,6 +42,7 @@ class Home extends BaseController
         $promoModel = new PromoModel();
         $notifModel = new NotifikasiModel();
         $pengajuanTempatModel = new PengajuanTempatModel();
+        $klaimKulinerModel = new KlaimKulinerModel();
 
         $id_akun = $session->get('ID_akun');
         $addPlaceForm = $pengajuanTempatModel->getAddPlaceForm();
@@ -48,6 +50,13 @@ class Home extends BaseController
         if (!empty($addPlaceForm)) {
             foreach ($addPlaceForm as $item) {
                 $item['type'] = 'addPlace';
+                $verificationItems[] = $item;
+            }
+        }
+        $claimForm = $klaimKulinerModel->getClaimForm();
+        if (!empty($claimForm)) {
+            foreach ($claimForm as $item) {
+                $item['type'] = 'claimCulinary';
                 $verificationItems[] = $item;
             }
         }

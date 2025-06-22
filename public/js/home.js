@@ -722,6 +722,7 @@ function openAddPlaceModal(data) {
 
 // Helper function to populate and open the claimCulinary modal
 function openClaimCulinaryModal(data) {
+    document.getElementById('place_to_claim').textContent = data.placeName;
     document.getElementById('claim_fullName').textContent = data.fullName;
     document.getElementById('claim_phone').textContent = data.phone;
     document.getElementById('claim_email').textContent = data.email;
