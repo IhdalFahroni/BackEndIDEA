@@ -211,79 +211,43 @@ foreach ($categories as $key => $details) {
         <?php endif ?>
     </div>
 <?php endif; ?>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     
-    // ===================================================================
-    // BAGIAN 1: LOGIKA UNTUK PENCARIAN & FILTER
-    // ===================================================================
+    // --- LOGIKA PENCARIAN ---
     const searchInput = document.getElementById('search_input');
     const searchButton = document.getElementById('searchButton');
-
     if (searchInput && searchButton) {
-        function submitSearchForm() {
-            searchInput.closest('form').submit();
-        }
-        searchInput.addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') { 
-                event.preventDefault(); 
-                submitSearchForm(); 
-            }
-        });
-        searchButton.addEventListener('click', function(event) { 
-            submitSearchForm(); 
-        });
+        function submitSearchForm() { searchInput.closest('form').submit(); }
+        searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); submitSearchForm(); }});
+        searchButton.addEventListener('click', submitSearchForm);
     }
 
-    // ===================================================================
-    // BAGIAN 2: LOGIKA UNTUK RATING BINTANG (PASTIKAN INI ADA)
-    // ===================================================================
+    // --- LOGIKA RATING BINTANG ---
     function generateStars(element) {
         if (!element) return;
-        let rating = parseFloat(element.getAttribute("data-rating"));
+        const rating = parseFloat(element.dataset.rating);
         if (isNaN(rating)) return;
-
-        let fullStars = Math.floor(rating);
-        let halfStar = rating % 1 >= 0.5 ? 1 : 0;
-        let emptyStars = 5 - (fullStars + halfStar);
-
-        let starsHTML = "";
-        for (let i = 0; i < fullStars; i++) {
-            starsHTML += '<i class="fa-solid fa-star"></i>';
+        let starsHTML = '';
+        for (let i = 1; i <= 5; i++) {
+            if (i <= rating) starsHTML += '<i class="fas fa-star text-yellow-500"></i>';
+            else if (i - 0.5 <= rating) starsHTML += '<i class="fas fa-star-half-alt text-yellow-500"></i>';
+            else starsHTML += '<i class="far fa-star text-gray-400"></i>';
         }
-        if (halfStar) {
-            starsHTML += '<i class="fa-solid fa-star-half-alt"></i>';
-        }
-        for (let i = 0; i < emptyStars; i++) {
-            starsHTML += '<i class="fa-regular fa-star"></i>';
-        }
-        // Jika sudah ada teks di dalamnya (misal: ★ 4.5), tambahkan bintang di depannya
-        // Jika tidak, ganti seluruh isinya. Ini mencegah duplikasi.
-        if (element.textContent.trim().length > 0) {
-             element.innerHTML = starsHTML + ' ' + element.innerHTML;
-        } else {
-            element.innerHTML = starsHTML;
-        }
+        element.innerHTML = starsHTML;
     }
-    
-    // PASTIKAN BARIS INI ADA UNTUK MEMANGGIL FUNGSINYA
     document.querySelectorAll(".rating").forEach(generateStars);
 
-    // ===================================================================
-    // BAGIAN 3: LOGIKA UNTUK FORM REVIEW
-    // ===================================================================
+    // --- LOGIKA FORM REVIEW ---
     const addReview = document.getElementById("addReview");
     const fillReview = document.getElementById("fillReview");
     const closeReview = document.getElementById("closeReview");
-
     if (addReview && fillReview) {
         addReview.addEventListener("click", () => {
             fillReview.classList.remove("hidden");
             addReview.classList.add("hidden");
         });
     }
-
     if (closeReview && fillReview && addReview) {
         closeReview.addEventListener("click", () => {
             fillReview.classList.add("hidden");
@@ -291,9 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // ===================================================================
-    // BAGIAN 4: LOGIKA UNTUK MODAL MENU & PROMO DENGAN EFEK OVERLAY
-    // ===================================================================
+    // --- LOGIKA MODAL MENU & PROMO (TERMASUK OVERLAY) ---
     const openMenuBtn = document.getElementById('openMenu');
     const menuModal = document.getElementById('menuModal');
     const closeMenuModalBtn = document.getElementById('closeMenuModal');
@@ -301,64 +263,44 @@ document.addEventListener('DOMContentLoaded', function() {
     const promoModal = document.getElementById('promoModal');
     const closePromoModalBtn = document.getElementById('closePromoModal');
 
-    if (openMenuBtn && menuModal && closeMenuModalBtn) {
-        openMenuBtn.addEventListener('click', () => {
-            menuModal.classList.remove('hidden');
-            menuModal.classList.add('flex');
-            document.body.style.overflow = 'hidden';
-        });
-        closeMenuModalBtn.addEventListener('click', () => {
-            menuModal.classList.add('hidden');
-            menuModal.classList.remove('flex');
-            document.body.style.overflow = 'auto';
-        });
+    function openModal(modal) {
+        if (!modal) return;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
     }
 
-    if (openPromoBtn && promoModal && closePromoModalBtn) {
-        openPromoBtn.addEventListener('click', () => {
-            promoModal.classList.remove('hidden');
-            promoModal.classList.add('flex');
-            document.body.style.overflow = 'hidden';
-        });
-        closePromoModalBtn.addEventListener('click', () => {
-            promoModal.classList.add('hidden');
-            promoModal.classList.remove('flex');
-            document.body.style.overflow = 'auto';
-        });
+    function closeModal(modal) {
+        if (!modal) return;
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = 'auto';
     }
 
-    [menuModal, promoModal].forEach(modal => {
-        if (modal) {
-            modal.addEventListener('click', function(event) {
-                if (event.target === this) {
-                    this.classList.add('hidden');
-                    this.classList.remove('flex');
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        }
-    });
+    if(openMenuBtn) openMenuBtn.addEventListener('click', () => openModal(menuModal));
+    if(closeMenuModalBtn) closeMenuModalBtn.addEventListener('click', () => closeModal(menuModal));
+    if(openPromoBtn) openPromoBtn.addEventListener('click', () => openModal(promoModal));
+    if(closePromoModalBtn) closePromoModalBtn.addEventListener('click', () => closeModal(promoModal));
+    if(menuModal) menuModal.addEventListener('click', (e) => { if(e.target === menuModal) closeModal(menuModal); });
+    if(promoModal) promoModal.addEventListener('click', (e) => { if(e.target === promoModal) closeModal(promoModal); });
 
-const addMenuItemBtn = document.getElementById('addMenuItemBtn');
-const addMenuFormContainer = document.getElementById('addMenuFormContainer');
-const cancelAddMenuBtn = document.getElementById('cancelAddMenuBtn');
-const menuListContainer = document.getElementById('menuListContainer');
-
-if (addMenuItemBtn && addMenuFormContainer && cancelAddMenuBtn) {
-    // Saat tombol plus diklik
-    addMenuItemBtn.addEventListener('click', () => {
-        addMenuFormContainer.classList.remove('hidden'); // Tampilkan form
-        addMenuItemBtn.classList.add('hidden'); // Sembunyikan tombol plus
-        // Scroll ke bagian bawah container list menu
-        menuListContainer.scrollTop = menuListContainer.scrollHeight;
-    });
-
-    // Saat tombol batal di form diklik
-    cancelAddMenuBtn.addEventListener('click', () => {
-        addMenuFormContainer.classList.add('hidden'); // Sembunyikan form
-        addMenuItemBtn.classList.remove('hidden'); // Tampilkan lagi tombol plus
-        document.getElementById('addMenuForm').reset(); // Reset isi form
-    });
-}
+    // --- LOGIKA FORM TAMBAH MENU INLINE ---
+    const addMenuItemBtn = document.getElementById('addMenuItemBtn');
+    const addMenuFormContainer = document.getElementById('addMenuFormContainer');
+    const cancelAddMenuBtn = document.getElementById('cancelAddMenuBtn');
+    const menuListContainer = document.getElementById('menuListContainer');
+    if (addMenuItemBtn && addMenuFormContainer && cancelAddMenuBtn) {
+        addMenuItemBtn.addEventListener('click', () => {
+            addMenuFormContainer.classList.remove('hidden');
+            addMenuItemBtn.classList.add('hidden');
+            if (menuListContainer) menuListContainer.scrollTop = menuListContainer.scrollHeight;
+        });
+        cancelAddMenuBtn.addEventListener('click', () => {
+            addMenuFormContainer.classList.add('hidden');
+            addMenuItemBtn.classList.remove('hidden');
+            const addMenuForm = document.getElementById('addMenuForm');
+            if(addMenuForm) addMenuForm.reset();
+        });
+    }
 });
 </script>

@@ -210,7 +210,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (profilPage) profilPage.classList.add("hidden");
       if (editProfilePage) editProfilePage.classList.remove("hidden");
       if (bawahProfil) bawahProfil.classList.add("hidden");
-      validateProfileForm();
     });
   }
 

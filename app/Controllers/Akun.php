@@ -103,7 +103,7 @@ class Akun extends BaseController
             return redirect()->back()->with('error', 'Gagal menghapus akun.')->with('active_panel', 'profil');
         }
     }
-       public function submitReview()
+    public function submitReview()
     {
         $session = session();
         if (!$session->get('isLoggedIn')) {
@@ -121,7 +121,7 @@ class Akun extends BaseController
         ];
 
         if (!$this->validate($rules)) {
-            $idTempat = $this->request->getPost('ID_tempat');
+            $idTempat = $this->request->getPost('id_tempat');
             return redirect()->to(base_url("home?show=detail&id={$idTempat}"))->withInput()->with('errors', $this->validator->getErrors());
         }
 
@@ -164,6 +164,7 @@ class Akun extends BaseController
         if (!$session->get('isLoggedIn')) {
             return redirect()->to(base_url('login'))->with('error', 'Anda harus login.');
         }
+        $idTempat = $this->request->getPost('ID_tempat');
         // 2. Validasi Input
         $rules = [
             'ID_tempat'    => 'required|integer',
@@ -175,8 +176,6 @@ class Akun extends BaseController
                 'rules' => 'is_image[foto_menu]|max_size[foto_menu,2048]|ext_in[foto_menu,png,jpg,jpeg]',
             ],
         ];
-
-         $idTempat = $this->request->getPost('ID_tempat'); // Kita simpan dulu untuk redirect
 
 
         if (!$this->validate($rules)) {
@@ -190,13 +189,13 @@ class Akun extends BaseController
 
         if ($fotoMenuFile && $fotoMenuFile->isValid() && !$fotoMenuFile->hasMoved()) {
             $namaFoto = $fotoMenuFile->getRandomName();
-            $fotoMenuFile->move(ROOTPATH . 'public/Assets', $namaFoto);
+            $fotoMenuFile->move(ROOTPATH . 'public/Assets/menu_photos/', $namaFoto);
         }
 
         // 4. Siapkan Data dan Simpan ke Database
         $menuModel = new MenuModel();
         $dataToSave = [ 
-            'ID_tempat'     => $this->request->getPost('ID_tempat'),
+            'ID_tempat'     => $idTempat,
             'nama_menu'     => $this->request->getPost('nama_menu'),
             'harga_menu'    => $this->request->getPost('harga_menu'),
             'deskripsi_menu'=> $this->request->getPost('deskripsi_menu'),

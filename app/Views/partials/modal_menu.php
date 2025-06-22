@@ -1,8 +1,8 @@
 <?php // app/Views/partials/modal_menu.php ?>
 
 <div id="menuModal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4 hidden">
-    <div class="bg-white p-4 rounded-2xl shadow-2xl border border-[#5C3211]/30 w-full max-w-2xl relative text-[#5C3211]">
-        <div class="border border-[#5C3211] rounded-xl p-6 relative">
+    <div class="bg-white p-4 rounded-2xl shadow-2xl border border-[#5C3211]/30 w-6/12 text-[#5C3211]">
+        <div class="border border-[#5C3211] rounded-xl p-8 relative">
             <button id="closeMenuModal" class="absolute top-3 right-3 w-8 h-8 rounded-full border border-[#5C3211] flex items-center justify-center text-[#8E5E38] hover:bg-gray-100 transition focus:outline-none">
                 <i class="fas fa-xmark text-lg"></i>
             </button>
@@ -12,12 +12,12 @@
                 <p class="text-sm opacity-70">Berikut adalah daftar menu yang tersedia</p>
             </div>
 
-            <div id="menuListContainer" class="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+            <div id="menuListContainer" class="space-y-2 max-h-[70vh] overflow-y-auto pr-2">
                 <?php if (!empty($menu)) : ?>
                     <?php foreach ($menu as $item) : ?>
-                        <div class="flex items-start gap-4 border-b border-gray-200 pb-3">
+                        <div class="flex items-start gap-4 border-b border-gray-200 pb-6 mb-4 relative">
                             <?php if (!empty($item['foto_menu'])) : ?>
-                                <img src="<?= base_url('Assets/' . esc($item['foto_menu'])) ?>" alt="<?= esc($item['nama_menu']) ?>" class="w-24 h-24 object-cover rounded-md flex-shrink-0">
+                                <img src="<?= base_url('Assets/menu_photos/' . esc($item['foto_menu'])) ?>" alt="<?= esc($item['nama_menu']) ?>" class="w-24 h-24 object-cover rounded-md flex-shrink-0 pb-2">
                             <?php else: ?>
                                 <div class="w-24 h-24 bg-gray-200 rounded-md flex-shrink-0 flex items-center justify-center">
                                     <i class="fas fa-utensils text-gray-400 text-3xl"></i>
@@ -35,7 +35,7 @@
                         </div>
                     <?php endforeach; ?>
                     <?php if (isset($isOwner) && $isOwner) : ?>
-                        <button id="addMenuItemBtn" title="Tambah Menu Baru" class="absolute bottom-6 right-0 w-14 h-14 bg-[#FFC107] rounded-full text-white flex items-center justify-center shadow-lg hover:bg-opacity-80 transition">
+                        <button id="addMenuItemBtn" title="Tambah Menu Baru" class="absolute px-4 m-2 bottom-5 right-4 w-14 h-14 bg-[#FFC107] rounded-full text-white flex items-center justify-center shadow-lg hover:bg-opacity-80 transition">
                             <i class="fas fa-plus text-xl"></i>
                         </button>
                     <?php endif; ?>
@@ -48,7 +48,7 @@
                     <h3 class="font-bold text-lg text-center mb-4">Tambah Menu Baru</h3>
                     <form id="addMenuForm" action="<?= site_url('menu/add') ?>" method="post" enctype="multipart/form-data" class="space-y-4">
                         <?= csrf_field() ?>
-                        <input type="hidden" name="id_tempat" value="<?= esc($tempat['ID_tempat']) ?>">
+                        <input type="hidden" name="ID_tempat" value="<?= esc($tempat['ID_tempat']) ?>">
                         
                         <div>
                             <label for="nama_menu" class="block text-sm font-medium text-gray-700">Nama Menu</label>
@@ -72,9 +72,7 @@
                         </div>
                     </form>
                 </div>
-                </div>
-
-            
-            </div>
+            </div>       
+        </div>
     </div>
 </div>

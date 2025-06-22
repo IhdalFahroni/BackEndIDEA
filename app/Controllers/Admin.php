@@ -99,71 +99,76 @@ class Admin extends BaseController
             return redirect()->back()->with('error', 'Akses ditolak.');
         }
     }
-     public function deleteReview()
-    {
-        $session = session();
-        if ($session->get('user_role') !== 'admin') {
-            return redirect()->to(base_url('home'))->with('error', 'Akses ditolak.');
-        }
-        $id_review = $this->request->getPost('id_review');
-        $id_tempat = $this->request->getPost('id_tempat');
+    public function deleteReview()
+{
+    // 1. Cek Keamanan
+    $session = session();
+    if ($session->get('user_role') !== 'admin') {
+        return redirect()->to(base_url('home'))->with('error', 'Akses ditolak.');
+    }
 
-        // =======================================================
-        //          SEKRING PENGAMAN DITAMBAHKAN DI SINI
-        // =======================================================
-        // Jika karena alasan APAPUN id_review kosong, hentikan proses SEKARANG JUGA.
-        if (empty($id_review)) {
-            return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))
-                            ->with('error', 'Terjadi kesalahan: ID Review tidak valid. Tidak ada data yang dihapus.');
-        }
+    // 2. Ambil data dari form
+    $id_review = $this->request->getPost('id_review');
+    $id_tempat = $this->request->getPost('id_tempat');
 
-        // 1. Validasi Input dari form modal
-        $rules = [
-            'id_review'    => 'required|integer',
-            'id_tempat'    => 'required|integer',
-            'alasan_hapus' => 'required|in_list[inappropriate_word,misleading_info,offensive,spam]'
-        ];
+    // 3. Sekring Pengaman
+    if (empty($id_review)) {
+        return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))
+                         ->with('error', 'Terjadi kesalahan: ID Review tidak valid. Tidak ada data yang dihapus.');
+    }
+    
+    $reviewModel = new ReviewModel();
 
-        if (!$this->validate($rules)) {
-            return redirect()->back()->with('error', 'Mohon pilih alasan penghapusan.');
-        }
+    // 4. Ambil data review LENGKAP dari database SEBELUM dihapus
+    $review = $reviewModel->find($id_review);
 
-        $id_review = $this->request->getPost('id_review');
-        $id_tempat = $this->request->getPost('id_tempat');
-        $alasan_value = $this->request->getPost('alasan_hapus');
+    if (!$review) {
+        return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('error', 'Review tidak ditemukan atau sudah dihapus.');
+    }
 
-        $reviewModel = new ReviewModel();
-        $notifModel = new NotifikasiModel();
-
-        // 2. Ambil data review SEBELUM dihapus untuk mendapatkan ID pemiliknya
-        $review = $reviewModel->find($id_review);
-
-        if (!$review) {
-            return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('error', 'Review tidak ditemukan atau sudah dihapus.');
-        }
-
-        // 3. Hapus review dari database
-        if ($reviewModel->delete($id_review)) {
-            
-            // 4. Buat notifikasi untuk pengguna yang review-nya dihapus
-            $alasan_map = [
-                'inappropriate_word' => 'penggunaan kata yang tidak pantas',
-                'misleading_info'    => 'informasi yang menyesatkan',
-                'offensive'          => 'bersifat menyinggung',
-                'spam'               => 'dianggap spam atau promosi'
-            ];
-            $alasan_teks = $alasan_map[$alasan_value] ?? 'alasan lain';
-            
-            $notifData = [
-                'ID_akun'   => $review['ID_akun'], // ID pemilik review
-                'header'    => 'Ulasan Anda Dihapus',
-                'isi_notif' => "Ulasan Anda telah dihapus oleh admin karena " . $alasan_teks . "."
-            ];
-            $notifModel->save($notifData);
-
-            return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('success', 'Review berhasil dihapus.');
-        } else {
-            return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('error', 'Gagal menghapus review.');
+    // ===================================================================
+    //     BAGIAN BARU: LOGIKA PENGHAPUSAN FILE GAMBAR DARI SERVER
+    // ===================================================================
+    // Cek apakah review ini memiliki nama file foto di database
+    if (!empty($review['foto'])) { // Sesuaikan 'foto' dengan nama kolom Anda, misal 'foto_review'
+        
+        // Bangun path lengkap menuju file gambar
+        $filePath = FCPATH . 'Assets/review_photos/' . $review['foto'];
+        
+        // Cek sekali lagi apakah file tersebut benar-benar ada di server
+        if (is_file($filePath)) {
+            // Hapus file fisik dari server
+            unlink($filePath);
         }
     }
+    // ===================================================================
+    //                  AKHIR BAGIAN BARU
+    // ===================================================================
+
+    // 5. Hapus catatan review dari database
+    if ($reviewModel->delete($id_review)) {
+        // ... (sisa kode untuk notifikasi tetap sama) ...
+        $notifModel = new NotifikasiModel();
+        $alasan_value = $this->request->getPost('alasan_hapus');
+        $alasan_map = [
+            'inappropriate_word' => 'penggunaan kata yang tidak pantas',
+            'misleading_info'    => 'informasi yang menyesatkan',
+            'offensive'          => 'bersifat menyinggung',
+            'spam'               => 'dianggap spam atau promosi'
+        ];
+        $alasan_teks = $alasan_map[$alasan_value] ?? 'alasan lain';
+        
+        $notifData = [
+            'ID_akun'   => $review['ID_akun'],
+            'header'    => 'Ulasan Anda Dihapus',
+            'isi_notif' => "Ulasan Anda telah dihapus oleh admin karena " . $alasan_teks . "."
+        ];
+        $notifModel->save($notifData);
+        // ...
+
+        return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('success', 'Review dan file gambar terkait berhasil dihapus.');
+    } else {
+        return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('error', 'Gagal menghapus review dari database.');
+    }
+}
 }
