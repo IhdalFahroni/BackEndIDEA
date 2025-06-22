@@ -15,7 +15,7 @@
 
     <?php if (isset($user_role)) : ?>
         <?php include APPPATH . 'Views/partials/notification_content.php'; ?>
-        <?php include APPPATH . 'Views/partials/add_place_form.php'; ?>
+        <?php include APPPATH . 'Views/partials/form.php'; ?>
         <?php include APPPATH . 'Views/partials/profile.php'; ?>
     <?php endif; ?>
 

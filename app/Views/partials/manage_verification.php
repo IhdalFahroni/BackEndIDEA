@@ -6,33 +6,34 @@
 
             <?php foreach ($verificationItems as $item) : ?>
             <div class="verification-item mb-4 p-4 border border-gray-200 rounded-lg shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+            <?php if ($item['type'] == 'addPlace') : ?>
                 data-request-id="<?= esc($item['ID_formPengajuanTempat']) ?>"
                 data-type="<?= esc($item['type']) ?>"
                 data-is-verified="<?= esc($item['is_verified'] ? 'true' : 'false') ?>"
                 data-user="<?= esc($item['username']) ?>"
                 data-email="<?= esc($item['email']) ?>"
-                <?php if ($item['type'] == 'addPlace') : ?>
-                    data-place-name="<?= esc($item['nama_tempat']) ?>"
-                    data-category="<?= esc($item['kategori']) ?>"
-                    data-district="<?= esc($item['kabupaten_kota']) ?>"
-                    data-subdistrict="<?= esc($item['kecamatan']) ?>"
-                    data-village="<?= esc($item['kelurahan']) ?>"
-                    data-street="<?= esc($item['nama_jalan']) ?>"
-                    data-gmaps="<?= esc($item['google_maps']) ?>"
-                    data-description="<?= esc($item['deskripsi']) ?>"
-                    data-photo-link="<?= esc(json_encode(explode(',', $item['foto']))) ?>"
-                    <?php else : // Assuming 'claimCulinary' or similar
-                    // Add data attributes for claim culinary details here
-                    // data-full-name="..."
-                    // data-phone="..."
-                    // etc.
-                ?>
-                    data-full-name="Ihdal Fahroni"
-                    data-phone="08877776663"
-                    data-email="rmsumberejeki@gmail.com"
-                    data-tin="123456789"
-                    data-supporting-document='["sumber_rejeki.png"]'
-                <?php endif; ?>
+                data-place-name="<?= esc($item['nama_tempat']) ?>"
+                data-category="<?= esc($item['kategori']) ?>"
+                data-district="<?= esc($item['kabupaten_kota']) ?>"
+                data-subdistrict="<?= esc($item['kecamatan']) ?>"
+                data-village="<?= esc($item['kelurahan']) ?>"
+                data-street="<?= esc($item['nama_jalan']) ?>"
+                data-gmaps="<?= esc($item['google_maps']) ?>"
+                data-description="<?= esc($item['deskripsi']) ?>"
+                data-photo-link="<?= esc(json_encode(explode(',', $item['foto']))) ?>"
+            <?php else :?>
+                data-request-id="<?= esc($item['ID_formKlaim']) ?>"
+                data-type="<?= esc($item['type']) ?>"
+                data-is-verified="<?= esc($item['is_verified'] ? 'true' : 'false') ?>"
+                data-user="<?= esc($item['username']) ?>"
+                data-email="<?= esc($item['email']) ?>"
+                data-place-name="<?= esc($item['nama_tempat']) ?>"
+                data-full-name="<?= esc($item['nama_lengkap']) ?>"
+                data-phone="<?= esc($item['no_hp']) ?>"
+                data-email="<?= esc($item['email']) ?>"
+                data-tin="<?= esc($item['npwp']) ?>"
+                data-supporting-document="<?= esc(json_encode(explode(',', $item['dokumen_pendukung']))) ?>"
+            <?php endif; ?>
             >
                 <div class="flex-grow">
                     <p class="font-semibold text-lg"><?= esc($item['username']) ?></p>
@@ -51,7 +52,11 @@
                 <div class="flex-shrink-0 flex gap-2">
                     <?php if($item['is_verified'] == 0): ?>
                         <form action="<?= site_url('home/verifyRequest') ?>" method="post" class="inline" data-action-form>
-                            <input type="hidden" name="request_id" value="<?= esc($item['ID_formPengajuanTempat']) ?>">
+                            <?php if ($item['type'] == 'addPlace') : ?>
+                                <input type="hidden" name="request_id" value="<?= esc($item['ID_formPengajuanTempat']) ?>">
+                            <?php else :?>
+                                <input type="hidden" name="request_id" value="<?= esc($item['ID_formKlaim']) ?>">
+                            <?php endif; ?>
                             <input type="hidden" name="action" value="deny">
                             <button type="submit" class="deny-btn border border-red-500 text-red-500 text-xs px-3 py-1 rounded-full hover:bg-red-500 hover:text-white"
                                 <?= esc($item['is_verified'] ? 'disabled' : '') ?>>
@@ -59,7 +64,11 @@
                             </button>
                         </form>
                         <form action="<?= site_url('home/verifyRequest') ?>" method="post" class="inline" data-action-form>
-                            <input type="hidden" name="request_id" value="<?= esc($item['ID_formPengajuanTempat']) ?>">
+                            <?php if ($item['type'] == 'addPlace') : ?>
+                                <input type="hidden" name="request_id" value="<?= esc($item['ID_formPengajuanTempat']) ?>">
+                            <?php else :?>
+                                <input type="hidden" name="request_id" value="<?= esc($item['ID_formKlaim']) ?>">
+                            <?php endif; ?>
                             <input type="hidden" name="action" value="approve">
                             <button type="submit" class="approve-btn border border-blue-500 text-blue-500 text-xs px-3 py-1 rounded-full hover:bg-blue-500 hover:text-white"
                                 <?= esc($item['is_verified'] ? 'disabled' : '') ?>>
@@ -107,6 +116,7 @@
         </div>
         <h2 class="text-2xl font-bold text-center text-white mb-6 [text-shadow:1px_1px_rgba(0,0,0,0.5)]">Claim culinary site</h2>
         <div class="max-h-[70vh] overflow-y-auto pr-2.5 pr-2">
+            <div class="bg-white rounded-lg p-3 sm:p-4 mb-4"><label class="block text-[#4B5563] text-sm mb-1">Place Name</label><p id="place_to_claim" class="text-[#1F2937] font-semibold"></p></div>
             <div class="bg-white rounded-lg p-3 sm:p-4 mb-4"><label class="block text-[#4B5563] text-sm mb-1">Full name*</label><p id="claim_fullName" class="text-[#1F2937] font-semibold"></p></div>
             <div class="bg-white rounded-lg p-3 sm:p-4 mb-4"><label class="block text-[#4B5563] text-sm mb-1">Phone number*</label><p id="claim_phone" class="text-[#1F2937] font-semibold"></p></div>
             <div class="bg-white rounded-lg p-3 sm:p-4 mb-4"><label class="block text-[#4B5563] text-sm mb-1">Email*</label><p id="claim_email" class="text-[#1F2937] font-semibold"></p></div>

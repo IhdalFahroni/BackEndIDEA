@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\KlaimKulinerModel;
 use App\Models\TempatModel;
 use App\Models\PengajuanTempatModel;
 use App\Models\NotifikasiModel;
@@ -41,6 +42,7 @@ class Home extends BaseController
         $promoModel = new PromoModel();
         $notifModel = new NotifikasiModel();
         $pengajuanTempatModel = new PengajuanTempatModel();
+        $klaimKulinerModel = new KlaimKulinerModel();
 
         $id_akun = $session->get('ID_akun');
         $addPlaceForm = $pengajuanTempatModel->getAddPlaceForm();
@@ -51,6 +53,16 @@ class Home extends BaseController
                 $verificationItems[] = $item;
             }
         }
+        $claimForm = $klaimKulinerModel->getClaimForm();
+        if (!empty($claimForm)) {
+            foreach ($claimForm as $item) {
+                $item['type'] = 'claimCulinary';
+                $verificationItems[] = $item;
+            }
+        }
+
+        $showDetail = $this->request->getGet('show');
+        $idTempat = $this->request->getGet('id');
 
         $data = [
             'title'       => ucfirst($userRole) . ' Homepage | LombokRec',
@@ -71,12 +83,12 @@ class Home extends BaseController
             'isOwner'            => false,
             'notifikasi' => $notifModel->getNotifikasiByAkun($id_akun),
             'verificationItems' => $verificationItems,
-            'session'    => $session 
+            'session'    => $session,
+            'idTempat' => $idTempat
         ];
 
         // Cek apakah permintaan untuk menampilkan detail tempat
-        $showDetail = $this->request->getGet('show');
-        $idTempat = $this->request->getGet('id');
+        
 
         if ($showDetail === 'detail' && !empty($idTempat)) {
             $tempat = $tempatModel
