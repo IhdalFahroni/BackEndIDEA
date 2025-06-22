@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const manageVerification = document.getElementById("manageVerification");
   const listManage = document.getElementById("listPlace");
 
-  const openClaimBtn = document.getElementById("openClaim");
+  const openClaimBtn = document.getElementById("openClaimBtn");
   const claimForm = document.getElementById("claimForm");
 
   const searchInput = document.getElementById("search_input");

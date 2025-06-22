@@ -1,4 +1,4 @@
-<div id="claimForm" class="header mb-5 hidden fixed top-0 left-0 w-full h-full bg-black/60 flex justify-center items-center z-[1000]">
+<div id="claimForm">
     <h2 class="text-white text-center text-3xl md:text-5xl font-bold mb-5 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
         Claim culinary site
     </h2>
