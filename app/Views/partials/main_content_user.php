@@ -50,7 +50,7 @@ foreach ($categories as $key => $details) {
     </div>
     <?php if ((isset($isOwner) && $isOwner) || session()->get('user_role') === 'admin') : ?>
         <div class="text-right pb-4">
-            <button type="button" id="openEditTempatModal" class="inline-block bg-[#FF9800] text-white px-6 py-2 rounded-full text-base font-semibold shadow-md hover:bg-yellow-500 transition">
+            <button type="button" id="openEditTempatModal" class="bg-[#FF9800] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full">
                 Edit
             </button>
         </div>
