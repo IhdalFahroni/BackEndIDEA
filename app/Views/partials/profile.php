@@ -85,16 +85,20 @@
                     <input type="file" name="foto_profil" id="newProfilePhotoInput" class="hidden" accept="image/png, image/jpeg, image/jpg">
                 </div>
                 <div class="ml-6 mt-12 flex flex-col flex-grow">
-                    <div class="relative">
+                    <div class="mb-4">
                         <input type="text" id="editUsername" name="username" class="text-5xl py-2 font-normal text-[#5C3211] border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF9800] px-3 pt-3" placeholder="Username" value="<?= esc(old('username', session()->get('username'))) ?>" />                           
-                        <p id="usernameError" class="absolute top-full mt-1 text-sm text-[#FF0000] hidden">
+                        <!-- <p id="usernameError" class="absolute top-full mt-1 text-sm text-[#FF0000] hidden">
                             Username must be 8-20 characters
-                        </p>
+                        </p> -->
                     </div>
-                    <div class="flex items-center mt-6 gap-4"> 
-                        <input type="text" id="editFirstName" name="firstName" class="text-xl py-2 text-[#5C3211] font-normal border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF980B] px-3 pt-3" placeholder="First Name" value="<?= esc(old('firstName', session()->get('nama_depan'))) ?>" />
-                        <input type="text" id="editLastName" name="lastName" class="text-xl py-2 text-[#5C3211] font-normal border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF980B] px-3 pt-3" placeholder="Last Name" value="<?= esc(old('lastName', session()->get('nama_belakang'))) ?>" />
-                        <span class="text-lg text-[#5C3211] font-light"><?= esc(session()->get('email') ?? '') ?></span>
+                    <div class="flex items-start mt-2 gap-4">
+                        <div class="flex flex-col"> 
+                            <input type="text" id="editFirstName" name="firstName" class="text-xl py-2 text-[#5C3211] font-normal border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF980B] px-3 pt-3" placeholder="First Name" value="<?= esc(old('firstName', session()->get('nama_depan'))) ?>" />
+                        </div>
+                        <div class="flex flex-col"> 
+                            <input type="text" id="editLastName" name="lastName" class="text-xl py-2 text-[#5C3211] font-normal border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF980B] px-3 pt-3" placeholder="Last Name" value="<?= esc(old('lastName', session()->get('nama_belakang'))) ?>" />
+                        </div>
+                        <span class="text-lg text-[#5C3211] font-light mt-3"><?= esc(session()->get('email') ?? '') ?></span>
                     </div>
                 </div>
             </form>

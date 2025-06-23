@@ -389,19 +389,29 @@ document.addEventListener("DOMContentLoaded", () => {
         formSaveEditBtn.disabled = false;
         formSaveEditBtn.classList.remove(
           "text-[#FF9800]",
+          "border-[#FF9800]",
           "bg-white",
           "opacity-50",
           "cursor-not-allowed"
         );
-        formSaveEditBtn.classList.add("bg-[#FF9800]", "text-white");
+        formSaveEditBtn.classList.add(
+          "bg-[#FF9800]",
+          "text-white",
+          "cursor-pointer"
+        );
       } else {
         formSaveEditBtn.disabled = true;
-        formSaveEditBtn.classList.remove("bg-[#FF9800]", "text-white");
         formSaveEditBtn.classList.add(
           "text-[#FF9800]",
+          "border-[#FF9800]",
           "bg-white",
           "opacity-50",
           "cursor-not-allowed"
+        );
+        formSaveEditBtn.classList.remove(
+          "bg-[#FF9800]",
+          "text-white",
+          "cursor-pointer"
         );
       }
     }
@@ -413,13 +423,6 @@ document.addEventListener("DOMContentLoaded", () => {
     editProfileForm.addEventListener("input", () =>
       validateProfileForm(editProfileForm)
     );
-    editProfileForm.addEventListener("submit", (e) => {
-      if (!validateProfileForm(editProfileForm)) {
-        e.preventDefault(); // Hentikan submit jika validasi gagal
-        alert("Tolong perbaiki kesalahan pada form profil.");
-      }
-      // Jika valid, form akan disubmit secara alami oleh browser
-    });
     validateProfileForm(editProfileForm); // Validasi awal saat DOM dimuat
   }
 
