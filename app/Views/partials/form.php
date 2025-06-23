@@ -141,35 +141,35 @@
     </p>
     <form action="<?= site_url('formKlaim/submit') ?>" method="post" enctype="multipart/form-data">
         <input type="hidden" name="ID_tempat" value="<?= esc($idTempat ?? '') ?>">
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label for="full_name">Full name<span class="text-[#FF0000]">*</span></label>
             <input type="text" id="full_name" name="nama_lengkap"
                 class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
                 required placeholder="Answer" />
                 <?= session()->getFlashdata('errors.full_name') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.full_name').'</p>' : '' ?>
         </div>
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label for="phone_number">Phone number<span class="text-[#FF0000]">*</span></label>
             <input type="text" id="phone_number" name="no_hp"
                 class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
                 required placeholder="Answer" />
                 <?= session()->getFlashdata('errors.phone_number') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.phone_number').'</p>' : '' ?>
         </div>
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label for="email">Email<span class="text-[#FF0000]">*</span></label>
             <input type="text" id="email" name="email"
                 class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
                 required placeholder="Answer" />
                 <?= session()->getFlashdata('errors.email') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.email').'</p>' : '' ?>
         </div>
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label for="taxpayer">Taxpayer Identification Number<span class="text-[#FF0000]">*</span></label>
             <input type="text" id="taxpayer" name="npwp"
                 class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
                 required placeholder="Answer" />
                 <?= session()->getFlashdata('errors.taxpayer') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.taxpayer').'</p>' : '' ?>
         </div>
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label>Supporting document(s)</label>
             <div id="fileUploadVisualClaim"
                 class="group flex border-b-0 pb-0 items-center py-2 cursor-pointer transition-all duration-200">

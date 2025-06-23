@@ -66,26 +66,26 @@
         </a>
         <?php endif; ?>
         <?php if (isset($user_role) && $user_role == 'pemilik'): ?>
-            <div class="flex flex-col items-start rounded transition">
+            <div class="flex flex-col items-start rounded transition hover:bg-gray-100">
                 
-                <div id="openManageBtn" class="flex items-center cursor-pointer hover:bg-gray-100 w-full p-1 rounded">
+                <div id="openManageBtn" class="flex items-center cursor-pointer w-full p-1 rounded">
                     <span class="w-12 h-12 flex items-center justify-center text-lg">
                         <i class="fa-solid fa-arrows-up-down"></i> </span>
-                    <span class="text-lg font-medium text-[#5C3211] pt-1">Manage My Places</span>
+                    <span class="text-lg font-medium text-[#5C3211] pt-1">Manage Place</span>
                 </div>
                 
-                <div id="listPlace" class="w-full pl-12 pt-2 hidden">
+                <div id="listPlace" class="w-full pt-1 ml-12 hidden">
                     
                     <?php if (!empty($owned_places)) : ?>
                         <?php foreach ($owned_places as $place) : ?>
                             <a href="<?= site_url('home?show=detail&id=' . $place['ID_tempat']) ?>" 
-                            class="managed-place-link block text-center  text-[#5C3211] text-sm font-light py-1 px-2 hover:underline rounded hover:bg-gray-100">
+                            class="managed-place-link  text-center  text-[#5C3211] text-sm font-light hover:underline rounded">
                                 <?= esc($place['nama_tempat']) ?>
                             </a>
                         <?php endforeach; ?>
                     <?php else : ?>
-                        <span class="block text-gray-500 text-sm font-light py-1 px-2">
-                            Anda belum memiliki tempat.
+                        <span class=" text-[#5C3211] text-sm font-light">
+                            There's no place you own yet.
                         </span>
                     <?php endif; ?>
 

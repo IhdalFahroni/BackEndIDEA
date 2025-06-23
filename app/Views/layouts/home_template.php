@@ -5,8 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?? 'LombokRec' ?></title>
     <link href="<?= base_url('css/output.css') ?>" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/your-font-awesome-kit.js" crossorigin="anonymous"></script>
-
+    <style>
+        .main-container {
+            background: linear-gradient(to bottom, #FFC107 50px, #F8F9FA 300px); 
+            border-top-left-radius: 0.75rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 6px 6px rgba(0, 0, 0, 0.2);
+            position: relative; 
+            z-index: 30; 
+        }
+        .main-container-detail {
+            background-image: linear-gradient(to bottom right, #FFC107, #FFFFFF);
+            border-top-left-radius: 0.75rem;
+        }
+    </style>
     <script>
         const BASE_URL = '<?= base_url() ?>';
         const UPLOADS_URL = '<?= base_url('Assets/') ?>';
@@ -33,8 +44,12 @@
 
     <?= $this->renderSection('sidebar') ?>
 
-    <main class="flex-1 pt-3 overflow-y-auto ml-20 bg-[#FFFFFF]">
-        <div class="bg-[linear-gradient(to_bottom,#FFC107_50px,#F8F9FA_300px)] rounded-tl-xl min-h-screen p-6 md:p-8 shadow-2xl w-full">
+    <main class="flex-1 pt-3 overflow-y-auto ml-20">
+        <?php if (isset($show_detail_tempat) && $show_detail_tempat === true) : ?>
+            <div class="main-container-detail rounded-tl-xl min-h-screen p-6 md:p-8 shadow-2xl w-full">
+        <?php else: ?>
+            <div class="main-container rounded-tl-xl min-h-screen p-6 md:p-8 shadow-2xl w-full">
+        <?php endif; ?>
             <?= $this->renderSection('main_content') ?>
         </div>
     </main>

@@ -30,9 +30,15 @@ foreach ($categories as $key => $details) {
             <a href="<?= $path ?>" class="absolute top-0 left-0 text-[#FFFFFF] hover:text-gray-200">
                 <i class="fa-solid fa-arrow-left text-2xl"></i>
             </a>
-            <h1 class="text-3xl md:text-4xl font-bold text-[#FFFFFF] text-center mb-8 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
-            <?= esc($tempat['nama_tempat']) ?>
-            </h1>
+            <?php if ($tempat['kategori'] === 'culinary') : ?>
+                <h1 class="text-3xl md:text-4xl font-bold text-[#FFFFFF] text-center [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
+                    <?= esc($tempat['nama_tempat']) ?>
+                </h1>
+            <?php else : ?>
+                <h1 class="text-3xl md:text-4xl font-bold text-[#FFFFFF] text-center mb-8 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
+                    <?= esc($tempat['nama_tempat']) ?>
+                </h1>
+            <?php endif; ?>
         <?php else : ?>
             <a href="<?= $path ?>" class="absolute top-0 left-0 text-[#5C3211] hover:text-gray-200">
                 <i class="fa-solid fa-arrow-left text-2xl"></i>
@@ -43,8 +49,8 @@ foreach ($categories as $key => $details) {
         <?php endif; ?>
     </div>
     <?php if ((isset($isOwner) && $isOwner) || session()->get('user_role') === 'admin') : ?>
-        <div class="text-right mt-4 pb-4">
-            <button type="button" id="openEditTempatModal" class="inline-block bg-[#FF9800] text-white px-6 py-2 rounded-full text-base font-semibold shadow-md hover:bg-yellow-500 transition">
+        <div class="text-right pb-4">
+            <button type="button" id="openEditTempatModal" class="bg-[#FF9800] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full">
                 Edit
             </button>
         </div>
@@ -74,10 +80,10 @@ foreach ($categories as $key => $details) {
                     
                     <?php if ($tempat['kategori'] === 'culinary') : ?>
                     <div class="flex items-center gap-x-3 mt-3">
-                        <div id="openMenu" class="bg-[#FFC107] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
+                        <div id="openMenu" class="bg-[#FF9800] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
                             Menu
                         </div>
-                        <div id="openPromo" class="bg-[#FFC107] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
+                        <div id="openPromo" class="bg-[#FF9800] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
                             Promo
                         </div>
                     </div>
@@ -86,19 +92,19 @@ foreach ($categories as $key => $details) {
                 <div class="md:w-2/3">
                     <div class="text-yellow-500 my-1 text-lg rating" data-rating="<?= number_format($tempat['average_rating'] ?? 0, 1) ?>"></div>
                     <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-3 mt-4">
-                        <p class="text-[#5C3211] text-base font-light">Kategori</p>
+                        <p class="text-[#5C3211] text-base font-light">Category</p>
                         <?php if ($tempat['kategori'] === 'culinary') : ?>
-                            <p class="text-[#5C3211] font-medium text-base">Tempat Kuliner</p>
+                            <p class="text-[#5C3211] font-medium text-base">Culinary Site</p>
                         <?php else : ?>
-                            <p class="text-[#5C3211] font-medium text-base">Tempat Wisata</p>
+                            <p class="text-[#5C3211] font-medium text-base">Tourist Attraction</p>
                         <?php endif; ?>
 
                         <?php if ($tempat['kategori'] !== 'culinary' && !empty($tempat['harga_tiket'])) : ?>
-                        <p class="text-[#5C3211] text-base font-light">Tiket</p>
+                        <p class="text-[#5C3211] text-base font-light">Ticket</p>
                         <p class="text-[#5C3211] font-medium text-base">Rp<?= number_format($tempat['harga_tiket'], 0, ',', '.') ?></p>
                         <?php endif; ?>
 
-                        <p class="text-[#5C3211] text-base mt-0.5 font-light">Deskripsi</p>
+                        <p class="text-[#5C3211] text-base mt-0.5 font-light">Description</p>
                         <p class="text-base text-[#5C3211] leading-relaxed text-justify">
                             <?= esc($tempat['deskripsi']) ?>
                         </p>
