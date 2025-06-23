@@ -10,7 +10,6 @@ use App\Models\MenuModel;
 use App\Models\PromoModel;
 use App\Models\ReviewModel;
 use App\Models\AkunModel;
-// Tambahkan model lain yang diperlukan di sini
 
 class Admin extends BaseController
 {
@@ -23,14 +22,14 @@ class Admin extends BaseController
             return redirect()->to(base_url('home'))->with('error', 'Akses ditolak.');
         }
 
-        $action = $this->request->getPost('action'); // Akan bernilai 'approve' atau 'deny'
+        $action = $this->request->getPost('action'); 
         $requestType = $this->request->getPost('request_type');
 
         $requestId = null;
         if ($requestType === 'addPlace') {
-            $requestId = $this->request->getPost('pengajuan_id'); // Ambil dari input 'pengajuan_id'
+            $requestId = $this->request->getPost('pengajuan_id'); 
         } elseif ($requestType === 'claimCulinary') {
-            $requestId = $this->request->getPost('klaim_id'); // Ambil dari input 'klaim_id'
+            $requestId = $this->request->getPost('klaim_id'); 
         }
 
         if (empty($requestId) || empty($requestType) || !in_array($action, ['approve', 'deny'])) {
@@ -46,15 +45,12 @@ class Admin extends BaseController
             $pengajuanTempatModel = new PengajuanTempatModel();
             $success = $pengajuanTempatModel->update($requestId, ['is_verified' => $status]);
 
-            // Jika disetujui, pindahkan data ke tabel 'tempat'
             if ($success && $status === 2) {
                 $formData = $pengajuanTempatModel->find($requestId);
                 if ($formData) {
                     $tempatModel = new TempatModel();
-                    // Ambil ID_akun dari data pengajuan
                     $targetUserId = $formData['ID_akun'];
 
-                    // Siapkan data untuk tabel 'tempat' (pastikan kolom sesuai)
                     $tempatData = [
                         'nama_tempat'      => $formData['nama_tempat'],
                         'deskripsi'        => $formData['deskripsi'],
@@ -73,17 +69,16 @@ class Admin extends BaseController
 
         } elseif ($requestType === 'claimCulinary') {
             $klaimKulinerModel = new KlaimKulinerModel();
+            $akunModel = new AkunModel();
             $success = $klaimKulinerModel->update($requestId, ['is_verified' => $status]);
 
-            // Jika disetujui, perbarui kepemilikan di tabel 'tempat'
             if ($success && $status === 2) {
                 $klaimData = $klaimKulinerModel->find($requestId);
                 if ($klaimData) {
                     $tempatModel = new TempatModel();
-                    // ID_akun dari user yang mengajukan klaim
                     $targetUserId = $klaimData['ID_akun'];
-                    // Perbarui ID_akun pada tempat yang diklaim
                     $tempatModel->update($klaimData['ID_tempat'], ['ID_akun' => $klaimData['ID_akun']]);
+                    $akunModel->update($klaimData['ID_akun'], ['is_pemilik' => 1]);
                 }
             }
 
@@ -105,7 +100,7 @@ class Admin extends BaseController
                     $targetUserId = $formData['ID_akun'];
                 }
             } elseif ($requestType === 'claimCulinary') {
-                $formData = $klaimKulinerModel->find($requestId); // This gets data from form_klaim
+                $formData = $klaimKulinerModel->find($requestId);
 
                 $namaTempat = 'Nama Tempat Tidak Tersedia'; // Default value in case the place name can't be found
 

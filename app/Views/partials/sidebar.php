@@ -78,10 +78,12 @@
                     
                     <?php if (!empty($owned_places)) : ?>
                         <?php foreach ($owned_places as $place) : ?>
-                            <a href="<?= site_url('home?show=detail&id=' . $place['ID_tempat']) ?>" 
-                            class="managed-place-link  text-center  text-[#5C3211] text-sm font-light hover:underline rounded">
-                                <?= esc($place['nama_tempat']) ?>
-                            </a>
+                            <div>
+                                <a href="<?= site_url('home?show=detail&id=' . $place['ID_tempat']) ?>" 
+                                class="managed-place-link  text-center  text-[#5C3211] text-sm font-light hover:underline rounded">
+                                    <?= esc($place['nama_tempat']) ?>
+                                </a>
+                            </div>
                         <?php endforeach; ?>
                     <?php else : ?>
                         <span class=" text-[#5C3211] text-sm font-light">

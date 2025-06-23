@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Models\TempatModel;
 use App\Models\ReviewModel; 
-use App\Models\MenuModel;   
+use App\Models\MenuModel;
 use App\Models\PromoModel;  
 use CodeIgniter\Controller; 
 
@@ -44,7 +44,7 @@ class Landing extends BaseController
             if ($tempat) {
                 $data['show_detail_tempat'] = true;
                 $data['tempat'] = $tempat;
-                $data['reviews'] = $reviewModel->getReviewsWithUser(2);
+                $data['reviews'] = $reviewModel->getReviewsWithUser($idTempat);
                 if ($tempat['kategori'] === 'culinary') {
                     $data['menu'] = $menuModel->where('ID_tempat', $idTempat)->findAll();
                     $data['promo'] = $promoModel->where('ID_tempat', $idTempat)->findAll();
