@@ -22,43 +22,43 @@
                 <span class="font-medium text-[#5C3211] opacity-50 group-hover:opacity-100 transition">Add review</span>
                 <hr class="border-[#5C3211] opacity-60 mt-1 mb-6">
             </div>
-        </div>
 
-        <div id="fillReview" class="w-full hidden">
-            <form id="reviewForm" action="<?= site_url('review/submit') ?>" method="post" enctype="multipart/form-data">
-                <?= csrf_field() ?> <input type="hidden" name="ID_tempat" value="<?= esc($tempat['ID_tempat']) ?>">
+            <div id="fillReview" class="w-full hidden">
+                <form id="reviewForm" action="<?= site_url('review/submit') ?>" method="post" enctype="multipart/form-data">
+                    <?= csrf_field() ?> <input type="hidden" name="ID_tempat" value="<?= esc($tempat['ID_tempat']) ?>">
 
-                <div class="mb-3">
-                    <div id="afterRating" class="hidden items-center gap-1.5 bg-[#5C3211] text-white px-3 py-1 rounded-full text-sm shadow-sm">
-                        <i class="fas fa-star"></i>
-                        <span class="font-semibold" id="displayRatingValue"></span>
-                        <i id="cancelRating" class="fas fa-xmark cursor-pointer hover:scale-110 transition-transform"></i>
+                    <div class="mb-3">
+                        <div id="afterRating" class="hidden items-center gap-1.5 bg-[#5C3211] text-white px-3 py-1 rounded-full text-sm shadow-sm">
+                            <i class="fas fa-star"></i>
+                            <span class="font-semibold" id="displayRatingValue"></span>
+                            <i id="cancelRating" class="fas fa-xmark cursor-pointer hover:scale-110 transition-transform"></i>
+                        </div>
+                        <input type="hidden" name="rating" id="hiddenRatingInput">
+
+                        <div id="afterImage" class="hidden items-center gap-1.5 bg-[#5C3211] text-white px-3 py-1 rounded-full text-sm shadow-sm">
+                            <i class="fas fa-image"></i>
+                            <span class="font-semibold" id="displayImageName"></span>
+                            <i id="cancelImage" class="fas fa-xmark cursor-pointer hover:scale-110 transition-transform"></i>
+                        </div>
+                        <input type="file" id="reviewImageUpload" name="review_photo" class="hidden" accept="image/png, image/jpeg, image/jpg">
                     </div>
-                    <input type="hidden" name="rating" id="hiddenRatingInput">
 
-                    <div id="afterImage" class="hidden items-center gap-1.5 bg-[#5C3211] text-white px-3 py-1 rounded-full text-sm shadow-sm">
-                        <i class="fas fa-image"></i>
-                        <span class="font-semibold" id="displayImageName"></span>
-                        <i id="cancelImage" class="fas fa-xmark cursor-pointer hover:scale-110 transition-transform"></i>
+                    <div class="flex justify-between items-center mb-0">
+                        <input type="text" id="reviewTextInput" name="komentar" placeholder="Please refrain from using harsh or inappropriate language" class="flex-1 bg-transparent border-0 p-0 text-sm font-normal text-[#5C3211] placeholder:text-[#5C3211] placeholder:opacity-60 focus:outline-none focus:ring-0 focus:border-0 mr-3">
+                        <div class="flex gap-3 text-lg">
+                            <i id="closeReview" class="fas fa-xmark text-[#5C3211] hover:opacity-60 cursor-pointer transition-opacity"></i>
+                            <button type="submit" class="bg-transparent border-none p-0 cursor-pointer">
+                                <i class="fas fa-paper-plane text-[#5C3211] hover:opacity-60 transition-opacity"></i>
+                            </button>
+                        </div>
                     </div>
-                    <input type="file" id="reviewImageUpload" name="review_photo" class="hidden" accept="image/png, image/jpeg, image/jpg">
-                </div>
-
-                <div class="flex justify-between items-center mb-0">
-                    <input type="text" id="reviewTextInput" name="komentar" placeholder="Please refrain from using harsh or inappropriate language" class="flex-1 bg-transparent border-0 p-0 text-sm font-normal text-[#5C3211] placeholder:text-[#5C3211] placeholder:opacity-60 focus:outline-none focus:ring-0 focus:border-0 mr-3">
-                    <div class="flex gap-3 text-lg">
-                        <i id="closeReview" class="fas fa-xmark text-[#5C3211] hover:opacity-60 cursor-pointer transition-opacity"></i>
-                        <button type="submit" class="bg-transparent border-none p-0 cursor-pointer">
-                            <i class="fas fa-paper-plane text-[#5C3211] hover:opacity-60 transition-opacity"></i>
-                        </button>
+                    <hr class="border-[#5C3211] opacity-60">
+                    <div class="flex gap-3 text-lg mt-3 mb-4">
+                        <i id="openRating" class="fas fa-star text-[#5C3211] hover:opacity-60 cursor-pointer transition-opacity" title="Add Rating"></i>
+                        <i id="openImage" class="fas fa-image text-[#5C3211] hover:opacity-60 cursor-pointer transition-opacity" title="Add Image"></i>
                     </div>
-                </div>
-                <hr class="border-[#5C3211] opacity-60">
-                <div class="flex gap-3 text-lg mt-3 mb-4">
-                    <i id="openRating" class="fas fa-star text-[#5C3211] hover:opacity-60 cursor-pointer transition-opacity" title="Add Rating"></i>
-                    <i id="openImage" class="fas fa-image text-[#5C3211] hover:opacity-60 cursor-pointer transition-opacity" title="Add Image"></i>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     <?php endif; ?>
 
