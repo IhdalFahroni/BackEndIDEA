@@ -53,36 +53,36 @@
 
                 <div id="addMenuFormContainer" class="hidden pt-4">
                     <hr class="mb-4">
-                    <h3 class="font-bold text-lg text-center mb-4">Tambah Menu Baru</h3>
+                    <h3 class="font-bold text-lg text-center mb-4">Add New Menu</h3>
                     <form id="addMenuForm" action="<?= site_url('menu/add') ?>" method="post" enctype="multipart/form-data" class="space-y-4">
                         <?= csrf_field() ?>
                         <input type="hidden" name="ID_tempat" value="<?= esc($tempat['ID_tempat']) ?>">
                         
                         <div>
-                            <label for="nama_menu" class="block text-sm font-medium text-gray-700">Nama Menu</label>
+                            <label for="nama_menu" class="block text-sm font-medium text-gray-700">Menu Name</label>
                             <input type="text" name="nama_menu" id="nama_menu" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
                         </div>
                         <div>
-                            <label for="harga_menu" class="block text-sm font-medium text-gray-700">Harga</label>
+                            <label for="harga_menu" class="block text-sm font-medium text-gray-700">Price</label>
                             <input type="number" name="harga_menu" id="harga_menu" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Contoh: 25000" required>
                         </div>
                         <div>
-                            <label for="deskripsi_menu" class="block text-sm font-medium text-gray-700">Deskripsi (Opsional)</label>
+                            <label for="deskripsi_menu" class="block text-sm font-medium text-gray-700">Description (Optional)</label>
                             <textarea name="deskripsi_menu" id="deskripsi_menu" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
                         </div>
                         <div>
-                            <label for="foto_menu" class="block text-sm font-medium text-gray-700">Foto Menu (Opsional)</label>
+                            <label for="foto_menu" class="block text-sm font-medium text-gray-700">Menu Picture (Optional)</label>
                             <input type="file" name="foto_menu" id="foto_menu" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                         </div>
                         <div class="flex justify-end gap-3 pt-4">
-                            <button type="button" id="cancelAddMenuBtn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300">Batal</button>
-                            <button type="submit" class="bg-[#FFC107] text-white px-4 py-2 rounded-md hover:bg-green-700">Simpan Menu</button>
+                            <button type="button" id="cancelAddMenuBtn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300">Cancel</button>
+                            <button type="submit" class="bg-[#FF9800] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full">Save Menu</button>
                         </div>
                     </form>
                 </div>
             </div>      
             <?php if (isset($isOwner) && $isOwner) : ?>
-                <button id="addMenuItemBtn" title="Tambah Menu Baru" class="absolute px-4 m-2 bottom-5 right-4 w-14 h-14 bg-[#FFC107] rounded-full text-white flex items-center justify-center shadow-lg hover:bg-opacity-80 transition">
+                <button id="addMenuItemBtn" title="Tambah Menu Baru" class="absolute px-4 m-2 bottom-5 right-4 w-14 h-14 text-[#FF9800] flex items-center justify-center hover:bg-opacity-80 transition">
                     <i class="fas fa-plus text-xl"></i>
                 </button>
             <?php endif; ?>

@@ -92,19 +92,19 @@ foreach ($categories as $key => $details) {
                 <div class="md:w-2/3">
                     <div class="text-yellow-500 my-1 text-lg rating" data-rating="<?= number_format($tempat['average_rating'] ?? 0, 1) ?>"></div>
                     <div class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-3 mt-4">
-                        <p class="text-[#5C3211] text-base font-light">Kategori</p>
+                        <p class="text-[#5C3211] text-base font-light">Category</p>
                         <?php if ($tempat['kategori'] === 'culinary') : ?>
-                            <p class="text-[#5C3211] font-medium text-base">Tempat Kuliner</p>
+                            <p class="text-[#5C3211] font-medium text-base">Culinary Site</p>
                         <?php else : ?>
-                            <p class="text-[#5C3211] font-medium text-base">Tempat Wisata</p>
+                            <p class="text-[#5C3211] font-medium text-base">Tourist Attraction</p>
                         <?php endif; ?>
 
                         <?php if ($tempat['kategori'] !== 'culinary' && !empty($tempat['harga_tiket'])) : ?>
-                        <p class="text-[#5C3211] text-base font-light">Tiket</p>
+                        <p class="text-[#5C3211] text-base font-light">Ticket</p>
                         <p class="text-[#5C3211] font-medium text-base">Rp<?= number_format($tempat['harga_tiket'], 0, ',', '.') ?></p>
                         <?php endif; ?>
 
-                        <p class="text-[#5C3211] text-base mt-0.5 font-light">Deskripsi</p>
+                        <p class="text-[#5C3211] text-base mt-0.5 font-light">Description</p>
                         <p class="text-base text-[#5C3211] leading-relaxed text-justify">
                             <?= esc($tempat['deskripsi']) ?>
                         </p>
