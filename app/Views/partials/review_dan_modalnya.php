@@ -64,7 +64,7 @@
 
     <!-- <hr class="border-[#5C3211] mb-4"> -->
 
-    <div class="space-y-8">
+    <div class="space-y-2">
     <?php if (!empty($reviews)) : ?>
         <?php foreach ($reviews as $review) : ?>
             <div class="border-t border-[#5C3211] pb-0 last:border-t-0">
@@ -74,30 +74,30 @@
                             <span class="text-xs text-[#5C3211] font-normal ml-2"><?= esc(date('H:i, M d, Y', strtotime($review['waktu']))) ?></span>
                         </p>
                         <div class="flex items-center text-yellow-500 text-sm rating" data-rating="<?= esc($review['rating']) ?>">
-                            <?php // Bintang akan digenerate oleh JS ?>
                         </div>
                     </div>
-
-                    <?php if (session()->get('user_role') === 'admin') : ?>
-                        <button type="button" 
-                                class="open-delete-modal-btn text-red-500 hover:text-red-700 text-sm" 
-                                title="Hapus Review"
-                                data-review-id="<?= esc($review['ID_review']) ?>"
-                                data-tempat-id="<?= esc($tempat['ID_tempat']) ?>">
-                            <i class="fas fa-trash-alt"></i> Hapus
-                        </button>
-                    <?php endif; ?>
                     </div>
-                <p class="text-base text-[#5C3211] mb-4 leading-relaxed">
+                <p class="text-base text-[#5C3211] leading-relaxed">
                     <?= esc($review['komentar']) ?>
                 </p>
                 <?php if (!empty($review['foto'])) : ?>
-                    <img src="<?= base_url('Assets/review_photos/' . esc($review['foto'])) ?>" alt="Review Image" class="rounded-xl w-80 h-52 object-cover shadow-md mb-3">
+                    <img src="<?= base_url('Assets/review_photos/' . esc($review['foto'])) ?>" alt="Review Image" class="rounded-xl w-80 h-52 object-cover shadow-md my-3">
+                <?php endif; ?>
+                <?php if (session()->get('user_role') === 'admin') : ?>
+                    <div class="flex justify-end">
+                        <button type="button" 
+                                class="open-delete-modal-btn mb-2 text-red-500 hover:text-red-700 text-lg" 
+                                title="Hapus Review"
+                                data-review-id="<?= esc($review['ID_review']) ?>"
+                                data-tempat-id="<?= esc($tempat['ID_tempat']) ?>">
+                            <i class="fas fa-trash-alt"></i> 
+                        </button>
+                    </div>
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>
     <?php else : ?>
-        <p class="text-center text-gray-600">Belum ada ulasan untuk tempat ini.</p>
+        <p class="text-center text-gray-600">No Reviews Yet.</p>
     <?php endif; ?>
 </div>
 </div>

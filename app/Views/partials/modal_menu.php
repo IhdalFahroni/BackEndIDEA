@@ -24,20 +24,21 @@
                                     <div class="flex items-center gap-4">
                                         <p class="font-bold text-lg whitespace-nowrap pl-4">Rp <?= number_format($item['harga_menu'], 0, ',', '.') ?></p>
                                         
-                                        <?php if ((isset($isOwner) && $isOwner) || session()->get('user_role') === 'admin') : ?>
-                                            <form action="<?= site_url('menu/delete') ?>" method="post" onsubmit="return confirm('Anda yakin ingin menghapus menu ini?');">
-                                                <input type="hidden" name="id_menu" value="<?= esc($item['ID_menu']) ?>">
-                                                <input type="hidden" name="id_tempat" value="<?= esc($tempat['ID_tempat']) ?>">
-                                                <button type="submit" class="text-red-500 hover:text-red-700" title="Hapus Menu">
-                                                    <i class="fas fa-trash-alt"></i>
-                                                </button>
-                                            </form>
-
-                                        <?php endif; ?>
                                     </div>
                                 </div>
                                 <?php if (!empty($item['deskripsi_menu'])) : ?>
                                     <p class="text-sm text-gray-600 mt-1 text-left"><?= esc($item['deskripsi_menu']) ?></p>
+                                <?php endif; ?>
+                                <?php if ((isset($isOwner) && $isOwner) || session()->get('user_role') === 'admin') : ?>
+                                    <div class="flex justify-end"> 
+                                        <form action="<?= site_url('menu/delete') ?>" method="post" onsubmit="return confirm('Anda yakin ingin menghapus menu ini?');">
+                                            <input type="hidden" name="id_menu" value="<?= esc($item['ID_menu']) ?>">
+                                            <input type="hidden" name="id_tempat" value="<?= esc($tempat['ID_tempat']) ?>">
+                                            <button type="submit" class="text-red-500 hover:text-red-700" title="Hapus Menu">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                         </div>

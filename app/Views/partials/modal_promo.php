@@ -17,16 +17,19 @@
                             <?php if (!empty($prom['valid_until'])) : ?>
                                 <p class="text-lg text-[#5C3211] text-left">Valid until: <?= date('d F Y', strtotime($prom['valid_until'])) ?></p>
                             <?php endif; ?>
-                            <?php if ((isset($isOwner) && $isOwner) || session()->get('user_role') === 'admin') : ?>
-                                <form action="<?= site_url('promo/delete') ?>" method="post" onsubmit="return confirm('Anda yakin ingin menghapus promo ini?');">
+
+                        </div>
+                        <?php if ((isset($isOwner) && $isOwner) || session()->get('user_role') === 'admin') : ?>
+                            <div class="flex justify-end">
+                                <form action="<?= site_url('promo/delete') ?>" method="post" onsubmit="return confirm('Are you sure to delete this promo?');">
                                     <input type="hidden" name="id_promo" value="<?= esc($prom['ID_promo']) ?>">
                                     <input type="hidden" name="id_tempat" value="<?= esc($tempat['ID_tempat']) ?>">
-                                    <button type="submit" class="text-red-500 hover:text-red-700 " title="Hapus Promo">
+                                    <button type="submit" class="text-red-500 hover:text-red-700 " title="Delete Promo">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </form>
-                            <?php endif; ?>
-                        </div>
+                            </div>
+                        <?php endif; ?>
                         <hr class="border-[#5C3211]">
                     <?php endforeach; ?>
                     <p class="pt-3 text-center">

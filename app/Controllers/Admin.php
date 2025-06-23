@@ -175,17 +175,17 @@ class Admin extends BaseController
             $notifModel = new NotifikasiModel();
             $alasan_value = $this->request->getPost('alasan_hapus');
             $alasan_map = [
-                'inappropriate_word' => 'penggunaan kata yang tidak pantas',
-                'misleading_info'    => 'informasi yang menyesatkan',
-                'offensive'          => 'bersifat menyinggung',
-                'spam'               => 'dianggap spam atau promosi'
+                'inappropriate_word' => 'use of inappropriate_word',
+                'misleading_info'    => 'misleading_info',
+                'offensive'          => 'offensive',
+                'spam'               => 'spam or promotion'
             ];
             $alasan_teks = $alasan_map[$alasan_value] ?? 'alasan lain';
             
             $notifData = [
                 'ID_akun'   => $review['ID_akun'],
-                'header'    => 'Ulasan Anda Dihapus',
-                'isi_notif' => "Ulasan Anda telah dihapus oleh admin karena " . $alasan_teks . "."
+                'header'    => 'Your review has been deleted',
+                'isi_notif' => "Your review has been deleted because " . $alasan_teks . "."
             ];
             $notifModel->save($notifData);
             return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('success', 'Review dan file gambar terkait berhasil dihapus.');
