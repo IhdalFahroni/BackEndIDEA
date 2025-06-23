@@ -36,8 +36,8 @@
                 <button id="editProfileBtn" class="absolute top-4 right-4 bg-[#FF9800] text-white hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full shadow font-semibold flex items-center gap-2 transition">Edit</button>
                 <?php endif; ?>
             <?php endif; ?>
-            <?php if(session()->get('foto') !== null) :?>
-            <img src="<?= base_url('Assets/profil/' . esc(session()->get('foto'))) ; ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
+            <?php if(session()->get('foto_profil') !== null) :?>
+            <img src="<?= base_url('Assets/profil/' . esc(session()->get('foto_profil'))) ; ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
             <?php else: ?>
             <img src="<?= base_url('Assets/profil/default.png') ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
             <?php endif; ?>
@@ -63,7 +63,7 @@
             </div>
         </div>
         <div id="editProfilePage" class="flex items-start w-full relative <?= $user_role === 'admin' ? 'hidden' : '' ?>">
-            <form id="editProfileForm" class="flex items-start w-full" action="<?= site_url('profile/update') ?>" method="post">
+            <form id="editProfileForm" class="flex items-start w-full" action="<?= site_url('profile/update') ?>" method="post" enctype="multipart/form-data">
                 <div class="absolute top-4 right-4 flex items-center gap-3">
                     <button type="button" id="cancelEditBtn" class="border border-red-500 text-red-500 hover:bg-red-500 hover:text-white px-7 py-1 rounded-full shadow font-semibold transition">
                         Cancel
@@ -73,11 +73,17 @@
                     </button>
                 </div>
                 
-                <?php if(session()->get('foto')!==null) :?>
-                <img src="<?= base_url('Assets/profil/' . esc(session()->get('foto'))) ; ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
-                <?php else: ?>
-                <img src="<?= base_url('Assets/profil/default.png') ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
-                <?php endif; ?>                       
+                <div class="relative mx-6 my-6 flex-shrink-0 group">
+                    <img id="editProfileImagePreview" src="<?= base_url('Assets/profil/' . esc(session()->get('foto') ?? 'default.png')) ; ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow">
+                    
+                    <label for="newProfilePhotoInput" class="absolute inset-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div class="text-center text-white">
+                            <i class="fas fa-camera text-3xl"></i>
+                            <p class="text-sm font-semibold">Ganti Foto</p>
+                        </div>
+                    </label>
+                    <input type="file" name="foto_profil" id="newProfilePhotoInput" class="hidden" accept="image/png, image/jpeg, image/jpg">
+                </div>
                 <div class="ml-6 mt-12 flex flex-col flex-grow">
                     <div class="relative">
                         <input type="text" id="editUsername" name="username" class="text-5xl py-2 font-normal text-[#5C3211] border border-[#5C3211] rounded-lg focus:outline-none focus:border-[#FF9800] px-3 pt-3" placeholder="Username" value="<?= esc(old('username', session()->get('username'))) ?>" />                           
