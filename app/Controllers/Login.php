@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Models\AkunModel;
+use App\Models\AkunModel; // Pastikan AkunModel sudah di-import
 
 class Login extends BaseController
 {

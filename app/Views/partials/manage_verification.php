@@ -5,25 +5,21 @@
         <?php if (!empty($verificationItems)) : ?>
 
             <?php foreach ($verificationItems as $item) : ?>
-            <?php // START OF PHP BLOCK - KEEP THIS OPEN UNTIL AFTER DATA ATTRIBUTES ?>
                 <?php
-                    // Initialize with default values for 'not yet verified' (is_verified == 0)
                     $dataIsVerified = 'false';
                     $dataSelected = '';
-                    $requestId = ''; // Also initialize requestId here
+                    $requestId = '';
 
-                    // Determine requestId based on type
                     if ($item['type'] == 'addPlace') {
                         $requestId = $item['ID_formPengajuanTempat'];
                     } elseif ($item['type'] == 'claimCulinary') {
                         $requestId = $item['ID_formKlaim'];
                     }
 
-                    // Determine is_verified status and selected action for data attributes
-                    if ($item['is_verified'] == 1) { // Denied
+                    if ($item['is_verified'] == 1) {
                         $dataIsVerified = 'true';
                         $dataSelected = 'deny';
-                    } elseif ($item['is_verified'] == 2) { // Approved
+                    } elseif ($item['is_verified'] == 2) {
                         $dataIsVerified = 'true';
                         $dataSelected = 'approve';
                     }
@@ -50,7 +46,6 @@
                 data-tin="<?= esc($item['npwp'] ?? '') ?>"
                 data-supporting-document="<?= esc(json_encode(explode(',', $item['dokumen_pendukung'] ?? ''))) ?>"
             >
-            <?php // END OF PHP BLOCK - NOW THE HTML CONTENT FOLLOWS ?>
                 <div class="flex-grow">
                     <p class="font-semibold text-lg"><?= esc($item['username']) ?></p>
                     <p class="text-sm text-gray-500"><?= esc($item['email']) ?></p>

@@ -1,7 +1,3 @@
-<?php
-// Variabel $reviews, $tempat, dan $isLoggedIn diharapkan ada dari controller
-?>
-
 <div class="bg-white p-6 rounded-2xl shadow-lg mb-8 border border-[#F0B845]">
 
     <?php if (session()->getFlashdata('errors')) : ?>
@@ -150,7 +146,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const displayImageName = document.getElementById('displayImageName');
     const cancelImageBtn = document.getElementById('cancelImage');
 
-    // --- LOGIKA TAMPILKAN/SEMBUNYIKAN FORM REVIEW ---
     if (addReviewDiv) {
         addReviewDiv.addEventListener('click', () => {
             addReviewDiv.style.display = 'none';
@@ -172,7 +167,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- LOGIKA MODAL RATING ---
     if (openRatingBtn) {
         openRatingBtn.addEventListener('click', () => {
             ratingModal.classList.remove('hidden');
@@ -211,7 +205,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- LOGIKA GAMBAR ---
     if (openImageBtn) {
         openImageBtn.addEventListener('click', () => {
             reviewImageUpload.click();
@@ -240,13 +233,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // --- JIKA ADA ERROR VALIDASI, JAGA FORM TETAP TERBUKA ---
     const validationErrors = document.getElementById('validationErrors');
     if (validationErrors && addReviewDiv) {
         addReviewDiv.style.display = 'none';
         fillReviewDiv.classList.remove('hidden');
     }
-    // --- Logika untuk Modal Hapus Review ---
     const deleteReviewModal = document.getElementById('deleteReviewModal');
     const closeDeleteReviewModalBtn = document.getElementById('closeDeleteReviewModal');
     const allOpenDeleteModalBtns = document.querySelectorAll('.open-delete-modal-btn');
@@ -254,25 +245,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const deleteReviewIdTempatInput = document.getElementById('delete_review_id_tempat');
 
     if (deleteReviewModal) {
-        // Event listener untuk semua tombol hapus
         allOpenDeleteModalBtns.forEach(btn => {
             btn.addEventListener('click', function() {
-                // Ambil ID dari atribut data-* tombol yang diklik
                 const reviewId = this.dataset.reviewId;
                 const tempatId = this.dataset.tempatId;
 
-                // Masukkan ID ke dalam input hidden di dalam form modal
                 if (deleteReviewIdInput) deleteReviewIdInput.value = reviewId;
                 if (deleteReviewIdTempatInput) deleteReviewIdTempatInput.value = tempatId;
                 
-                // Tampilkan modal
                 deleteReviewModal.classList.remove('hidden');
                 deleteReviewModal.classList.add('flex');
                 document.body.style.overflow = 'hidden';
             });
         });
 
-        // Event listener untuk tombol close (X) pada modal
         if (closeDeleteReviewModalBtn) {
             closeDeleteReviewModalBtn.addEventListener('click', () => {
                 deleteReviewModal.classList.add('hidden');
