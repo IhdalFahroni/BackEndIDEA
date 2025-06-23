@@ -153,9 +153,8 @@ class Akun extends BaseController
             // Buat nama acak untuk file agar tidak bentrok
             $reviewPhotoName = $reviewPhoto->getRandomName();
             // Pindahkan file ke folder tujuan
-            $reviewPhoto->move(ROOTPATH . 'public/Assets/', $reviewPhotoName);
+            $reviewPhoto->move(ROOTPATH . 'public/Assets/review_photos', $reviewPhotoName);
         }
-        // --- AKHIR LOGIKA UPLOAD GAMBAR ---
 
         $reviewModel = new ReviewModel();
         $dataToInsert = [
@@ -166,7 +165,6 @@ class Akun extends BaseController
             'foto' => $reviewPhotoName,
         ];
 
-        // PENTING: Pastikan 'foto_review' sudah ada di $allowedFields pada ReviewModel.php
         
         if ($reviewModel->insert($dataToInsert)) {
             $idTempat = $dataToInsert['ID_tempat'];

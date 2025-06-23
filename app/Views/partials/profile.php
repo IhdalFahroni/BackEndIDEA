@@ -36,8 +36,8 @@
                 <button id="editProfileBtn" class="absolute top-4 right-4 bg-[#FF9800] text-white hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full shadow font-semibold flex items-center gap-2 transition">Edit</button>
                 <?php endif; ?>
             <?php endif; ?>
-            <?php if(session()->get('foto_profil') !== null) :?>
-            <img src="<?= base_url('Assets/profil/' . esc(session()->get('foto_profil'))) ; ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
+            <?php if(session()->get('foto') !== null) :?>
+            <img src="<?= base_url('Assets/profil/' . esc(session()->get('foto'))) ; ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
             <?php else: ?>
             <img src="<?= base_url('Assets/profil/default.png') ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
             <?php endif; ?>
