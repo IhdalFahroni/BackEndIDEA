@@ -20,8 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
   //file input untuk claim form
   const fileInputClaim = document.getElementById("file-uploadClaim");
   const fileListClaim = document.getElementById("file-listClaim");
-  const fileUploadVisualClaim = document.getElementById("fileUploadVisualClaim");
-  const fileUploadPlaceholderClaim = document.getElementById("fileUploadPlaceholderClaim");
+  const fileUploadVisualClaim = document.getElementById(
+    "fileUploadVisualClaim"
+  );
+  const fileUploadPlaceholderClaim = document.getElementById(
+    "fileUploadPlaceholderClaim"
+  );
 
   const searchInput = document.getElementById("search_input");
   const searchButton = document.getElementById("searchButton");
@@ -56,6 +60,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const accountSetting = document.getElementById("accountSetting");
   const editProfileBtn = document.getElementById("editProfileBtn");
   const cancelEditBtn = document.getElementById("cancelEditBtn");
+  const newProfilePhotoInput = document.getElementById("newProfilePhotoInput");
+  const editProfileImagePreview = document.getElementById(
+    "editProfileImagePreview"
+  );
 
   // --- TOMBOL LOGOUT & DELETE AKUN ---
   const logoutBtn = document.getElementById("logoutBtn");
@@ -85,47 +93,96 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- FUNGSI showPanel (untuk mengubah tampilan main content) ---
   function showPanel(panelName) {
-     console.log("Menyembunyikan semua panel...");
+    console.log("Menyembunyikan semua panel...");
     // Sembunyikan semua panel
     // Pastikan ID-nya sesuai dengan HTML kamu!
-    const allPanels = [headerDiv, awalDiv, notification, addPlaceForm, claimForm, manageVerification, profile, listManage];
-    allPanels.forEach(panel => {
-        if (panel) { // Hanya sembunyikan jika elemen itu ada (tidak null)
-            panel.classList.add("hidden");
-            console.log(`Menyembunyikan: ${panel.id}`);
-        }
+    const allPanels = [
+      headerDiv,
+      awalDiv,
+      notification,
+      addPlaceForm,
+      claimForm,
+      manageVerification,
+      profile,
+      listManage,
+    ];
+    allPanels.forEach((panel) => {
+      if (panel) {
+        // Hanya sembunyikan jika elemen itu ada (tidak null)
+        panel.classList.add("hidden");
+        console.log(`Menyembunyikan: ${panel.id}`);
+      }
     });
 
     console.log(`Mencoba menampilkan panel: ${panelName}`);
     switch (panelName) {
-        case "awal":
-            if (headerDiv) { headerDiv.classList.remove("hidden"); console.log("Menampilkan headerDiv"); }
-            if (awalDiv) { awalDiv.classList.remove("hidden"); console.log("Menampilkan awalDiv"); }
-            break;
-        case "notification":
-            if (notification) { notification.classList.remove("hidden"); console.log("Menampilkan notification"); }
-            break;
-        case "addPlace":
-            if (addPlaceForm) { addPlaceForm.classList.remove("hidden"); console.log("Menampilkan addPlaceForm"); }
-            break;
-        case "claimForm":
-            if (claimForm) { claimForm.classList.remove("hidden"); console.log("Menampilkan claimForm"); }
-            break;
-        case "manageVerification":
-            if (manageVerification) { manageVerification.classList.remove("hidden"); console.log("Menampilkan manageVerification"); }
-            break;
-        case "listPlace":
-            if (sidebarMenu) sidebarMenu.classList.remove("-translate-x-full"); // Ini bukan elemen utama
-            if (listManage) { listManage.classList.remove("hidden"); console.log("Menampilkan listManage"); }
-            break;
-        case "profil":
-            if (profile) { profile.classList.remove("hidden"); console.log("Menampilkan profile"); }
-            if (containerProfile) { containerProfile.classList.remove("hidden"); console.log("Menampilkan containerProfile"); }
-            if (profilPage) { profilPage.classList.remove("hidden"); console.log("Menampilkan profilPage"); }
-            if (bawahProfil) { bawahProfil.classList.remove("hidden"); console.log("Menampilkan bawahProfil"); }
-            if (editProfilePage) { editProfilePage.classList.add("hidden"); console.log("Menyembunyikan editProfilePage"); }
-            if (accountSetting) { accountSetting.classList.add("hidden"); console.log("Menyembunyikan accountSetting"); }
-            break;
+      case "awal":
+        if (headerDiv) {
+          headerDiv.classList.remove("hidden");
+          console.log("Menampilkan headerDiv");
+        }
+        if (awalDiv) {
+          awalDiv.classList.remove("hidden");
+          console.log("Menampilkan awalDiv");
+        }
+        break;
+      case "notification":
+        if (notification) {
+          notification.classList.remove("hidden");
+          console.log("Menampilkan notification");
+        }
+        break;
+      case "addPlace":
+        if (addPlaceForm) {
+          addPlaceForm.classList.remove("hidden");
+          console.log("Menampilkan addPlaceForm");
+        }
+        break;
+      case "claimForm":
+        if (claimForm) {
+          claimForm.classList.remove("hidden");
+          console.log("Menampilkan claimForm");
+        }
+        break;
+      case "manageVerification":
+        if (manageVerification) {
+          manageVerification.classList.remove("hidden");
+          console.log("Menampilkan manageVerification");
+        }
+        break;
+      case "listPlace":
+        if (sidebarMenu) sidebarMenu.classList.remove("-translate-x-full"); // Ini bukan elemen utama
+        if (listManage) {
+          listManage.classList.remove("hidden");
+          console.log("Menampilkan listManage");
+        }
+        break;
+      case "profil":
+        if (profile) {
+          profile.classList.remove("hidden");
+          console.log("Menampilkan profile");
+        }
+        if (containerProfile) {
+          containerProfile.classList.remove("hidden");
+          console.log("Menampilkan containerProfile");
+        }
+        if (profilPage) {
+          profilPage.classList.remove("hidden");
+          console.log("Menampilkan profilPage");
+        }
+        if (bawahProfil) {
+          bawahProfil.classList.remove("hidden");
+          console.log("Menampilkan bawahProfil");
+        }
+        if (editProfilePage) {
+          editProfilePage.classList.add("hidden");
+          console.log("Menyembunyikan editProfilePage");
+        }
+        if (accountSetting) {
+          accountSetting.classList.add("hidden");
+          console.log("Menyembunyikan accountSetting");
+        }
+        break;
     }
     previousPanel = activePanel;
     activePanel = panelName;
@@ -202,14 +259,12 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
-    if (openClaimBtn) {
-      openClaimBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        showPanel(
-          "claimForm"
-        );
-      });
-    }
+  if (openClaimBtn) {
+    openClaimBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      showPanel("claimForm");
+    });
+  }
 
   if (openManage[0]) {
     openManage[0].addEventListener("click", (e) => {
@@ -235,7 +290,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // saveEditBtn tidak lagi memiliki event listener klik di sini
   // Karena form akan disubmit oleh browser secara native
   if (cancelEditBtn) {
     cancelEditBtn.addEventListener("click", () => {
@@ -244,7 +298,22 @@ document.addEventListener("DOMContentLoaded", () => {
       if (bawahProfil) bawahProfil.classList.remove("hidden");
     });
   }
+  if (newProfilePhotoInput && editProfileImagePreview) {
+    newProfilePhotoInput.addEventListener("change", function (event) {
+      // Ambil file yang dipilih oleh pengguna
+      const file = event.target.files[0];
 
+      if (file) {
+        // Gunakan FileReader untuk membaca file sebagai URL
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          // Set 'src' dari gambar preview dengan hasil bacaan file
+          editProfileImagePreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
   // --- VALIDASI FORM PROFIL & PASSWORD (Client-Side) ---
   const showError = (inputElement, message) => {
     inputElement.classList.add("border-red-500");
@@ -585,7 +654,7 @@ document.addEventListener("DOMContentLoaded", () => {
         fileUploadPlaceholderClaim.value = "";
         fileUploadPlaceholderClaim.placeholder = "Upload File(s)";
       }
-      showPanel("awal")
+      showPanel("awal");
     });
   }
 
@@ -644,285 +713,303 @@ document.addEventListener("DOMContentLoaded", () => {
   //       }
   //   }
 
-//   document.querySelectorAll(".view-form-link").forEach((link) => {
-//   if (link) {
-//     link.addEventListener("click", (e) => {
-//       e.preventDefault();
-//       const parentItem = link.closest(".verification-item");
+  //   document.querySelectorAll(".view-form-link").forEach((link) => {
+  //   if (link) {
+  //     link.addEventListener("click", (e) => {
+  //       e.preventDefault();
+  //       const parentItem = link.closest(".verification-item");
 
-      
-//       // Extract all data from the parentItem's dataset
-//       const requestId = parentItem.dataset.requestId;
-//       const requestType = parentItem.dataset.type;
-//       const isVerified = parentItem.dataset.isVerified; // Access the is_verified status if needed
-//       const username = parentItem.dataset.user; // Get username from data attribute
-//       const email = parentItem.dataset.email;   // Get email from data attribute
-      
-//       setButtonState(parentItem);
-//       let dataToDisplay = {};
+  //       // Extract all data from the parentItem's dataset
+  //       const requestId = parentItem.dataset.requestId;
+  //       const requestType = parentItem.dataset.type;
+  //       const isVerified = parentItem.dataset.isVerified; // Access the is_verified status if needed
+  //       const username = parentItem.dataset.user; // Get username from data attribute
+  //       const email = parentItem.dataset.email;   // Get email from data attribute
 
-//       if (requestType === "addPlace") { // Note: 'addPlace' not 'add-place' as per your PHP
-//         dataToDisplay = {
-//           placeName: parentItem.dataset.placeName,
-//           category: parentItem.dataset.category,
-//           district: parentItem.dataset.district,
-//           subdistrict: parentItem.dataset.subdistrict,
-//           village: parentItem.dataset.village,
-//           street: parentItem.dataset.street,
-//           gmaps: parentItem.dataset.gmaps,
-//           description: parentItem.dataset.description,
-//           entryPrice: parentItem.dataset.entryPrice,
-//           // data_photo_link: "<?= esc(json_encode(explode(',', $item['foto']))) ?>"
-//           photo_link: JSON.parse(parentItem.dataset.photoLink || '[]'), // Ensure it's parsed as JSON, default to empty array
-//         };
-//         openAddPlaceModal(dataToDisplay);
-//       } else if (requestType === "claimCulinary") {
-//         dataToDisplay = {
-//           fullName: parentItem.dataset.fullName,
-//           phone: parentItem.dataset.phone,
-//           email: parentItem.dataset.email,
-//           tin: parentItem.dataset.tin,
-//           supporting_document: JSON.parse(parentItem.dataset.supportingDocument || '[]'),
-//         };
-//         openClaimCulinaryModal(dataToDisplay);
-//       }
-//     });
-//   }
-// });
+  //       setButtonState(parentItem);
+  //       let dataToDisplay = {};
 
+  //       if (requestType === "addPlace") { // Note: 'addPlace' not 'add-place' as per your PHP
+  //         dataToDisplay = {
+  //           placeName: parentItem.dataset.placeName,
+  //           category: parentItem.dataset.category,
+  //           district: parentItem.dataset.district,
+  //           subdistrict: parentItem.dataset.subdistrict,
+  //           village: parentItem.dataset.village,
+  //           street: parentItem.dataset.street,
+  //           gmaps: parentItem.dataset.gmaps,
+  //           description: parentItem.dataset.description,
+  //           entryPrice: parentItem.dataset.entryPrice,
+  //           // data_photo_link: "<?= esc(json_encode(explode(',', $item['foto']))) ?>"
+  //           photo_link: JSON.parse(parentItem.dataset.photoLink || '[]'), // Ensure it's parsed as JSON, default to empty array
+  //         };
+  //         openAddPlaceModal(dataToDisplay);
+  //       } else if (requestType === "claimCulinary") {
+  //         dataToDisplay = {
+  //           fullName: parentItem.dataset.fullName,
+  //           phone: parentItem.dataset.phone,
+  //           email: parentItem.dataset.email,
+  //           tin: parentItem.dataset.tin,
+  //           supporting_document: JSON.parse(parentItem.dataset.supportingDocument || '[]'),
+  //         };
+  //         openClaimCulinaryModal(dataToDisplay);
+  //       }
+  //     });
+  //   }
+  // });
 
-// // Helper function to populate and open the addPlace modal
-      function openAddPlaceModal(data) {
-          document.getElementById('add_placeName').textContent = data.placeName;
-          document.getElementById('add_category').textContent = data.category;
-          document.getElementById('add_district').textContent = data.district;
-          document.getElementById('add_subdistrict').textContent = data.subdistrict;
-          document.getElementById('add_village').textContent = data.village;
-          document.getElementById('add_street').textContent = data.street;
-          document.getElementById('add_gmaps').href = data.gmaps;
-          document.getElementById('add_gmaps').textContent = data.gmaps; // Display the link text
-          document.getElementById('add_description').textContent = data.description;
-          document.getElementById('add_price').textContent = data.entryPrice;
+  // // Helper function to populate and open the addPlace modal
+  function openAddPlaceModal(data) {
+    document.getElementById("add_placeName").textContent = data.placeName;
+    document.getElementById("add_category").textContent = data.category;
+    document.getElementById("add_district").textContent = data.district;
+    document.getElementById("add_subdistrict").textContent = data.subdistrict;
+    document.getElementById("add_village").textContent = data.village;
+    document.getElementById("add_street").textContent = data.street;
+    document.getElementById("add_gmaps").href = data.gmaps;
+    document.getElementById("add_gmaps").textContent = data.gmaps; // Display the link text
+    document.getElementById("add_description").textContent = data.description;
+    document.getElementById("add_price").textContent = data.entryPrice;
 
-          const photoLinkDiv = document.getElementById('add_photo_link');
-          photoLinkDiv.innerHTML = ''; // Clear previous images
-          if (data.photo_link && data.photo_link.length > 0) {
-              data.photo_link.forEach(photo => {
-                  const img = document.createElement('img');
-                  img.src = UPLOADS_URL + photo.trim(); // Adjust path as needed
-                  img.alt = 'Place Photo';
-                  img.classList.add('w-24', 'h-auto', 'inline-block', 'mr-2', 'mb-2', 'rounded'); // Tailwind classes
-                  photoLinkDiv.appendChild(img);
-              });
-          } else {
-              photoLinkDiv.textContent = 'No photos available.';
-          }
-
-          document.getElementById('addPlaceModal').classList.remove('hidden');
-      }
-
-// Helper function to populate and open the claimCulinary modal
-      function openClaimCulinaryModal(data) {
-          document.getElementById('place_to_claim').textContent = data.placeName;
-          document.getElementById('claim_fullName').textContent = data.fullName;
-          document.getElementById('claim_phone').textContent = data.phone;
-          document.getElementById('claim_email').textContent = data.email;
-          document.getElementById('claim_tin').textContent = data.tin;
-
-          const supportingDocumentDiv = document.getElementById('claim_supporting_document');
-          supportingDocumentDiv.innerHTML = ''; // Clear previous documents
-          if (data.supporting_document && data.supporting_document.length > 0) {
-              data.supporting_document.forEach(doc => {
-                  const link = document.createElement('a');
-                  link.href = UPLOADS_URL + doc.trim(); // Adjust path as needed
-                  link.textContent = doc.trim();
-                  link.target = '_blank';
-                  link.classList.add('text-blue-700', 'underline', 'block');
-                  supportingDocumentDiv.appendChild(link);
-              });
-          } else {
-              supportingDocumentDiv.textContent = 'No supporting documents available.';
-          }
-
-          document.getElementById('claimCulinaryModal').classList.remove('hidden');
-      }
-
-
-// Existing modal close functionality (ensure this is present and correct)
-    document.querySelectorAll('.modal-close-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const modalId = btn.dataset.closeModal;
-            document.getElementById(modalId).classList.add('hidden');
-        });
-    }); 
-
-//   // --- TOMBOL DENY/APPROVE (TANPA AJAX) ---
-//   // Event listener untuk tombol Deny (form submission)
-//     document.querySelectorAll('.deny-btn').forEach(button => {
-//         button.addEventListener('click', () => {
-//             if (button.disabled) return;
-//             if (window.confirm('Are you sure you want to DENY this request?')) {
-//                 const parentItem = button.closest('.verification-item');
-//                 parentItem.dataset.verified = 'true';
-//                 parentItem.dataset.selected = 'deny';
-//                 setButtonState(parentItem, 'deny');
-//             }
-//         });
-//     });
-
-//     document.querySelectorAll('.approve-btn').forEach(button => {
-//         button.addEventListener('click', () => {
-//             if (button.disabled) return;
-//             if (window.confirm('Are you sure you want to APPROVE this request?')) {
-//                 const parentItem = button.closest('.verification-item');
-//                 parentItem.dataset.verified = 'true';
-//                 parentItem.dataset.selected = 'approve';
-//                 setButtonState(parentItem, 'approve');
-//             }
-//         });
-//     });
-
-
-// manage verif baru
-    function setButtonStateBasedOnVerification(parentItem, activatedBySeeForm = false) {
-        const approveBtn = parentItem.querySelector('.approve-btn');
-        const denyBtn = parentItem.querySelector('.deny-btn');
-        const ApproveText = parentItem.querySelector('.approve');
-        const DenyText = parentItem.querySelector('.deny');
-
-        const isVerifiedFromHtml = parentItem.dataset.isVerified === 'true'; // status dari PHP
-        const selectedFromHtml = parentItem.dataset.selected; // 'approve', 'deny', atau '' dari PHP
-
-        // Awalnya sembunyikan teks status
-        if (ApproveText) ApproveText.classList.add('hidden');
-        if (DenyText) DenyText.classList.add('hidden');
-
-        if (isVerifiedFromHtml) {
-            // Jika sudah diverifikasi (1 atau 2 di DB)
-            if (approveBtn) approveBtn.classList.add('hidden'); // Sembunyikan tombol
-            if (denyBtn) denyBtn.classList.add('hidden');     // Sembunyikan tombol
-
-            // Tampilkan teks status yang sesuai
-            if (selectedFromHtml === 'approve' && ApproveText) {
-                ApproveText.classList.remove('hidden');
-            } else if (selectedFromHtml === 'deny' && DenyText) {
-                DenyText.classList.remove('hidden');
-            }
-        } else {
-            // Jika belum diverifikasi (0 di DB)
-            // Tampilkan tombol dan atur statusnya
-            if (approveBtn) {
-                approveBtn.classList.remove('hidden'); // Tampilkan tombol
-                approveBtn.classList.remove('bg-blue-500', 'text-white'); // Reset warna jika pernah di-hover
-                approveBtn.classList.add('border', 'border-blue-500', 'text-blue-500', 'bg-white');
-
-                // GUNAKAN PARAMETER activatedBySeeForm DI SINI
-                if (activatedBySeeForm) {
-                    // Jika dipanggil dari klik "See form", aktifkan tombol
-                    approveBtn.disabled = false;
-                    approveBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                } else {
-                    // Default saat page load: disabled dan pudar
-                    approveBtn.disabled = true;
-                    approveBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                }
-            }
-            if (denyBtn) {
-                denyBtn.classList.remove('hidden');    // Tampilkan tombol
-                denyBtn.classList.remove('bg-red-500', 'text-white'); // Reset warna jika pernah di-hover
-                denyBtn.classList.add('border', 'border-red-500', 'text-red-500', 'bg-white');
-
-                // GUNAKAN PARAMETER activatedBySeeForm DI SINI
-                if (activatedBySeeForm) {
-                    // Jika dipanggil dari klik "See form", aktifkan tombol
-                    denyBtn.disabled = false;
-                    denyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                } else {
-                    // Default saat page load: disabled dan pudar
-                    denyBtn.disabled = true;
-                    denyBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                }
-            }
-        }
+    const photoLinkDiv = document.getElementById("add_photo_link");
+    photoLinkDiv.innerHTML = ""; // Clear previous images
+    if (data.photo_link && data.photo_link.length > 0) {
+      data.photo_link.forEach((photo) => {
+        const img = document.createElement("img");
+        img.src = UPLOADS_URL + photo.trim(); // Adjust path as needed
+        img.alt = "Place Photo";
+        img.classList.add(
+          "w-24",
+          "h-auto",
+          "inline-block",
+          "mr-2",
+          "mb-2",
+          "rounded"
+        ); // Tailwind classes
+        photoLinkDiv.appendChild(img);
+      });
+    } else {
+      photoLinkDiv.textContent = "No photos available.";
     }
 
+    document.getElementById("addPlaceModal").classList.remove("hidden");
+  }
 
-    // 1. Inisialisasi awal saat halaman dimuat (untuk setiap item verifikasi)
-    // Ini memastikan bahwa status dari PHP (database) direfleksikan di UI
-    document.querySelectorAll('.verification-item').forEach(item => {
-        setButtonStateBasedOnVerification(item, false); // Pastikan ini dipanggil dengan 'false'
+  // Helper function to populate and open the claimCulinary modal
+  function openClaimCulinaryModal(data) {
+    document.getElementById("place_to_claim").textContent = data.placeName;
+    document.getElementById("claim_fullName").textContent = data.fullName;
+    document.getElementById("claim_phone").textContent = data.phone;
+    document.getElementById("claim_email").textContent = data.email;
+    document.getElementById("claim_tin").textContent = data.tin;
+
+    const supportingDocumentDiv = document.getElementById(
+      "claim_supporting_document"
+    );
+    supportingDocumentDiv.innerHTML = ""; // Clear previous documents
+    if (data.supporting_document && data.supporting_document.length > 0) {
+      data.supporting_document.forEach((doc) => {
+        const link = document.createElement("a");
+        link.href = UPLOADS_URL + doc.trim(); // Adjust path as needed
+        link.textContent = doc.trim();
+        link.target = "_blank";
+        link.classList.add("text-blue-700", "underline", "block");
+        supportingDocumentDiv.appendChild(link);
+      });
+    } else {
+      supportingDocumentDiv.textContent = "No supporting documents available.";
+    }
+
+    document.getElementById("claimCulinaryModal").classList.remove("hidden");
+  }
+
+  // Existing modal close functionality (ensure this is present and correct)
+  document.querySelectorAll(".modal-close-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const modalId = btn.dataset.closeModal;
+      document.getElementById(modalId).classList.add("hidden");
     });
+  });
 
-    // 2. Event Listener untuk link "See form" (untuk mengaktifkan tombol setelah form dibuka)
-    document.querySelectorAll(".view-form-link").forEach((link) => {
-        if (link) {
-            link.addEventListener("click", (e) => {
-                e.preventDefault();
-                const parentItem = link.closest(".verification-item");
+  //   // --- TOMBOL DENY/APPROVE (TANPA AJAX) ---
+  //   // Event listener untuk tombol Deny (form submission)
+  //     document.querySelectorAll('.deny-btn').forEach(button => {
+  //         button.addEventListener('click', () => {
+  //             if (button.disabled) return;
+  //             if (window.confirm('Are you sure you want to DENY this request?')) {
+  //                 const parentItem = button.closest('.verification-item');
+  //                 parentItem.dataset.verified = 'true';
+  //                 parentItem.dataset.selected = 'deny';
+  //                 setButtonState(parentItem, 'deny');
+  //             }
+  //         });
+  //     });
 
-                // ... (data extraction code seperti sebelumnya) ...
-                const requestId = parentItem.dataset.requestId;
-                const requestType = parentItem.dataset.type;
-                const isVerified = parentItem.dataset.isVerified; // Ambil isVerified
+  //     document.querySelectorAll('.approve-btn').forEach(button => {
+  //         button.addEventListener('click', () => {
+  //             if (button.disabled) return;
+  //             if (window.confirm('Are you sure you want to APPROVE this request?')) {
+  //                 const parentItem = button.closest('.verification-item');
+  //                 parentItem.dataset.verified = 'true';
+  //                 parentItem.dataset.selected = 'approve';
+  //                 setButtonState(parentItem, 'approve');
+  //             }
+  //         });
+  //     });
 
-                // Panggil fungsi modal yang sesuai
-                let dataToDisplay = {};
-                if (requestType === "addPlace") {
-                    dataToDisplay = {
-                        placeName: parentItem.dataset.placeName,
-                        category: parentItem.dataset.category,
-                        district: parentItem.dataset.district,
-                        subdistrict: parentItem.dataset.subdistrict,
-                        village: parentItem.dataset.village,
-                        street: parentItem.dataset.street,
-                        gmaps: parentItem.dataset.gmaps,
-                        description: parentItem.dataset.description,
-                        entryPrice: parentItem.dataset.entryPrice,
-                        photo_link: JSON.parse(parentItem.dataset.photoLink || '[]'),
-                    };
-                    openAddPlaceModal(dataToDisplay);
-                } else if (requestType === "claimCulinary") {
-                    dataToDisplay = {
-                        placeName: parentItem.dataset.placeName,
-                        fullName: parentItem.dataset.fullName,
-                        phone: parentItem.dataset.phone,
-                        email: parentItem.dataset.email,
-                        tin: parentItem.dataset.tin,
-                        supporting_document: JSON.parse(parentItem.dataset.supportingDocument || '[]'),
-                    };
-                    openClaimCulinaryModal(dataToDisplay);
-                }
+  // manage verif baru
+  function setButtonStateBasedOnVerification(
+    parentItem,
+    activatedBySeeForm = false
+  ) {
+    const approveBtn = parentItem.querySelector(".approve-btn");
+    const denyBtn = parentItem.querySelector(".deny-btn");
+    const ApproveText = parentItem.querySelector(".approve");
+    const DenyText = parentItem.querySelector(".deny");
 
-                // PENTING: Panggil fungsi ini lagi dengan parameter 'true' HANYA JIKA BELUM DIVERIFIKASI
-                if (isVerified === 'false') {
-                    setButtonStateBasedOnVerification(parentItem, true); // Aktifkan tombol jika belum verified
-                }
-            });
+    const isVerifiedFromHtml = parentItem.dataset.isVerified === "true"; // status dari PHP
+    const selectedFromHtml = parentItem.dataset.selected; // 'approve', 'deny', atau '' dari PHP
+
+    // Awalnya sembunyikan teks status
+    if (ApproveText) ApproveText.classList.add("hidden");
+    if (DenyText) DenyText.classList.add("hidden");
+
+    if (isVerifiedFromHtml) {
+      // Jika sudah diverifikasi (1 atau 2 di DB)
+      if (approveBtn) approveBtn.classList.add("hidden"); // Sembunyikan tombol
+      if (denyBtn) denyBtn.classList.add("hidden"); // Sembunyikan tombol
+
+      // Tampilkan teks status yang sesuai
+      if (selectedFromHtml === "approve" && ApproveText) {
+        ApproveText.classList.remove("hidden");
+      } else if (selectedFromHtml === "deny" && DenyText) {
+        DenyText.classList.remove("hidden");
+      }
+    } else {
+      // Jika belum diverifikasi (0 di DB)
+      // Tampilkan tombol dan atur statusnya
+      if (approveBtn) {
+        approveBtn.classList.remove("hidden"); // Tampilkan tombol
+        approveBtn.classList.remove("bg-blue-500", "text-white"); // Reset warna jika pernah di-hover
+        approveBtn.classList.add(
+          "border",
+          "border-blue-500",
+          "text-blue-500",
+          "bg-white"
+        );
+
+        // GUNAKAN PARAMETER activatedBySeeForm DI SINI
+        if (activatedBySeeForm) {
+          // Jika dipanggil dari klik "See form", aktifkan tombol
+          approveBtn.disabled = false;
+          approveBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        } else {
+          // Default saat page load: disabled dan pudar
+          approveBtn.disabled = true;
+          approveBtn.classList.add("opacity-50", "cursor-not-allowed");
         }
-    });
+      }
+      if (denyBtn) {
+        denyBtn.classList.remove("hidden"); // Tampilkan tombol
+        denyBtn.classList.remove("bg-red-500", "text-white"); // Reset warna jika pernah di-hover
+        denyBtn.classList.add(
+          "border",
+          "border-red-500",
+          "text-red-500",
+          "bg-white"
+        );
 
+        // GUNAKAN PARAMETER activatedBySeeForm DI SINI
+        if (activatedBySeeForm) {
+          // Jika dipanggil dari klik "See form", aktifkan tombol
+          denyBtn.disabled = false;
+          denyBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        } else {
+          // Default saat page load: disabled dan pudar
+          denyBtn.disabled = true;
+          denyBtn.classList.add("opacity-50", "cursor-not-allowed");
+        }
+      }
+    }
+  }
 
-    // 3. Event listener untuk tombol Deny/Approve (Hanya konfirmasi, biarkan form submit secara natural)
-    // Tidak ada lagi perubahan dataset lokal di sini, karena status akan datang dari server setelah reload.
-    document.querySelectorAll('.deny-btn').forEach(button => {
-        button.addEventListener('click', (e) => {
-            // Tidak perlu cek button.disabled di sini karena PHP akan menghandle jika tombol tersembunyi
-            // atau jika statusnya sudah berubah.
-            if (!window.confirm('Are you sure you want to DENY this request?')) {
-                e.preventDefault(); // Hentikan submit jika user tidak konfirmasi
-            }
-            // Jika dikonfirmasi, form akan otomatis disubmit dan halaman direload
-        });
-    });
+  // 1. Inisialisasi awal saat halaman dimuat (untuk setiap item verifikasi)
+  // Ini memastikan bahwa status dari PHP (database) direfleksikan di UI
+  document.querySelectorAll(".verification-item").forEach((item) => {
+    setButtonStateBasedOnVerification(item, false); // Pastikan ini dipanggil dengan 'false'
+  });
 
-    document.querySelectorAll('.approve-btn').forEach(button => {
-        button.addEventListener('click', (e) => {
-            if (!window.confirm('Are you sure you want to APPROVE this request?')) {
-                e.preventDefault(); // Hentikan submit jika user tidak konfirmasi
-            }
-            // Jika dikonfirmasi, form akan otomatis disubmit dan halaman direload
-        });
+  // 2. Event Listener untuk link "See form" (untuk mengaktifkan tombol setelah form dibuka)
+  document.querySelectorAll(".view-form-link").forEach((link) => {
+    if (link) {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const parentItem = link.closest(".verification-item");
+
+        // ... (data extraction code seperti sebelumnya) ...
+        const requestId = parentItem.dataset.requestId;
+        const requestType = parentItem.dataset.type;
+        const isVerified = parentItem.dataset.isVerified; // Ambil isVerified
+
+        // Panggil fungsi modal yang sesuai
+        let dataToDisplay = {};
+        if (requestType === "addPlace") {
+          dataToDisplay = {
+            placeName: parentItem.dataset.placeName,
+            category: parentItem.dataset.category,
+            district: parentItem.dataset.district,
+            subdistrict: parentItem.dataset.subdistrict,
+            village: parentItem.dataset.village,
+            street: parentItem.dataset.street,
+            gmaps: parentItem.dataset.gmaps,
+            description: parentItem.dataset.description,
+            entryPrice: parentItem.dataset.entryPrice,
+            photo_link: JSON.parse(parentItem.dataset.photoLink || "[]"),
+          };
+          openAddPlaceModal(dataToDisplay);
+        } else if (requestType === "claimCulinary") {
+          dataToDisplay = {
+            placeName: parentItem.dataset.placeName,
+            fullName: parentItem.dataset.fullName,
+            phone: parentItem.dataset.phone,
+            email: parentItem.dataset.email,
+            tin: parentItem.dataset.tin,
+            supporting_document: JSON.parse(
+              parentItem.dataset.supportingDocument || "[]"
+            ),
+          };
+          openClaimCulinaryModal(dataToDisplay);
+        }
+
+        // PENTING: Panggil fungsi ini lagi dengan parameter 'true' HANYA JIKA BELUM DIVERIFIKASI
+        if (isVerified === "false") {
+          setButtonStateBasedOnVerification(parentItem, true); // Aktifkan tombol jika belum verified
+        }
+      });
+    }
+  });
+
+  // 3. Event listener untuk tombol Deny/Approve (Hanya konfirmasi, biarkan form submit secara natural)
+  // Tidak ada lagi perubahan dataset lokal di sini, karena status akan datang dari server setelah reload.
+  document.querySelectorAll(".deny-btn").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      // Tidak perlu cek button.disabled di sini karena PHP akan menghandle jika tombol tersembunyi
+      // atau jika statusnya sudah berubah.
+      if (!window.confirm("Are you sure you want to DENY this request?")) {
+        e.preventDefault(); // Hentikan submit jika user tidak konfirmasi
+      }
+      // Jika dikonfirmasi, form akan otomatis disubmit dan halaman direload
     });
+  });
+
+  document.querySelectorAll(".approve-btn").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      if (!window.confirm("Are you sure you want to APPROVE this request?")) {
+        e.preventDefault(); // Hentikan submit jika user tidak konfirmasi
+      }
+      // Jika dikonfirmasi, form akan otomatis disubmit dan halaman direload
+    });
+  });
 
   showPanel("awal");
 });

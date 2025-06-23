@@ -12,31 +12,18 @@ class AkunModel extends Model
     // Kolom yang boleh diisi. WAJIB diisi untuk keamanan.
     protected $allowedFields = ['username', 'foto_profil', 'password', 'email', 'nama_depan', 'nama_belakang', 'is_pemilik', 'is_admin'];
 
-    /**
-     * Fungsi untuk mendaftarkan akun baru.
-     * @param array $data Data akun dari form (nama, email, password).
-     * @return bool True jika berhasil, False jika email sudah ada.
-     */
     public function registerAkun(array $data): bool
     {
-        // 1. Cek apakah email sudah ada di database
-        // $this->where('kolom', 'nilai')->first(); artinya "cari baris pertama yang cocok"
         $existingAkun = $this->where('email', $data['email'])->first();
 
         if ($existingAkun) {
-            // Jika $existingAkun tidak null, berarti email sudah ada.
-            // Pendaftaran gagal, kembalikan false.
             return false;
         }
 
-        // 2. Jika email belum ada, hash password sebelum disimpan.
-        // INI WAJIB! JANGAN PERNAH SIMPAN PASSWORD DALAM BENTUK TEKS BIASA.
         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-        // 3. Masukkan data ke dalam database menggunakan fungsi insert() bawaan Model.
         $this->insert($data);
 
-        // Jika berhasil sampai sini, pendaftaran sukses. Kembalikan true.
         return true;
     }
 
@@ -59,29 +46,9 @@ class AkunModel extends Model
     }
        public function updateProfile(int $id, array $data)
     {
-        // Pastikan Anda melakukan validasi di controller sebelum memanggil ini
         return $this->update($id, $data);
     }
 
-    /**
-     * Mengubah password pengguna.
-     * Password baru harus sudah di-hash sebelum dikirim ke method ini.
-     *
-     * @param int $id ID_akun pengguna.
-     * @param string $hashedPassword Password baru yang sudah di-hash.
-     * @return bool True jika berhasil diubah, false jika gagal.
-     */
-    // public function changePassword(int $id, string $hashedPassword)
-    // {
-    //     return $this->update($id, ['password' => $hashedPassword]);
-    // }
-
-    /**
-     * Menghapus akun pengguna dari database.
-     *
-     * @param int $id ID_akun pengguna yang akan dihapus.
-     * @return bool True jika berhasil dihapus, false jika gagal.
-     */
     public function deleteAkun(int $id)
     {
         return $this->delete($id);

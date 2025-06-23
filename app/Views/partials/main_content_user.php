@@ -50,7 +50,7 @@ foreach ($categories as $key => $details) {
         </div>
     <?php endif; ?>
 
-        <?php if ($tempat['kategori'] === 'culinary' && session()->get('isLoggedIn') && !$isOwner) : ?>
+        <?php if ($tempat['kategori'] === 'culinary' && session()->get('isLoggedIn') && !$isOwner  && $tempat['ID_akun'] === NULL) : ?>
              <div class="flex justify-end items-center space-x-3 mb-3">
                 <span class="text-base font-bold text-white text-shadow-sm" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.4);">Own this place?</span>
                 <div id="openClaimBtn" class="bg-[#FF9800] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">

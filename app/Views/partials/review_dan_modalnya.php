@@ -111,7 +111,7 @@
             <div class="text-center">
                 <h2 class="text-xl font-bold mt-0 mb-2">Rating</h2>
                 <p class="opacity-80 mb-10 font-normal max-w-xs mx-auto">
-                    You can give rating from 1 to 5. Decimal is allowed.
+                    You can give rating from 0.5 to 5. Decimal is allowed.
                 </p>
                 <input type="text" id="ratingInput" name="modal_rating_value" placeholder="Example: 4.5" class="rating-input block w-3/5 mx-auto border-0 border-b-2 border-[#5C3211]/60 text-center pt-2 px-2 pb-0 text-[#5C3211] placeholder:text-[#5C3211] placeholder:opacity-60 placeholder:font-light focus:outline-none focus:ring-0 focus:border-[#5C3211] mb-12">
                 <button id="submitRating" class="block mx-auto bg-[#5C3211] text-white px-7 py-1 rounded-full shadow-md hover:bg-opacity-80 transition font-semibold text-lg tracking-wider">
@@ -127,29 +127,6 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- FUNGSI UNTUK GENERATE BINTANG REVIEW ---
-    function generateStars() {
-        const ratingElements = document.querySelectorAll('.rating');
-        ratingElements.forEach(element => {
-            const rating = parseFloat(element.dataset.rating);
-            if (isNaN(rating)) return;
-            
-            let starsHtml = '';
-            for (let i = 1; i <= 5; i++) {
-                if (i <= rating) {
-                    starsHtml += '<i class="fas fa-star text-yellow-500"></i>';
-                } else if (i - 0.5 <= rating) {
-                    starsHtml += '<i class="fas fa-star-half-alt text-yellow-500"></i>';
-                } else {
-                    starsHtml += '<i class="far fa-star text-gray-400"></i>';
-                }
-            }
-            element.innerHTML = starsHtml;
-        });
-    }
-    generateStars();
-
-    // --- PEMILIHAN ELEMEN DOM ---
     const addReviewDiv = document.getElementById('addReview');
     const fillReviewDiv = document.getElementById('fillReview');
     const closeReviewBtn = document.getElementById('closeReview');
@@ -213,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (submitRatingBtn) {
         submitRatingBtn.addEventListener('click', () => {
             let ratingValue = ratingInput.value.replace(',', '.');
-            if (ratingValue && !isNaN(ratingValue) && ratingValue >= 1 && ratingValue <= 5) {
+            if (ratingValue && !isNaN(ratingValue) && ratingValue >= 0.5 && ratingValue <= 5) {
                 hiddenRatingInput.value = ratingValue;
                 displayRatingValue.textContent = ratingValue;
                 afterRatingBadge.classList.remove('hidden');

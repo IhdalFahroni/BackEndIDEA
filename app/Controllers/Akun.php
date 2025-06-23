@@ -24,35 +24,53 @@ class Akun extends BaseController
     {
         $session = session();
         if (!$session->get('isLoggedIn')) {
-            return redirect()->to(base_url('login'))->with('error', 'Anda harus login untuk memperbarui profil.');
+            return redirect()->to(base_url('login'));
         }
 
+        // Tambahkan validasi untuk file foto
         $rules = [
             'username'  => 'required|min_length[8]|max_length[20]',
             'firstName' => 'required|min_length[3]',
             'lastName'  => 'required|min_length[3]',
+            'foto_profil' => 'is_image[foto_profil]|max_size[foto_profil,2048]|ext_in[foto_profil,png,jpg,jpeg]',
         ];
+
         if (!$this->validate($rules)) {
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors())->with('active_panel', 'profil');
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
         $akunModel = new AkunModel();
         $akunId = $session->get('ID_akun');
+
         $dataToUpdate = [
-            'username'     => $this->request->getPost('username'),
-            'nama_depan'   => $this->request->getPost('firstName'),
-            'nama_belakang'=> $this->request->getPost('lastName'),
+            'username'      => $this->request->getPost('username'),
+            'nama_depan'    => $this->request->getPost('firstName'),
+            'nama_belakang' => $this->request->getPost('lastName'),
+            'foto_profil' => $this->request->getPost('foto_profil'),
         ];
 
-        if ($akunModel->updateProfile($akunId, $dataToUpdate)) {
-            // Perbarui data di session juga
-            $session->set('username', $dataToUpdate['username']);
-            $session->set('nama_depan', $dataToUpdate['nama_depan']);
-            $session->set('nama_belakang', $dataToUpdate['nama_belakang']);
+        $fotoProfilFile = $this->request->getFile('foto_profil');
+        if ($fotoProfilFile && $fotoProfilFile->isValid() && !$fotoProfilFile->hasMoved()) {
+        
+            $fotoLama = $session->get('foto_profil');
+            if ($fotoLama && $fotoLama !== 'default.png' && is_file(FCPATH . 'Assets/profil/' . $fotoLama)) {
+                unlink(FCPATH . 'Assets/profil/' . $fotoLama);
+            }
+            
+            $namaFotoBaru = $fotoProfilFile->getRandomName();
+            $fotoProfilFile->move(FCPATH . 'Assets/profil', $namaFotoBaru);
 
-            return redirect()->to(base_url('home'))->with('success', 'Profil berhasil diperbarui.')->with('active_panel', 'profil');
+            $dataToUpdate['foto_profil'] = $namaFotoBaru;
+        }
+
+        if ($akunModel->update($akunId, $dataToUpdate)) {
+            // Perbarui data di session dengan data terbaru
+            $userBaru = $akunModel->find($akunId);
+            $session->set($userBaru);
+
+            return redirect()->to(base_url('home?panel=profil'))->with('success', 'Profil berhasil diperbarui.');
         } else {
-            return redirect()->back()->with('error', 'Gagal memperbarui profil.')->with('active_panel', 'profil');
+            return redirect()->back()->with('error', 'Gagal memperbarui profil.');
         }
     }
     public function changePassword()
@@ -475,12 +493,11 @@ public function deleteMenuItem()
             foreach ($uploadedFiles['dokumen_pendukung'] as $file) {
                 if ($file->isValid() && !$file->hasMoved()) {
                     $newName = $file->getRandomName();
-                    $file->move(FCPATH . 'Assets', $newName); // Pindahkan ke public/Assets/
+                    $file->move(FCPATH . 'Assets', $newName);
                     $fotoFileNames[] = $newName;
                 }
             }
         }
-        // dd(['fotoFileNames_uploaded' => $fotoFileNames]);
         
         $dataToInsert = [
             'nama_lengkap'          => $this->request->getPost('nama_lengkap'),
@@ -492,15 +509,9 @@ public function deleteMenuItem()
             'ID_tempat' => $idTempat, // Mengambil ID tempat dari URL
             'is_verified'           => 0, // Status verifikasi awal adalah 0 (
         ];
-        // dd($dataToInsert);
 
         $insertResult = $klaimKulinerModel->insert($dataToInsert);
       
-        // if ($insertResult === false) {
-        //     dd($klaimKulinerModel->errors()); // <--- INI AKAN MENAMPILKAN ERROR JIKA INSERT GAGAL
-        // } else {
-        //     dd('Insert ke form_klaim berhasil. ID baru: ' . $insertResult); // Jika berhasil, tampilkan ID yang baru diinsert
-        // }
 
         $username = $session->get('username'); // Mengambil username user yang login
 

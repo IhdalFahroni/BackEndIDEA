@@ -165,28 +165,13 @@ class Admin extends BaseController
             return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('error', 'Review tidak ditemukan atau sudah dihapus.');
         }
 
-        // ===================================================================
-        //     BAGIAN BARU: LOGIKA PENGHAPUSAN FILE GAMBAR DARI SERVER
-        // ===================================================================
-        // Cek apakah review ini memiliki nama file foto di database
         if (!empty($review['foto'])) { // Sesuaikan 'foto' dengan nama kolom Anda, misal 'foto_review'
-            
-            // Bangun path lengkap menuju file gambar
             $filePath = FCPATH . 'Assets/review_photos/' . $review['foto'];
-            
-            // Cek sekali lagi apakah file tersebut benar-benar ada di server
             if (is_file($filePath)) {
-                // Hapus file fisik dari server
                 unlink($filePath);
             }
         }
-        // ===================================================================
-        //                  AKHIR BAGIAN BARU
-        // ===================================================================
-
-        // 5. Hapus catatan review dari database
         if ($reviewModel->delete($id_review)) {
-            // ... (sisa kode untuk notifikasi tetap sama) ...
             $notifModel = new NotifikasiModel();
             $alasan_value = $this->request->getPost('alasan_hapus');
             $alasan_map = [
@@ -203,8 +188,6 @@ class Admin extends BaseController
                 'isi_notif' => "Ulasan Anda telah dihapus oleh admin karena " . $alasan_teks . "."
             ];
             $notifModel->save($notifData);
-            // ...
-
             return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('success', 'Review dan file gambar terkait berhasil dihapus.');
         } else {
             return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('error', 'Gagal menghapus review dari database.');
