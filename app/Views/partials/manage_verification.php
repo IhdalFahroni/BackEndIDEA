@@ -41,7 +41,7 @@
                 data-subdistrict="<?= esc($item['kecamatan'] ?? '') ?>"
                 data-village="<?= esc($item['kelurahan'] ?? '') ?>"
                 data-street="<?= esc($item['nama_jalan'] ?? '') ?>"
-                data-gmaps="<?= esc($item['Maps'] ?? '') ?>"
+                data-gmaps="<?= esc($item['google_maps'] ?? '') ?>"
                 data-entry-price="<?= esc($item['harga_tiket'] ?? '') ?>"
                 data-description="<?= esc($item['deskripsi'] ?? '') ?>"
                 data-photo-link="<?= esc(json_encode(explode(',', $item['foto'] ?? ''))) ?>"

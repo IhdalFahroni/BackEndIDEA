@@ -12,7 +12,9 @@
 
     <div class="absolute inset-0 w-full h-full backdrop-blur-sm flex justify-center items-center">
         <div class="bg-[#FFFFFF] p-8 rounded-[15px] shadow-lg text-center w-[400px] relative z-10">
-
+            <a href="<?= site_url('landing') ?>" class="text-left flex justify-start text-[#5C3211] hover:text-gray-200">
+                <i class="fa-solid fa-arrow-left text-2xl"></i>
+            </a>
             <h2 class="text-[22px] font-bold mb-5 text-[#5C3211] tracking-wider">Reset Password</h2>
 
             <form action="<?= site_url('password/process-reset') ?>" method="POST">

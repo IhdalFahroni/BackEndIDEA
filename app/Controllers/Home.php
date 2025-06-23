@@ -6,24 +6,20 @@ use App\Models\KlaimKulinerModel;
 use App\Models\TempatModel;
 use App\Models\PengajuanTempatModel;
 use App\Models\NotifikasiModel;
-use App\Models\ReviewModel; // <--- PASTIKAN BARIS INI ADA
-use App\Models\MenuModel;   // <--- PASTIKAN BARIS INI ADA
-use App\Models\PromoModel;  // <--- PASTIKAN BARIS INI ADA
+use App\Models\ReviewModel; 
+use App\Models\MenuModel;   
+use App\Models\PromoModel;  
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
 class Home extends BaseController
 {
-    // Memuat helper yang diperlukan secara global untuk controller ini
     protected $helpers = ['url', 'form', 'session', 'filesystem'];
 
-    // Inisialisasi controller, pastikan helper session dimuat
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         parent::initController($request, $response, $logger);
-        // Pastikan Anda memiliki filter 'login' yang mengarahkan pengguna ke login jika belum isLoggedIn
-        // Contoh: public $filters = ['before' => ['auth']]; dan define filter 'auth' di Config/Filters.php
     }
 
     public function index()
@@ -74,7 +70,6 @@ class Home extends BaseController
                 'tourist_destination' => ['label' => 'Tourist destination', 'icon'  => 'fa-solid fa-location-dot'],
                 'culinary' => ['label' => 'Culinary', 'icon'  => 'fa-solid fa-utensils']
             ],
-            // Variabel untuk menentukan tampilan konten utama
             'show_detail_tempat' => false,
             'tempat'             => null,
             'reviews'            => null,
@@ -87,18 +82,11 @@ class Home extends BaseController
             'idTempat' => $idTempat
         ];
 
-        // =========================================================
-        //          BAGIAN BARU: AMBIL DATA TEMPAT MILIK OWNER
-        // =========================================================
-        $data['owned_places'] = []; // Inisialisasi sebagai array kosong
+        $data['owned_places'] = [];
         if ($userRole === 'pemilik') {
             $id_akun_pemilik = $session->get('ID_akun');
             $data['owned_places'] = $tempatModel->where('ID_akun', $id_akun_pemilik)->findAll();
         }
-        // =========================================================
-
-
-        // Cek apakah permintaan untuk menampilkan detail tempat
         
 
         if ($showDetail === 'detail' && !empty($idTempat)) {
@@ -112,7 +100,7 @@ class Home extends BaseController
             if ($tempat) {
                 $data['show_detail_tempat'] = true;
                 $data['tempat'] = $tempat;
-                $data['reviews'] = $reviewModel->getReviewsWithUser($idTempat); // Pastikan method ini ada di ReviewModel
+                $data['reviews'] = $reviewModel->getReviewsWithUser($idTempat); 
 
                 if ($tempat['kategori'] === 'culinary') {
                     $data['menu'] = $menuModel->where('ID_tempat', $idTempat)->findAll();
@@ -123,11 +111,9 @@ class Home extends BaseController
                     $data['isOwner'] = true;
                 }
             } else {
-                // Jika ID tempat tidak ditemukan, redirect kembali ke home
                 return redirect()->to(base_url('home'))->with('error', 'Detail tempat tidak ditemukan.');
             }
         } else {
-            // Logika untuk tampilan dashboard utama (main_content_user)
             $searchTerm = $this->request->getGet('search');
             $category = $this->request->getGet('category');
             $page = $this->request->getGet('page') ?? 1;
@@ -146,26 +132,6 @@ class Home extends BaseController
             $data['current_query'] = $this->request->getGet();
         }
 
-        return view('pages/home', $data); // Render pages/home.php
+        return view('pages/home', $data);
     }
-
-    // --- ENDPOINTS UNTUK FORM SUBMISSION (FULL PAGE RELOAD) ---
-
-    // Method untuk submit form "Add Place"
-    
-
-    // Method untuk update profil
-    
-
-    // Method untuk change password
-    
-
-    // Method untuk delete akun
-
-
-    // Method untuk verifikasi (Admin only)
-    
-
-
-
 }

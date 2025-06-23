@@ -10,16 +10,10 @@ use App\Models\MenuModel;
 use App\Models\PromoModel;
 use App\Models\ReviewModel;
 use App\Models\AkunModel;
-// Tambahkan model lain yang diperlukan di sini
 
 class Akun extends BaseController
 {
     protected $helpers = ['url', 'form', 'session', 'filesystem'];
-
-    // Di sini kita bisa menerapkan filter login untuk SEMUA method di controller ini
-    // (Akan kita bahas lebih lanjut jika perlu)
-
-    // Method-method yang akan kita pindahkan ke sini nanti...
     public function updateProfile()
     {
         $session = session();
@@ -27,7 +21,6 @@ class Akun extends BaseController
             return redirect()->to(base_url('login'));
         }
 
-        // Tambahkan validasi untuk file foto
         $rules = [
             'username'  => 'required|min_length[8]|max_length[20]',
             'firstName' => 'required|min_length[3]',
@@ -64,7 +57,6 @@ class Akun extends BaseController
         }
 
         if ($akunModel->update($akunId, $dataToUpdate)) {
-            // Perbarui data di session dengan data terbaru
             $userBaru = $akunModel->find($akunId);
             $session->set($userBaru);
 
@@ -116,7 +108,7 @@ class Akun extends BaseController
         $akunModel = new AkunModel();
 
         if ($akunModel->deleteAkun($akunId)) {
-            $session->destroy(); // Hapus sesi setelah akun dihapus
+            $session->destroy();
             return redirect()->to(base_url('login'))->with('success', 'Akun Anda berhasil dihapus.');
         } else {
             return redirect()->back()->with('error', 'Gagal menghapus akun.')->with('active_panel', 'profil');
@@ -129,13 +121,10 @@ class Akun extends BaseController
             return redirect()->to(base_url('login'))->with('error', 'Anda harus login untuk mengirim ulasan.');
         }
 
-        // Aturan validasi yang sudah diperbaiki
         $rules = [
             'ID_tempat' => 'required|integer',
-            // Memperbolehkan angka desimal, bukan hanya integer
             'rating'    => 'required|numeric|greater_than_equal_to[1]|less_than_equal_to[5]',
             'komentar'  => 'permit_empty|max_length[500]',
-            // Validasi untuk foto (opsional, maks 2MB, hanya gambar)
             'review_photo' => 'permit_empty|is_image[review_photo]|max_size[review_photo,2048]|ext_in[review_photo,png,jpg,jpeg]',
         ];
 
@@ -144,15 +133,11 @@ class Akun extends BaseController
             return redirect()->to(base_url("home?show=detail&id={$idTempat}"))->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // --- LOGIKA UPLOAD GAMBAR ---
         $reviewPhotoName = null;
         $reviewPhoto = $this->request->getFile('review_photo');
 
-        // Cek jika ada file valid yang diupload dan belum dipindahkan
         if ($reviewPhoto && $reviewPhoto->isValid() && !$reviewPhoto->hasMoved()) {
-            // Buat nama acak untuk file agar tidak bentrok
             $reviewPhotoName = $reviewPhoto->getRandomName();
-            // Pindahkan file ke folder tujuan
             $reviewPhoto->move(ROOTPATH . 'public/Assets/review_photos', $reviewPhotoName);
         }
 
@@ -176,13 +161,11 @@ class Akun extends BaseController
     }
      public function addMenuItem()
     {
-        // 1. Cek Keamanan: Pastikan hanya pemilik yang bisa mengakses
         $session = session();
         if (!$session->get('isLoggedIn')) {
             return redirect()->to(base_url('login'))->with('error', 'Anda harus login.');
         }
         $idTempat = $this->request->getPost('ID_tempat');
-        // 2. Validasi Input
         $rules = [
             'ID_tempat'    => 'required|integer',
             'nama_menu'    => 'required|max_length[100]',
@@ -196,11 +179,9 @@ class Akun extends BaseController
 
 
         if (!$this->validate($rules)) {
-            // Jika validasi gagal, kembali ke halaman detail dengan error
             return redirect()->to(base_url('home?show=detail&id=' . $idTempat))->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // 3. Proses Upload Gambar (jika ada)
         $fotoMenuFile = $this->request->getFile('foto_menu');
         $namaFoto = null;
 
@@ -209,7 +190,6 @@ class Akun extends BaseController
             $fotoMenuFile->move(ROOTPATH . 'public/Assets/menu_photos/', $namaFoto);
         }
 
-        // 4. Siapkan Data dan Simpan ke Database
         $menuModel = new MenuModel();
         $dataToSave = [ 
             'ID_tempat'     => $idTempat,
@@ -220,14 +200,12 @@ class Akun extends BaseController
         ];
 
         if ($menuModel->save($dataToSave)) {
-            // Jika berhasil, kembali ke halaman detail dengan pesan sukses
             return redirect()->to(base_url('home?show=detail&id=' . $dataToSave['ID_tempat']))->with('success', 'Menu baru berhasil ditambahkan!');
         } else {
-            // Jika gagal menyimpan
             return redirect()->to(base_url('home?show=detail&id=' . $dataToSave['ID_tempat']))->with('error', 'Gagal menyimpan menu ke database.');
         }
     }
-    // public function addPromoItem() { ... }
+
     public function submitAddPlace()
     {
         $session = session();
@@ -247,13 +225,12 @@ class Akun extends BaseController
             'street'        => 'required',
             'gmaps'         => 'required|valid_url|regex_match[/^(https?:\/\/(?:www\.|m\.)?google\.(?:com|co\.\w{2}|ru)\/maps\S*|https?:\/\/maps\.app\.goo\.gl\/\S*)/i]',
             'description'   => 'required|min_length[10]',
-            'harga_tiket'   => 'required|is_natural',
+            'harga_tiket'   => 'if_exist',
             'file_upload'   => 'if_exist|uploaded[file_upload]|max_size[file_upload,2048]|ext_in[file_upload,jpg,jpeg,png,gif]',
         ];
 
         if (!$this->validate($rules)) {
-            // Kembali ke halaman sebelumnya dengan input dan error
-            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors())->with('active_panel', 'addPlace'); // Flash 'active_panel' agar form tetap terbuka
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors())->with('active_panel', 'addPlace'); 
         }
 
         $tempatModel = new TempatModel();
@@ -265,7 +242,7 @@ class Akun extends BaseController
             foreach ($uploadedFiles['file_upload'] as $file) {
                 if ($file->isValid() && !$file->hasMoved()) {
                     $newName = $file->getRandomName();
-                    $file->move(FCPATH . 'Assets', $newName); // Pindahkan ke public/Assets/
+                    $file->move(FCPATH . 'Assets', $newName); 
                     $fotoFileNames[] = $newName;
                 }
             }
@@ -292,21 +269,19 @@ class Akun extends BaseController
             }
 
         } else { 
-            $dataToInsert['ID_akun'] = $session->get('ID_akun'); // Mengambil ID user yang login
-            $username = $session->get('username'); // Mengambil username user yang login
+            $dataToInsert['ID_akun'] = $session->get('ID_akun'); 
+            $username = $session->get('username'); 
 
             if ($pengajuanTempatModel->insert($dataToInsert)) {
                 
                 $notifModel = new NotifikasiModel();
 
-                // 2. Siapkan data untuk notifikasi
                 $notifToInsert = [
                     'ID_akun'   => 1,
                     'header'    => 'Request for new place addition',
                     'isi_notif' => "$username has submitted a request to add a new place.",
                 ];
 
-                // 3. Masukkan notifikasi ke database
                 $notifModel->insert($notifToInsert);
                 
                 return redirect()->to(base_url('home'))->with('success', 'Tempat berhasil diajukan dan sedang menunggu verifikasi dari admin.');
@@ -318,21 +293,18 @@ class Akun extends BaseController
     }
     public function addPromoItem()
 {
-    // 1. Cek Keamanan
     $session = session();
     if (!$session->get('isLoggedIn')) {
         return redirect()->to(base_url('login'))->with('error', 'Anda harus login.');
     }
-    // Asumsi ada logika untuk cek kepemilikan tempat
 
     $idTempat = $this->request->getPost('ID_tempat');
 
-    // 2. Validasi Input
     $rules = [
         'ID_tempat'       => 'required|integer',
         'nama_promo'      => 'required|max_length[150]',
         'deskripsi_promo' => 'required|max_length[500]',
-        'valid_until'     => 'permit_empty|valid_date', // Memastikan format tanggal benar
+        'valid_until'     => 'permit_empty|valid_date', 
     ];
 
     if (!$this->validate($rules)) {
@@ -341,7 +313,6 @@ class Akun extends BaseController
                          ->with('errors', $this->validator->getErrors());
     }
 
-    // 3. Siapkan Data dan Simpan
     $promoModel = new PromoModel();
     $dataToSave = [
         'ID_tempat'       => $idTempat,
@@ -363,7 +334,6 @@ public function deleteMenuItem()
         $id_menu = $this->request->getPost('id_menu');
         $id_tempat = $this->request->getPost('id_tempat');
 
-        // Validasi dasar
         if (empty($id_menu) || empty($id_tempat)) {
             return redirect()->back()->with('error', 'Data tidak valid.');
         }
@@ -371,21 +341,17 @@ public function deleteMenuItem()
         $menuModel = new MenuModel();
         $tempatModel = new TempatModel();
         
-        // Ambil data menu untuk mendapatkan nama file foto & ID tempat asli
         $menuItem = $menuModel->find($id_menu);
         if (!$menuItem) {
             return redirect()->back()->with('error', 'Menu tidak ditemukan.');
         }
 
-        // Ambil data tempat untuk cek kepemilikan
         $tempat = $tempatModel->find($menuItem['ID_tempat']);
 
-        // KEAMANAN: Pastikan yang menghapus adalah admin atau pemilik tempat
         if (session()->get('user_role') !== 'admin' && session()->get('ID_akun') !== $tempat['ID_akun']) {
             return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk melakukan aksi ini.');
         }
 
-        // Hapus file foto terkait jika ada
         if (!empty($menuItem['foto_menu'])) {
             $filePath = FCPATH . 'Assets/menu_photos/' . $menuItem['foto_menu'];
             if (is_file($filePath)) {
@@ -393,7 +359,6 @@ public function deleteMenuItem()
             }
         }
 
-        // Hapus data dari database
         if ($menuModel->delete($id_menu)) {
             return redirect()->to(base_url("home?show=detail&id={$id_tempat}"))->with('success', 'Menu berhasil dihapus.');
         } else {
@@ -401,9 +366,6 @@ public function deleteMenuItem()
         }
     }
 
-    /**
-     * Menghapus item promo
-     */
     public function deletePromoItem()
     {
         $session = session();
@@ -424,7 +386,6 @@ public function deleteMenuItem()
         
         $tempat = $tempatModel->find($promoItem['ID_tempat']);
 
-        // KEAMANAN: Pastikan yang menghapus adalah admin atau pemilik tempat
         if (session()->get('user_role') !== 'admin' && session()->get('ID_akun') !== $tempat['ID_akun']) {
             return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk melakukan aksi ini.');
         }
@@ -464,17 +425,15 @@ public function deleteMenuItem()
 
         $validationMessages = [
             'dokumen_pendukung' => [
-                'uploaded'  => 'Anda harus memilih file untuk dokumen pendukung.', // Although with permit_empty, this won't trigger if no file is selected
+                'uploaded'  => 'Anda harus memilih file untuk dokumen pendukung.', 
                 'max_size'  => 'Ukuran file dokumen pendukung terlalu besar (maksimal 2MB).',
                 'ext_in'    => 'Format file dokumen pendukung tidak didukung. Hanya JPG, JPEG, PNG, GIF yang diizinkan.',
             ],
         ];
 
-        //   dd($_FILES);
 
         $file = $this->request->getFile('dokumen_pendukung');
         if ($file && $file->isValid() && !$file->hasMoved()) {
-            // If a file is provided, add the 'uploaded' rule
             $rules['dokumen_pendukung'] = 'uploaded[dokumen_pendukung]|' . $rules['dokumen_pendukung'];
         }
 
@@ -503,28 +462,26 @@ public function deleteMenuItem()
             'npwp'                  => $this->request->getPost('npwp'),
             'no_hp'                 => $this->request->getPost('no_hp'),
             'dokumen_pendukung'     => !empty($fotoFileNames) ? implode(',', $fotoFileNames) : null,
-            'ID_akun' => $session->get('ID_akun'), // Mengambil ID user yang login
-            'ID_tempat' => $idTempat, // Mengambil ID tempat dari URL
-            'is_verified'           => 0, // Status verifikasi awal adalah 0 (
+            'ID_akun' => $session->get('ID_akun'), 
+            'ID_tempat' => $idTempat, 
+            'is_verified'           => 0, 
         ];
 
         $insertResult = $klaimKulinerModel->insert($dataToInsert);
       
 
-        $username = $session->get('username'); // Mengambil username user yang login
+        $username = $session->get('username'); 
 
         if ($insertResult) {
             
             $notifModel = new NotifikasiModel();
 
-            // 2. Siapkan data untuk notifikasi
             $notifToInsert = [
                 'ID_akun'   => 1,
                 'header'    => 'Request for culinary site claim',
                 'isi_notif' => "$username has submitted a request to claim a culinary site.",
             ];
 
-            // 3. Masukkan notifikasi ke database
             $notifModel->insert($notifToInsert);
             
             return redirect()->to(base_url('home'))->with('success', 'Form klaim berhasil diajukan dan sedang menunggu verifikasi dari admin.');
@@ -536,29 +493,23 @@ public function deleteMenuItem()
     public function updateTempat()
 {
     $session = session();
-    $id_tempat = $this->request->getPost('id_tempat'); // Ambil ID dari hidden input
+    $id_tempat = $this->request->getPost('id_tempat'); 
     $tempatModel = new TempatModel();
 
-    // Keamanan: Pastikan user login
     if (!$session->get('isLoggedIn')) {
         return redirect()->to(base_url('login'));
     }
 
-    // Keamanan: Validasi dasar
     $rules = [
         'id_tempat'   => 'required|integer',
         'nama_tempat' => 'required|max_length[255]',
         'deskripsi'   => 'required',
-        // Tambahkan aturan validasi lain sesuai field di form edit Anda
-        // 'kecamatan' => 'required',
     ];
 
     if (!$this->validate($rules)) {
-        // Jika validasi gagal, kembali ke halaman edit dengan error dan input lama
         return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
     }
 
-    // Keamanan: Cek kepemilikan sebelum update
     $tempat = $tempatModel->find($id_tempat);
     if (!$tempat) {
         return redirect()->to(base_url('home'))->with('error', 'Tempat tidak ditemukan.');
@@ -568,20 +519,14 @@ public function deleteMenuItem()
         return redirect()->to(base_url('home'))->with('error', 'Anda tidak memiliki izin untuk mengedit tempat ini.');
     }
 
-    // Siapkan data yang akan di-update
     $dataToUpdate = [
         'nama_tempat' => $this->request->getPost('nama_tempat'),
         'deskripsi'   => $this->request->getPost('deskripsi'),
-        // 'kecamatan'   => $this->request->getPost('kecamatan'),
-        // Tambahkan field lain dari form Anda di sini
     ];
 
-    // Lakukan proses update
     if ($tempatModel->update($id_tempat, $dataToUpdate)) {
-        // Jika berhasil, kembali ke halaman detail dengan pesan sukses
         return redirect()->to(site_url('home?show=detail&id=' . $id_tempat))->with('success', 'Informasi tempat berhasil diperbarui.');
     } else {
-        // Jika gagal, kembali ke halaman edit dengan pesan error
         return redirect()->back()->withInput()->with('error', 'Gagal memperbarui informasi tempat.');
     }
 }

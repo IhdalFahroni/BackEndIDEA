@@ -18,9 +18,11 @@
 
     <div class="absolute inset-0 w-full h-full backdrop-blur-sm flex justify-center items-center">
         <div class="bg-[#FFFFFF] p-8 rounded-[15px] shadow-lg text-center w-[450px] relative z-10">
-            
+            <a href="<?= site_url('landing') ?>" class="text-left flex justify-start text-[#5C3211] hover:text-gray-200">
+                <i class="fa-solid fa-arrow-left text-2xl"></i>
+            </a>
             <h2 class="text-[22px] font-bold text-[#5C3211] mb-5 tracking-wider">Sign Up</h2>
-
+            
             <?php if(session()->getFlashdata('signup_success')): ?>
                 <div class="alert-success" style="padding: 10px; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; margin-bottom: 16px;">
                     <?= session()->getFlashdata('signup_success') ?>
@@ -36,16 +38,16 @@
 
             <?php if(session()->getFlashdata('signup_success')): ?>
                 <script>
-                    // Tunggu 3 detik (3000 milidetik)
                     setTimeout(function() {
-                        // Setelah 3 detik, arahkan ke halaman login
                         window.location.href = '<?= site_url('/login') ?>';
                     }, 3000); 
                 </script>
             <?php endif; ?>
 
-            <form action="<?= base_url('/signup/process') ?>" method="POST">
 
+
+            <form action="<?= base_url('/signup/process') ?>" method="POST">
+                
                 <?= csrf_field() ?>
 
                 <input 

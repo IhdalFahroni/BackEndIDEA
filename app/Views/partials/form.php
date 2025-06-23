@@ -52,11 +52,11 @@
                         ease-in-out valid:text-black"
                 style="background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22%236B7280%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%2F%3E%3C%2Fsvg%3E');">
                 <option value="" disabled selected>Choose</option>
-                <option value="mataram" class="text-black" <?= old('district_city') == 'mataram' ? 'selected' : '' ?>>Mataram</option>
-                <option value="lombok_barat" class="text-black" <?= old('district_city') == 'lombok_barat' ? 'selected' : '' ?>>West Lombok</option>
-                <option value="lombok_tengah" class="text-black" <?= old('district_city') == 'lombok_tengah' ? 'selected' : '' ?>>Central Lombok</option>
-                <option value="lombok_timur" class="text-black" <?= old('district_city') == 'lombok_timur' ? 'selected' : '' ?>>East Lombok</option>
-                <option value="lombok_utara" class="text-black" <?= old('district_city') == 'lombok_utara' ? 'selected' : '' ?>>North Lombok</option>
+                <option value="Mataram" class="text-black" <?= old('district_city') == 'Mataram' ? 'selected' : '' ?>>Mataram</option>
+                <option value="Lombok Barat" class="text-black" <?= old('district_city') == 'Lombok Barat' ? 'selected' : '' ?>>West Lombok</option>
+                <option value="Lombok Tengah" class="text-black" <?= old('district_city') == 'Lombok Tengah' ? 'selected' : '' ?>>Central Lombok</option>
+                <option value="Lombok Timu" class="text-black" <?= old('district_city') == 'Lombok Timur' ? 'selected' : '' ?>>East Lombok</option>
+                <option value="Lombok Utara" class="text-black" <?= old('district_city') == 'Lombok Utara' ? 'selected' : '' ?>>North Lombok</option>
             </select>
             <?= session()->getFlashdata('errors.district_city') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.district_city').'</p>' : '' ?>
         </div>
@@ -96,10 +96,10 @@
             <?= session()->getFlashdata('errors.description') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.description').'</p>' : '' ?>
         </div>
         <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
-            <label for="harga_tiket">Entrance Ticket Price<span class="text-[#FF0000]">*</span></label>
+            <label for="harga_tiket">Entrance Ticket Price</label>
             <input type="text" id="harga_tiket" name="harga_tiket"
                 class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
-                required placeholder="Answer" value="<?= old('harga_tiket') ?>" />
+                placeholder="Answer" value="<?= old('harga_tiket') ?>" />
             <?= session()->getFlashdata('errors.harga_tiket') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.harga_tiket').'</p>' : '' ?>
         </div>
         <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
