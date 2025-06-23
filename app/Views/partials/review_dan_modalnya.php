@@ -3,7 +3,6 @@
 ?>
 
 <div class="bg-white p-6 rounded-2xl shadow-lg mb-8 border border-[#F0B845]">
-    <h3 class="text-xl font-bold text-[#5C3211] mb-4">Reviews</h3>
 
     <?php if (session()->getFlashdata('errors')) : ?>
         <div id="validationErrors" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -17,10 +16,12 @@
     <?php endif; ?>
 
     <?php if (isset($isLoggedIn) && $isLoggedIn  && $user_role!=='admin'): ?>
-        <div id="addReview" class="w-full cursor-pointer group">
-            <i class="fas fa-plus-circle text-lg text-[#5C3211] opacity-50 group-hover:opacity-100 transition"></i>
-            <span class="font-medium text-[#5C3211] opacity-50 group-hover:opacity-100 transition">Add review</span>
-            <hr class="border-[#5C3211] opacity-50 mt-1 mb-6">
+        <div class="mt-2 px-6 md:px-8">
+            <div id="addReview" class="w-full cursor-pointer group">
+                <i class="fas fa-plus-circle text-lg text-[#5C3211] opacity-50 group-hover:opacity-100 transition"></i>
+                <span class="font-medium text-[#5C3211] opacity-50 group-hover:opacity-100 transition">Add review</span>
+                <hr class="border-[#5C3211] opacity-60 mt-1 mb-6">
+            </div>
         </div>
 
         <div id="fillReview" class="w-full hidden">
@@ -61,14 +62,14 @@
         </div>
     <?php endif; ?>
 
-    <hr class="border-[#5C3211] mb-4">
+    <!-- <hr class="border-[#5C3211] mb-4"> -->
 
     <div class="space-y-8">
     <?php if (!empty($reviews)) : ?>
         <?php foreach ($reviews as $review) : ?>
-            <div class="border-b border-gray-200 pb-4 last:border-b-0">
+            <div class="border-t border-[#5C3211] pb-0 last:border-t-0">
                 <div class="flex justify-between items-start mb-2">
-                    <div>
+                    <div class=pt-2>
                         <p class="font-semibold text-[#5C3211]"><?= esc($review['username'] ?? 'Anonymous') ?>
                             <span class="text-xs text-[#5C3211] font-normal ml-2"><?= esc(date('H:i, M d, Y', strtotime($review['waktu']))) ?></span>
                         </p>

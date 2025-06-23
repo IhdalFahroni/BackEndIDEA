@@ -3,7 +3,7 @@
 <?= $this->section('content') ; ?>
 <body class="text-[#ffffff] font-jaldi">
     <div class="header h-screen relative text-white flex flex-col justify-between p-5">
-        <nav class="p-5 text-right text-2xl">
+        <nav class="top-nav text-right text-2xl my-2.5 mx-5">
             <a href="<?= base_url('login') ?>" class=" outline-black text-white no-underline text-2xl ml-2.5 font-bold hover:underline">Login</a>   |
             <a href="<?= base_url('signup') ?>" class=" outline-black text-white no-underline text-2xl ml-1 mx-10 font-bold hover:underline">Sign Up</a>
         </nav>

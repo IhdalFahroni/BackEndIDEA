@@ -9,7 +9,7 @@
         Please check the answers are correct before submitting.
     </p>
     <form id="attractionForm" action="<?= site_url('formAddPlace/submit') ?>" method="post" enctype="multipart/form-data">
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label for="place_name">
                 Place name<span class="text-[#FF0000]">*</span>
             </label>
@@ -18,7 +18,7 @@
                 required placeholder="Answer" value="<?= old('place_name') ?>" />
                 <?= session()->getFlashdata('errors.place_name') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.place_name').'</p>' : '' ?>
         </div>
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label for="category">Category<span class="text-[#FF0000]">*</span></label>
             <div class="flex items-center gap-8 pt-4">
                 <label class="flex items-center gap-2 cursor-pointer text-gray-600">
@@ -42,7 +42,7 @@
             </div>
             <?= session()->getFlashdata('errors.category') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.category').'</p>' : '' ?>
         </div>
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label for="district_city">
                 District/city<span class="text-[#FF0000]">*</span>
             </label>
@@ -60,49 +60,49 @@
             </select>
             <?= session()->getFlashdata('errors.district_city') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.district_city').'</p>' : '' ?>
         </div>
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label for="subdistrict">Subdistrict<span class="text-[#FF0000]">*</span></label>
             <input type="text" id="subdistrict" name="subdistrict"
                 class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
                 required placeholder="Answer" value="<?= old('subdistrict') ?>" />
             <?= session()->getFlashdata('errors.subdistrict') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.subdistrict').'</p>' : '' ?>
         </div>
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label for="village">Village<span class="text-[#FF0000]">*</span></label>
             <input type="text" id="village" name="village"
                 class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
                 required placeholder="Answer" value="<?= old('village') ?>" />
             <?= session()->getFlashdata('errors.village') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.village').'</p>' : '' ?>
         </div>
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label for="street">Street<span class="text-[#FF0000]">*</span></label>
             <input type="text" id="street" name="street"
                 class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
                 required rows="1" placeholder="Answer" value="<?= old('street') ?>" />
             <?= session()->getFlashdata('errors.street') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.street').'</p>' : '' ?>
         </div>
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label for="gmaps">Google Map Location<span class="text-[#FF0000]">*</span></label>
             <input type="text" id="gmaps" name="gmaps"
                 class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
                 required placeholder="Paste Google Map location link here" value="<?= old('gmaps') ?>" />
             <?= session()->getFlashdata('errors.gmaps') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.gmaps').'</p>' : '' ?>
         </div>
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label for="description">Place description<span class="text-[#FF0000]">*</span></label>
             <textarea id="description" name="description"
                 class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF] resize-y"
                 required rows="1" placeholder="Answer"><?= old('description') ?></textarea>
             <?= session()->getFlashdata('errors.description') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.description').'</p>' : '' ?>
         </div>
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label for="harga_tiket">Entrance Ticket Price<span class="text-[#FF0000]">*</span></label>
             <input type="text" id="harga_tiket" name="harga_tiket"
                 class="w-full bg-transparent border-b border-[#D1D5DB] py-2 px-[0.1rem] outline-none transition-colors duration-200 ease-in-out focus:border-[#F59E0B] placeholder-[#9CA3AF]"
                 required placeholder="Answer" value="<?= old('harga_tiket') ?>" />
             <?= session()->getFlashdata('errors.harga_tiket') ? '<p class="error-message text-red-500 text-sm mt-1">'.session()->getFlashdata('errors.harga_tiket').'</p>' : '' ?>
         </div>
-        <div class="bg-white rounded-xl p-5 mb-4 shadow-[-2px_2px_3px_0_rgba(0,0,0,0.1),-1px_1px_2px_0_rgba(0,0,0,0.06)] border border-[#F0D3B3]">
+        <div class="bg-white rounded-xl p-5 mb-4 shadow-md border border-[#F0D3B3]">
             <label>Photo(s)</label>
             <div id="fileUploadVisual"
                 class="group flex border-b-0 pb-0 items-center py-2 cursor-pointer transition-all duration-200">

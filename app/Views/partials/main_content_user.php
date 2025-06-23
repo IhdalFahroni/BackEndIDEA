@@ -121,9 +121,9 @@ foreach ($categories as $key => $details) {
     <?php foreach ($filter_buttons as $button) : ?>
         <a href="<?= $button['url'] ?>"
         <?php if ($button['is_active']) :?>
-            class="py-2 px-6 rounded-full cursor-pointer transition flex items-center gap-2 shadow-md bg-[#FFC107] text-white font-bold"
+            class="py-2 px-6 rounded-full cursor-pointer transition flex items-center gap-2 shadow-md bg-[#FF9800] text-white font-normal"
         <?php else : ?>
-            class="py-2 px-6 rounded-full cursor-pointer transition flex items-center gap-2 shadow-md bg-white text-[#FFC107]"
+            class="py-2 px-6 rounded-full cursor-pointer transition flex items-center gap-2 shadow-md bg-white text-[#FF9800]"
         <?php endif; ?>>
             <i class="<?= $button['icon'] ?>"></i>
             <span class="relative top-px"><?= $button['label'] ?></span>
