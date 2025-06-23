@@ -47,7 +47,7 @@ class Tempat extends BaseController
 
         $data = [
             'title'     => esc($tempat['nama_tempat']) . ' | LombokRec',
-            'js_file'   => 'dashboard.js', // Gunakan dashboard.js
+            'js_file'   => 'home.js', // Gunakan dashboard.js
             'tempat'    => $tempat,
             'reviews'   => $reviews,
             'menu'      => $menu,
@@ -58,6 +58,6 @@ class Tempat extends BaseController
             'show_detail_tempat' => true // Tambahkan variabel ini
         ];
 
-        return view('pages/dashboard', $data); // Render dashboard, bukan tempat_detail
+        return view('pages/dashboard', $data);
     }
 }

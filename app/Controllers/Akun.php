@@ -16,10 +16,6 @@ class Akun extends BaseController
 {
     protected $helpers = ['url', 'form', 'session', 'filesystem'];
 
-    // Di sini kita bisa menerapkan filter login untuk SEMUA method di controller ini
-    // (Akan kita bahas lebih lanjut jika perlu)
-
-    // Method-method yang akan kita pindahkan ke sini nanti...
     public function updateProfile()
     {
         $session = session();
