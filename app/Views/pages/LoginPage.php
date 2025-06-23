@@ -8,9 +8,11 @@
     <script src="<?= base_url('js/login.js') ?>"></script>
 </head>
 <body class="min-h-screen flex justify-center items-center font-jaldi bg-Landing bg-cover h-screen">
-
     <div class="absolute inset-0 w-full h-full backdrop-blur-sm flex justify-center items-center">
         <div class="bg-[#FFffff] p-8 rounded-[15px] shadow-lg text-center w-[400px] relative z-10">
+            <a href="<?= site_url('landing') ?>" class="text-left flex justify-start text-[#5C3211] hover:text-gray-200">
+                <i class="fa-solid fa-arrow-left text-2xl"></i>
+            </a>
 
             <h2 class="text-[22px] font-extrabold text-[#5C3211] mb-5 tracking-wider">Login</h2>
 

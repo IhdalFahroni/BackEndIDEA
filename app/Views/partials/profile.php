@@ -17,7 +17,6 @@
             <?php elseif (session()->getFlashdata('delete_success')) : ?>
                 <?= session()->getFlashdata('delete_success') ?>
             <?php endif; ?>
-            <?php // Tampilkan error validasi spesifik juga jika ada ?>
             <?php if (session()->getFlashdata('errors')) : ?>
                 <ul>
                     <?php foreach (session()->getFlashdata('errors') as $field => $error) : ?>
@@ -36,8 +35,8 @@
                 <button id="editProfileBtn" class="absolute top-4 right-4 bg-[#FF9800] text-white hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full shadow font-semibold flex items-center gap-2 transition">Edit</button>
                 <?php endif; ?>
             <?php endif; ?>
-            <?php if(session()->get('foto') !== null) :?>
-            <img src="<?= base_url('Assets/profil/' . esc(session()->get('foto'))) ; ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
+            <?php if(session()->get('foto_profil') !== null) :?>
+            <img src="<?= base_url('Assets/profil/' . esc(session()->get('foto_profil'))) ; ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
             <?php else: ?>
             <img src="<?= base_url('Assets/profil/default.png') ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow mx-6 my-6">
             <?php endif; ?>
@@ -74,12 +73,12 @@
                 </div>
                 
                 <div class="relative mx-6 my-6 flex-shrink-0 group">
-                    <img id="editProfileImagePreview" src="<?= base_url('Assets/profil/' . esc(session()->get('foto') ?? 'default.png')) ; ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow">
+                    <img id="editProfileImagePreview" src="<?= base_url('Assets/profil/' . esc(session()->get('foto_profil') ?? 'default.png')) ; ?>" alt="Profile" class="w-52 h-52 rounded-full object-cover shadow">
                     
                     <label for="newProfilePhotoInput" class="absolute inset-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity">
                         <div class="text-center text-white">
                             <i class="fas fa-camera text-3xl"></i>
-                            <p class="text-sm font-semibold">Ganti Foto</p>
+                            <p class="text-sm font-semibold">Change Picture</p>
                         </div>
                     </label>
                     <input type="file" name="foto_profil" id="newProfilePhotoInput" class="hidden" accept="image/png, image/jpeg, image/jpg">
@@ -149,7 +148,7 @@
 
             <hr class="my-6 border-[#F0D3B3]">
 
-            <?php if (isset($user_role) && $user_role !== 'admin') : // Sembunyikan untuk admin ?>
+            <?php if (isset($user_role) && $user_role !== 'admin') :  ?>
             <form id="deleteAccountForm" action="<?= site_url('account/delete') ?>" method="post">
                 <div class="mt-12">
                     <div class="mb-2">

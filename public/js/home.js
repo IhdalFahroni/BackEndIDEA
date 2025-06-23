@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // --- NAVIGASI DAN ELEMEN UI UTAMA ---
+
   const hamburgerBtn = document.getElementById("hamburgerBtn");
   const closeSidebarMenuBtn = document.getElementById("closeBtn");
   const sidebarMenu = document.getElementById("sidebarMenu");
@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("openManageBtn"),
   ].filter(Boolean);
 
-  // --- ELEMEN PROFIL DAN PENGATURAN AKUN ---
   const containerProfile = document.getElementById("containerProfile");
   const profilPage = document.getElementById("profilPage");
   const editProfilePage = document.getElementById("editProfilePage");
@@ -65,7 +64,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "editProfileImagePreview"
   );
 
-  // --- TOMBOL LOGOUT & DELETE AKUN ---
   const logoutBtn = document.getElementById("logoutBtn");
   const openAccountSettingBtn = document.getElementById(
     "openAccountSettingBtn"
@@ -74,7 +72,6 @@ document.addEventListener("DOMContentLoaded", () => {
     "closeAccountSettingBtn"
   );
 
-  // --- FILE UPLOAD & GOOGLE MAPS untuk form addplace ---
   const fileInput = document.getElementById("file-upload");
   const fileList = document.getElementById("file-list");
   const fileUploadVisual = document.getElementById("fileUploadVisual");
@@ -91,11 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let previousPanel = "awal";
 
-  // --- FUNGSI showPanel (untuk mengubah tampilan main content) ---
   function showPanel(panelName) {
     console.log("Menyembunyikan semua panel...");
-    // Sembunyikan semua panel
-    // Pastikan ID-nya sesuai dengan HTML kamu!
     const allPanels = [
       headerDiv,
       awalDiv,
@@ -108,7 +102,6 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
     allPanels.forEach((panel) => {
       if (panel) {
-        // Hanya sembunyikan jika elemen itu ada (tidak null)
         panel.classList.add("hidden");
         console.log(`Menyembunyikan: ${panel.id}`);
       }
@@ -151,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         break;
       case "listPlace":
-        if (sidebarMenu) sidebarMenu.classList.remove("-translate-x-full"); // Ini bukan elemen utama
+        if (sidebarMenu) sidebarMenu.classList.remove("-translate-x-full");
         if (listManage) {
           listManage.classList.remove("hidden");
           console.log("Menampilkan listManage");
@@ -194,7 +187,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // --- SIDEBAR TOGGLE ---
   if (mainContent) mainContent.style.transition = "margin-left 0.3s";
   if (hamburgerBtn && sidebarMenu && mainContent) {
     hamburgerBtn.addEventListener("click", () => {
@@ -211,7 +203,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- EVENT LISTENERS UNTUK TOMBOL UTAMA NAVIGASI SIDEBAR/TOPBAR ---
   openNotificationBtns.forEach((btn) => {
     if (btn) {
       btn.addEventListener("click", (e) => {
@@ -281,7 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- LOGIKA PROFIL (EDIT, SAVE, CANCEL) ---
   if (editProfileBtn) {
     editProfileBtn.addEventListener("click", () => {
       if (profilPage) profilPage.classList.add("hidden");
@@ -290,7 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Karena form akan disubmit oleh browser secara native
+  
   if (cancelEditBtn) {
     cancelEditBtn.addEventListener("click", () => {
       if (profilPage) profilPage.classList.remove("hidden");
@@ -300,21 +290,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   if (newProfilePhotoInput && editProfileImagePreview) {
     newProfilePhotoInput.addEventListener("change", function (event) {
-      // Ambil file yang dipilih oleh pengguna
       const file = event.target.files[0];
 
       if (file) {
-        // Gunakan FileReader untuk membaca file sebagai URL
         const reader = new FileReader();
         reader.onload = function (e) {
-          // Set 'src' dari gambar preview dengan hasil bacaan file
           editProfileImagePreview.src = e.target.result;
         };
         reader.readAsDataURL(file);
       }
     });
   }
-  // --- VALIDASI FORM PROFIL & PASSWORD (Client-Side) ---
   const showError = (inputElement, message) => {
     inputElement.classList.add("border-red-500");
     let errorSpan = inputElement.nextElementSibling;
@@ -339,7 +325,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // Validasi Form Edit Profil
   function validateProfileForm(form) {
     let isValid = true;
     form.querySelectorAll(".error-message").forEach((el) => el.remove());
@@ -382,8 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
       hideError(lastNameInput);
     }
 
-    // Periksa saveEditBtn yang relevan dengan form ini
-    const formSaveEditBtn = form.querySelector("#saveEditBtn"); // Pastikan ini tombol dalam form ini
+    const formSaveEditBtn = form.querySelector("#saveEditBtn");
     if (formSaveEditBtn) {
       if (isValid) {
         formSaveEditBtn.disabled = false;
@@ -418,18 +402,15 @@ document.addEventListener("DOMContentLoaded", () => {
     return isValid;
   }
 
-  // Event listener untuk form edit profil
   if (editProfileForm) {
     editProfileForm.addEventListener("input", () =>
       validateProfileForm(editProfileForm)
     );
-    validateProfileForm(editProfileForm); // Validasi awal saat DOM dimuat
+    validateProfileForm(editProfileForm);
   }
 
-  // Validasi Form Ganti Password
   function showPasswordFormErrors(form) {
     let isValid = true;
-    // Bersihkan error lama sebelum validasi baru
     form.querySelectorAll(".error-message").forEach((el) => el.remove());
     form
       .querySelectorAll(".border-red-500")
@@ -444,15 +425,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const newPass = newPassInput.value.trim();
     const isNewPassLengthValid = newPass.length >= 8 && newPass.length <= 20;
 
-    // Validasi Current Password
     if (currentPass.length === 0) {
-      showError(currentPassInput, "Current password is required."); // Asumsi fungsi showError sudah ada
+      showError(currentPassInput, "Current password is required.");
       isValid = false;
     } else {
-      hideError(currentPassInput); // Asumsi fungsi hideError sudah ada
+      hideError(currentPassInput); 
     }
 
-    // Validasi New Password
     if (newPass.length === 0) {
       showError(newPassInput, "New password is required.");
       isValid = false;
@@ -477,11 +456,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const newPass = newPassInput.value.trim();
     const isNewPassLengthValid = newPass.length >= 8 && newPass.length <= 20;
 
-    // Tentukan validitas form secara keseluruhan
     const isFormValid =
       currentPass.length > 0 && newPass.length > 0 && isNewPassLengthValid;
 
-    // Logika untuk mengatur tombol
     if (isFormValid) {
       formSavePasswordBtn.disabled = false;
       formSavePasswordBtn.classList.remove(
@@ -504,35 +481,29 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (changePasswordForm) {
-    // Saat pengguna mengetik, tampilkan error dan perbarui tombol secara real-time
     changePasswordForm.addEventListener("input", () => {
       showPasswordFormErrors(changePasswordForm);
       updatePasswordButtonState(changePasswordForm);
     });
 
-    // Saat form disubmit, lakukan validasi akhir
     changePasswordForm.addEventListener("submit", (e) => {
-      // Panggil fungsi yang menampilkan error
       const isFormValid = showPasswordFormErrors(changePasswordForm);
 
-      // Panggil juga fungsi untuk memastikan status tombol sudah benar
       updatePasswordButtonState(changePasswordForm);
 
       if (!isFormValid) {
-        e.preventDefault(); // Hentikan submit jika tidak valid
+        e.preventDefault(); 
         alert("Please fix the errors in the change password form.");
       }
     });
   }
 
-  // --- Event Listener untuk Tombol Pengaturan Akun & Logout ---
   if (openAccountSettingBtn) {
     openAccountSettingBtn.addEventListener("click", () => {
       if (containerProfile) containerProfile.classList.add("hidden");
       if (bawahProfil) bawahProfil.classList.add("hidden");
       if (accountSetting) accountSetting.classList.remove("hidden");
 
-      // KITA PANGGIL FUNGSI YANG HANYA MENGATUR TOMBOL, TANPA MENAMPILKAN ERROR
       updatePasswordButtonState(changePasswordForm);
     });
   }
@@ -547,20 +518,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Event listener untuk form hapus akun
   if (deleteAccountForm) {
     deleteAccountForm.addEventListener("submit", (e) => {
       const message =
         "This action will permanently delete your account. Are you sure you want to continue?";
       const userConfirmed = window.confirm(message);
       if (!userConfirmed) {
-        e.preventDefault(); // Hentikan submit jika tidak dikonfirmasi
+        e.preventDefault(); 
       }
-      // Jika dikonfirmasi, form akan disubmit secara alami
     });
   }
 
-  // Logout
   if (logoutBtn) {
     logoutBtn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -570,14 +538,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (userConfirmed) {
         console.log("Logging out...");
-        window.location.href = LOGOUT_URL; // Gunakan variabel global
+        window.location.href = LOGOUT_URL; 
       } else {
         console.log("Log out canceled.");
       }
     });
   }
 
-  // --- GMAPS INPUT ---
   if (gmapsInput) {
     let mapsAlertShown = false;
     gmapsInput.addEventListener("focus", () => {
@@ -593,7 +560,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- FILE UPLOAD ---
   if (fileUploadVisual) {
     fileUploadVisual.onclick = () => {
       if (fileInput) fileInput.click();
@@ -651,8 +617,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (closeClaimFormBtn) {
     closeClaimFormBtn.addEventListener("click", () => {
       if (claimForm) claimForm.classList.add("hidden");
-      if (fileInputClaim) fileInputClaim.value = ""; // Reset file input
-      if (fileListClaim) fileListClaim.textContent = ""; // Clear file list
+      if (fileInputClaim) fileInputClaim.value = ""; 
+      if (fileListClaim) fileListClaim.textContent = ""; 
       if (fileUploadPlaceholderClaim) {
         fileUploadPlaceholderClaim.value = "";
         fileUploadPlaceholderClaim.placeholder = "Upload File(s)";
@@ -661,107 +627,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- LOGIKA VERIFIKASI (UNTUK ADMIN) ---
-  // Inisialisasi: semua tombol approve/deny disabled & style awal
-  // document.querySelectorAll('.verification-item').forEach(item => {
-  //       item.querySelectorAll('.approve-btn, .deny-btn').forEach(button => {
-  //           button.classList.add('opacity-50', 'cursor-not-allowed');
-  //           button.disabled = true;
-  //           // Style awal: border & text color
-  //           if (button.classList.contains('deny-btn')) {
-  //               button.classList.add('border', 'border-red-500', 'text-red-500');
-  //               button.classList.remove('bg-red-500', 'text-white');
-  //           } else if (button.classList.contains('approve-btn')) {
-  //               button.classList.add('border', 'border-blue-500', 'text-blue-500');
-  //               button.classList.remove('bg-blue-500', 'text-white');
-  //           }
-  //       });
-  //       // Tandai status verifikasi di dataset
-  //       item.dataset.verified = 'false';
-  //       item.dataset.selected = '';
-  //   });
-
-  // function setButtonState(parentItem, selected) {
-  //       const approveBtn = parentItem.querySelector('.approve-btn');
-  //       const denyBtn = parentItem.querySelector('.deny-btn');
-  //       const Approve = parentItem.querySelector('.approve');
-  //       const Deny = parentItem.querySelector('.deny');
-  //       if (parentItem.dataset.verified === 'true') {
-  //           // Sudah diverifikasi, disable semua tombol
-  //           approveBtn.disabled = true;
-  //           denyBtn.disabled = true;
-  //           approveBtn.classList.add('opacity-50', 'cursor-not-allowed');
-  //           denyBtn.classList.add('opacity-50', 'cursor-not-allowed');
-  //           // Style sesuai hasil
-  //           if (parentItem.dataset.selected === 'approve') {
-  //               approveBtn.classList.add('hidden');
-  //               denyBtn.classList.add('hidden');
-  //               Approve.classList.remove('hidden');
-  //           } else if (parentItem.dataset.selected === 'deny') {
-  //               approveBtn.classList.add('hidden');
-  //               denyBtn.classList.add('hidden');
-  //               Deny.classList.remove('hidden');
-  //           }
-  //       } else {
-  //           // Belum diverifikasi, enable tombol
-  //           approveBtn.disabled = false;
-  //           denyBtn.disabled = false;
-  //           approveBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-  //           denyBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-  //           // Style default
-  //           approveBtn.classList.remove('bg-blue-500', 'text-white');
-  //           approveBtn.classList.add('border', 'border-blue-500', 'text-blue-500', 'bg-white');
-  //           denyBtn.classList.remove('bg-red-500', 'text-white');
-  //           denyBtn.classList.add('border', 'border-red-500', 'text-red-500', 'bg-white');
-  //       }
-  //   }
-
-  //   document.querySelectorAll(".view-form-link").forEach((link) => {
-  //   if (link) {
-  //     link.addEventListener("click", (e) => {
-  //       e.preventDefault();
-  //       const parentItem = link.closest(".verification-item");
-
-  //       // Extract all data from the parentItem's dataset
-  //       const requestId = parentItem.dataset.requestId;
-  //       const requestType = parentItem.dataset.type;
-  //       const isVerified = parentItem.dataset.isVerified; // Access the is_verified status if needed
-  //       const username = parentItem.dataset.user; // Get username from data attribute
-  //       const email = parentItem.dataset.email;   // Get email from data attribute
-
-  //       setButtonState(parentItem);
-  //       let dataToDisplay = {};
-
-  //       if (requestType === "addPlace") { // Note: 'addPlace' not 'add-place' as per your PHP
-  //         dataToDisplay = {
-  //           placeName: parentItem.dataset.placeName,
-  //           category: parentItem.dataset.category,
-  //           district: parentItem.dataset.district,
-  //           subdistrict: parentItem.dataset.subdistrict,
-  //           village: parentItem.dataset.village,
-  //           street: parentItem.dataset.street,
-  //           gmaps: parentItem.dataset.gmaps,
-  //           description: parentItem.dataset.description,
-  //           entryPrice: parentItem.dataset.entryPrice,
-  //           // data_photo_link: "<?= esc(json_encode(explode(',', $item['foto']))) ?>"
-  //           photo_link: JSON.parse(parentItem.dataset.photoLink || '[]'), // Ensure it's parsed as JSON, default to empty array
-  //         };
-  //         openAddPlaceModal(dataToDisplay);
-  //       } else if (requestType === "claimCulinary") {
-  //         dataToDisplay = {
-  //           fullName: parentItem.dataset.fullName,
-  //           phone: parentItem.dataset.phone,
-  //           email: parentItem.dataset.email,
-  //           tin: parentItem.dataset.tin,
-  //           supporting_document: JSON.parse(parentItem.dataset.supportingDocument || '[]'),
-  //         };
-  //         openClaimCulinaryModal(dataToDisplay);
-  //       }
-  //     });
-  //   }
-  // });
-
-  // // Helper function to populate and open the addPlace modal
   function openAddPlaceModal(data) {
     document.getElementById("add_placeName").textContent = data.placeName;
     document.getElementById("add_category").textContent = data.category;
@@ -770,16 +635,16 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("add_village").textContent = data.village;
     document.getElementById("add_street").textContent = data.street;
     document.getElementById("add_gmaps").href = data.gmaps;
-    document.getElementById("add_gmaps").textContent = data.gmaps; // Display the link text
+    document.getElementById("add_gmaps").textContent = data.gmaps; 
     document.getElementById("add_description").textContent = data.description;
     document.getElementById("add_price").textContent = data.entryPrice;
 
     const photoLinkDiv = document.getElementById("add_photo_link");
-    photoLinkDiv.innerHTML = ""; // Clear previous images
+    photoLinkDiv.innerHTML = ""; 
     if (data.photo_link && data.photo_link.length > 0) {
       data.photo_link.forEach((photo) => {
         const img = document.createElement("img");
-        img.src = UPLOADS_URL + photo.trim(); // Adjust path as needed
+        img.src = UPLOADS_URL + photo.trim();
         img.alt = "Place Photo";
         img.classList.add(
           "w-24",
@@ -788,7 +653,7 @@ document.addEventListener("DOMContentLoaded", () => {
           "mr-2",
           "mb-2",
           "rounded"
-        ); // Tailwind classes
+        );
         photoLinkDiv.appendChild(img);
       });
     } else {
@@ -798,7 +663,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("addPlaceModal").classList.remove("hidden");
   }
 
-  // Helper function to populate and open the claimCulinary modal
   function openClaimCulinaryModal(data) {
     document.getElementById("place_to_claim").textContent = data.placeName;
     document.getElementById("claim_fullName").textContent = data.fullName;
@@ -809,11 +673,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const supportingDocumentDiv = document.getElementById(
       "claim_supporting_document"
     );
-    supportingDocumentDiv.innerHTML = ""; // Clear previous documents
+    supportingDocumentDiv.innerHTML = ""; 
     if (data.supporting_document && data.supporting_document.length > 0) {
       data.supporting_document.forEach((doc) => {
         const link = document.createElement("a");
-        link.href = UPLOADS_URL + doc.trim(); // Adjust path as needed
+        link.href = UPLOADS_URL + doc.trim(); 
         link.textContent = doc.trim();
         link.target = "_blank";
         link.classList.add("text-blue-700", "underline", "block");
@@ -826,7 +690,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("claimCulinaryModal").classList.remove("hidden");
   }
 
-  // Existing modal close functionality (ensure this is present and correct)
   document.querySelectorAll(".modal-close-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
       const modalId = btn.dataset.closeModal;
@@ -834,33 +697,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  //   // --- TOMBOL DENY/APPROVE (TANPA AJAX) ---
-  //   // Event listener untuk tombol Deny (form submission)
-  //     document.querySelectorAll('.deny-btn').forEach(button => {
-  //         button.addEventListener('click', () => {
-  //             if (button.disabled) return;
-  //             if (window.confirm('Are you sure you want to DENY this request?')) {
-  //                 const parentItem = button.closest('.verification-item');
-  //                 parentItem.dataset.verified = 'true';
-  //                 parentItem.dataset.selected = 'deny';
-  //                 setButtonState(parentItem, 'deny');
-  //             }
-  //         });
-  //     });
-
-  //     document.querySelectorAll('.approve-btn').forEach(button => {
-  //         button.addEventListener('click', () => {
-  //             if (button.disabled) return;
-  //             if (window.confirm('Are you sure you want to APPROVE this request?')) {
-  //                 const parentItem = button.closest('.verification-item');
-  //                 parentItem.dataset.verified = 'true';
-  //                 parentItem.dataset.selected = 'approve';
-  //                 setButtonState(parentItem, 'approve');
-  //             }
-  //         });
-  //     });
-
-  // manage verif baru
+  // manage verifikasi
   function setButtonStateBasedOnVerification(
     parentItem,
     activatedBySeeForm = false
@@ -870,30 +707,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const ApproveText = parentItem.querySelector(".approve");
     const DenyText = parentItem.querySelector(".deny");
 
-    const isVerifiedFromHtml = parentItem.dataset.isVerified === "true"; // status dari PHP
-    const selectedFromHtml = parentItem.dataset.selected; // 'approve', 'deny', atau '' dari PHP
+    const isVerifiedFromHtml = parentItem.dataset.isVerified === "true"; 
+    const selectedFromHtml = parentItem.dataset.selected; 
 
-    // Awalnya sembunyikan teks status
     if (ApproveText) ApproveText.classList.add("hidden");
     if (DenyText) DenyText.classList.add("hidden");
 
     if (isVerifiedFromHtml) {
-      // Jika sudah diverifikasi (1 atau 2 di DB)
-      if (approveBtn) approveBtn.classList.add("hidden"); // Sembunyikan tombol
-      if (denyBtn) denyBtn.classList.add("hidden"); // Sembunyikan tombol
+      if (approveBtn) approveBtn.classList.add("hidden"); 
+      if (denyBtn) denyBtn.classList.add("hidden");
 
-      // Tampilkan teks status yang sesuai
       if (selectedFromHtml === "approve" && ApproveText) {
         ApproveText.classList.remove("hidden");
       } else if (selectedFromHtml === "deny" && DenyText) {
         DenyText.classList.remove("hidden");
       }
     } else {
-      // Jika belum diverifikasi (0 di DB)
-      // Tampilkan tombol dan atur statusnya
       if (approveBtn) {
-        approveBtn.classList.remove("hidden"); // Tampilkan tombol
-        approveBtn.classList.remove("bg-blue-500", "text-white"); // Reset warna jika pernah di-hover
+        approveBtn.classList.remove("hidden"); 
+        approveBtn.classList.remove("bg-blue-500", "text-white"); 
         approveBtn.classList.add(
           "border",
           "border-blue-500",
@@ -901,20 +733,17 @@ document.addEventListener("DOMContentLoaded", () => {
           "bg-white"
         );
 
-        // GUNAKAN PARAMETER activatedBySeeForm DI SINI
         if (activatedBySeeForm) {
-          // Jika dipanggil dari klik "See form", aktifkan tombol
           approveBtn.disabled = false;
           approveBtn.classList.remove("opacity-50", "cursor-not-allowed");
         } else {
-          // Default saat page load: disabled dan pudar
           approveBtn.disabled = true;
           approveBtn.classList.add("opacity-50", "cursor-not-allowed");
         }
       }
       if (denyBtn) {
-        denyBtn.classList.remove("hidden"); // Tampilkan tombol
-        denyBtn.classList.remove("bg-red-500", "text-white"); // Reset warna jika pernah di-hover
+        denyBtn.classList.remove("hidden");
+        denyBtn.classList.remove("bg-red-500", "text-white"); 
         denyBtn.classList.add(
           "border",
           "border-red-500",
@@ -922,13 +751,10 @@ document.addEventListener("DOMContentLoaded", () => {
           "bg-white"
         );
 
-        // GUNAKAN PARAMETER activatedBySeeForm DI SINI
         if (activatedBySeeForm) {
-          // Jika dipanggil dari klik "See form", aktifkan tombol
           denyBtn.disabled = false;
           denyBtn.classList.remove("opacity-50", "cursor-not-allowed");
         } else {
-          // Default saat page load: disabled dan pudar
           denyBtn.disabled = true;
           denyBtn.classList.add("opacity-50", "cursor-not-allowed");
         }
@@ -936,25 +762,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 1. Inisialisasi awal saat halaman dimuat (untuk setiap item verifikasi)
-  // Ini memastikan bahwa status dari PHP (database) direfleksikan di UI
   document.querySelectorAll(".verification-item").forEach((item) => {
-    setButtonStateBasedOnVerification(item, false); // Pastikan ini dipanggil dengan 'false'
+    setButtonStateBasedOnVerification(item, false); 
   });
 
-  // 2. Event Listener untuk link "See form" (untuk mengaktifkan tombol setelah form dibuka)
   document.querySelectorAll(".view-form-link").forEach((link) => {
     if (link) {
       link.addEventListener("click", (e) => {
         e.preventDefault();
         const parentItem = link.closest(".verification-item");
 
-        // ... (data extraction code seperti sebelumnya) ...
         const requestId = parentItem.dataset.requestId;
         const requestType = parentItem.dataset.type;
-        const isVerified = parentItem.dataset.isVerified; // Ambil isVerified
+        const isVerified = parentItem.dataset.isVerified;
 
-        // Panggil fungsi modal yang sesuai
         let dataToDisplay = {};
         if (requestType === "addPlace") {
           dataToDisplay = {
@@ -984,33 +805,26 @@ document.addEventListener("DOMContentLoaded", () => {
           openClaimCulinaryModal(dataToDisplay);
         }
 
-        // PENTING: Panggil fungsi ini lagi dengan parameter 'true' HANYA JIKA BELUM DIVERIFIKASI
         if (isVerified === "false") {
-          setButtonStateBasedOnVerification(parentItem, true); // Aktifkan tombol jika belum verified
+          setButtonStateBasedOnVerification(parentItem, true); 
         }
       });
     }
   });
 
-  // 3. Event listener untuk tombol Deny/Approve (Hanya konfirmasi, biarkan form submit secara natural)
-  // Tidak ada lagi perubahan dataset lokal di sini, karena status akan datang dari server setelah reload.
   document.querySelectorAll(".deny-btn").forEach((button) => {
     button.addEventListener("click", (e) => {
-      // Tidak perlu cek button.disabled di sini karena PHP akan menghandle jika tombol tersembunyi
-      // atau jika statusnya sudah berubah.
       if (!window.confirm("Are you sure you want to DENY this request?")) {
-        e.preventDefault(); // Hentikan submit jika user tidak konfirmasi
+        e.preventDefault(); 
       }
-      // Jika dikonfirmasi, form akan otomatis disubmit dan halaman direload
     });
   });
 
   document.querySelectorAll(".approve-btn").forEach((button) => {
     button.addEventListener("click", (e) => {
       if (!window.confirm("Are you sure you want to APPROVE this request?")) {
-        e.preventDefault(); // Hentikan submit jika user tidak konfirmasi
+        e.preventDefault();
       }
-      // Jika dikonfirmasi, form akan otomatis disubmit dan halaman direload
     });
   });
 

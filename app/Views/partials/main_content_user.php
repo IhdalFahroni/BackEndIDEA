@@ -157,7 +157,7 @@ foreach ($categories as $key => $details) {
             <?php foreach ($destinasi as $tempat) : 
                 $detailUrl = (isset($isLoggedIn) && $isLoggedIn) ? 
                               site_url('home?show=detail&id=' . $tempat['ID_tempat']) : 
-                              site_url('/?show=detail&id=' . $tempat['ID_tempat']); // URL landing page
+                              site_url('/?show=detail&id=' . $tempat['ID_tempat']); 
                 ?>
                 <div class="bg-white rounded-xl p-4 flex items-center shadow-md border border-[#F0D3B3] gap-4">
                     <img src="<?= base_url('Assets/' . esc($tempat['foto'])) ?>" alt="<?= esc($tempat['nama_tempat']) ?>" class="w-32 h-32 object-cover rounded-lg flex-shrink-0">
@@ -165,9 +165,7 @@ foreach ($categories as $key => $details) {
                     <div class="flex-grow flex flex-col self-stretch">
                         <div>
                             <h2 class="text-lg font-bold text-[#5C3211] text-left"><?= esc($tempat['nama_tempat']) ?></h2>
-                            <div class="text-yellow-500 my-1 text-sm rating" data-rating="<?= number_format($tempat['average_rating'] ?? 0, 1) ?>">
-                                <!-- <span class="font-bold">★ <?= number_format($tempat['average_rating'] ?? 0, 1) ?></span> -->
-                            </div>
+                            <div class="text-yellow-500 my-1 text-sm rating" data-rating="<?= number_format($tempat['average_rating'] ?? 0, 1) ?>"></div>
                             <p class="text-sm text-[#5C3211] line-clamp-2 text-left">
                                 <?= esc($tempat['deskripsi']) ?>
                             </p>
@@ -179,7 +177,7 @@ foreach ($categories as $key => $details) {
                 </div>
             <?php endforeach; ?>
         <?php else : ?>
-            <p class="col-span-3 text-center text-[#5C3211]">Tidak ada hasil yang ditemukan untuk pencarian Anda.</p>
+            <p class="col-span-3 text-center text-[#5C3211]">No Result Found.</p>
         <?php endif; ?>
     </div>
 
@@ -190,7 +188,7 @@ foreach ($categories as $key => $details) {
                 <?php foreach ($destinasi as $tempat) : 
                     $detailUrl = (isset($isLoggedIn) && $isLoggedIn) ? 
                                   site_url('home?show=detail&id=' . $tempat['ID_tempat']) : 
-                                  site_url('/?show=detail&id=' . $tempat['ID_tempat']); // URL landing page
+                                  site_url('/?show=detail&id=' . $tempat['ID_tempat']); 
                     ?>
                     <div class="destination-card bg-[#FFFFFF] rounded-xl overflow-hidden shadow-lg transition duration-300 hover:-translate-y-1.5 hover:shadow-2xl cursor-pointer flex flex-col">
                         
@@ -201,9 +199,7 @@ foreach ($categories as $key => $details) {
                                 <?php
                                     $rating = number_format($tempat['average_rating'] ?? 0, 1);
                                 ?>
-                                <div class="text-yellow-500 text-sm rating" data-rating="<?= esc($rating) ?>">
-                                    <!-- <span class="font-bold">★ <?= esc($rating) ?></span> -->
-                                </div> 
+                                <div class="text-yellow-500 text-sm rating" data-rating="<?= esc($rating) ?>"></div> 
                                 <a href="<?= $detailUrl ?>" class="text-xs font-medium hover:underline">See details</a>
                             </div>
                         </div>
@@ -246,7 +242,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if(editTempatModal) {
         editTempatModal.addEventListener('click', (e) => { if(e.target === editTempatModal) closeModal(editTempatModal); });
     }
-    // --- LOGIKA PENCARIAN ---
     const searchInput = document.getElementById('search_input');
     const searchButton = document.getElementById('searchButton');
     if (searchInput && searchButton) {
@@ -254,8 +249,6 @@ document.addEventListener('DOMContentLoaded', function() {
         searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') { e.preventDefault(); submitSearchForm(); }});
         searchButton.addEventListener('click', submitSearchForm);
     }
-
-    // --- LOGIKA RATING BINTANG ---
     function generateStars(element) {
         if (!element) return;
         const rating = parseFloat(element.dataset.rating);
@@ -270,7 +263,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     document.querySelectorAll(".rating").forEach(generateStars);
 
-    // --- LOGIKA FORM REVIEW ---
     const addReview = document.getElementById("addReview");
     const fillReview = document.getElementById("fillReview");
     const closeReview = document.getElementById("closeReview");
@@ -287,7 +279,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- LOGIKA MODAL MENU & PROMO (TERMASUK OVERLAY) ---
     const openMenuBtn = document.getElementById('openMenu');
     const menuModal = document.getElementById('menuModal');
     const closeMenuModalBtn = document.getElementById('closeMenuModal');
@@ -316,7 +307,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if(menuModal) menuModal.addEventListener('click', (e) => { if(e.target === menuModal) closeModal(menuModal); });
     if(promoModal) promoModal.addEventListener('click', (e) => { if(e.target === promoModal) closeModal(promoModal); });
 
-    // --- LOGIKA FORM TAMBAH MENU INLINE ---
     const addMenuItemBtn = document.getElementById('addMenuItemBtn');
     const addMenuFormContainer = document.getElementById('addMenuFormContainer');
     const cancelAddMenuBtn = document.getElementById('cancelAddMenuBtn');
