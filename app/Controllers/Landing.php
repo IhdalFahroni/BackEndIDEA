@@ -3,35 +3,33 @@
 namespace App\Controllers;
 
 use App\Models\TempatModel;
-use App\Models\ReviewModel; // Perlu di-import
-use App\Models\MenuModel;   // Perlu di-import
-use App\Models\PromoModel;  // Perlu di-import
-use CodeIgniter\Controller; // Diperlukan jika Anda menggunakan BaseController
+use App\Models\ReviewModel; 
+use App\Models\MenuModel;   
+use App\Models\PromoModel;  
+use CodeIgniter\Controller; 
 
 class Landing extends BaseController
 {
-    protected $helpers = ['url', 'session']; // Tambahkan session helper
+    protected $helpers = ['url', 'session']; 
 
     public function landingPage()
     {
         $tempatModel = new TempatModel();
-        $reviewModel = new ReviewModel(); // Instansiasi model
-        $menuModel = new MenuModel();     // Instansiasi model
-        $promoModel = new PromoModel();   // Instansiasi model
+        $reviewModel = new ReviewModel(); 
+        $menuModel = new MenuModel();     
+        $promoModel = new PromoModel();   
 
         $data = [
             'title'              => 'Lombok Recommendation',
-            // 'js' => 'Landing.js' // Jika Anda punya JS khusus LandingPage, bisa di sini. Tapi di solusi sebelumnya JS di LandingPage.php langsung
-            'show_detail_tempat' => false, // Default: jangan tampilkan detail
+            'show_detail_tempat' => false, 
             'tempat'             => null,
             'reviews'            => null,
             'menu'               => null,
             'promo'              => null,
             'isOwner'            => false,
-            'isLoggedIn'         => session()->get('isLoggedIn') ?? false, // Status login dari sesi
+            'isLoggedIn'         => session()->get('isLoggedIn') ?? false, 
         ];
 
-        // Cek apakah ada permintaan untuk menampilkan detail tempat di URL ini
         $showDetail = $this->request->getGet('show');
         $idTempat = $this->request->getGet('id');
 
@@ -58,13 +56,6 @@ class Landing extends BaseController
                 return redirect()->to(base_url('landing'))->with('error', 'Detail tempat tidak ditemukan.');
             }
         } else {
-            // Logika untuk tampilan landing page default (yang menampilkan hero, about, dll.)
-            // Jika tidak dalam mode detail, ini akan menyiapkan data untuk halaman awal standar.
-            // Parameter seperti searchTerm, category, pager tidak relevan untuk LandingPage standar.
-            // Jika Anda ingin menampilkan kartu destinasi di landing page, logika di bawah ini perlu diaktifkan kembali.
-            // Namun, untuk solusi terakhir, LandingPage hanya menampilkan hero/about/footer default.
-            
-            // Contoh jika ingin menampilkan kartu juga di landing page:
             $searchTerm = $this->request->getVar('search');
             $category = $this->request->getVar('category');
             $page = $this->request->getVar('page') ?? 1;
@@ -83,9 +74,9 @@ class Landing extends BaseController
             $data['active_category'] = $category;
             $data['current_query'] = $this->request->getGet();
         }
-        $data['js'] = 'Landing.js'; // Jika Anda punya JS khusus untuk LandingPage
-        $data['path'] = site_url(''); // Path untuk link filter/search di landing page
-        $data['categories'] = [ // Categories juga perlu jika ada filter/search
+        $data['js'] = 'Landing.js'; 
+        $data['path'] = site_url(''); 
+        $data['categories'] = [ 
             'tourist_destination' => [
                 'label' => 'Tourist destination',
                 'icon'  => 'fa-solid fa-location-dot'
