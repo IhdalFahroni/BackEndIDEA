@@ -30,9 +30,15 @@ foreach ($categories as $key => $details) {
             <a href="<?= $path ?>" class="absolute top-0 left-0 text-[#FFFFFF] hover:text-gray-200">
                 <i class="fa-solid fa-arrow-left text-2xl"></i>
             </a>
-            <h1 class="text-3xl md:text-4xl font-bold text-[#FFFFFF] text-center mb-8 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
-            <?= esc($tempat['nama_tempat']) ?>
-            </h1>
+            <?php if ($tempat['kategori'] === 'culinary') : ?>
+                <h1 class="text-3xl md:text-4xl font-bold text-[#FFFFFF] text-center [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
+                    <?= esc($tempat['nama_tempat']) ?>
+                </h1>
+            <?php else : ?>
+                <h1 class="text-3xl md:text-4xl font-bold text-[#FFFFFF] text-center mb-8 [text-shadow:1px_1px_3px_rgba(0,0,0,0.5)]">
+                    <?= esc($tempat['nama_tempat']) ?>
+                </h1>
+            <?php endif; ?>
         <?php else : ?>
             <a href="<?= $path ?>" class="absolute top-0 left-0 text-[#5C3211] hover:text-gray-200">
                 <i class="fa-solid fa-arrow-left text-2xl"></i>
@@ -43,7 +49,7 @@ foreach ($categories as $key => $details) {
         <?php endif; ?>
     </div>
     <?php if ((isset($isOwner) && $isOwner) || session()->get('user_role') === 'admin') : ?>
-        <div class="text-right mt-4 pb-4">
+        <div class="text-right pb-4">
             <button type="button" id="openEditTempatModal" class="inline-block bg-[#FF9800] text-white px-6 py-2 rounded-full text-base font-semibold shadow-md hover:bg-yellow-500 transition">
                 Edit
             </button>
@@ -74,10 +80,10 @@ foreach ($categories as $key => $details) {
                     
                     <?php if ($tempat['kategori'] === 'culinary') : ?>
                     <div class="flex items-center gap-x-3 mt-3">
-                        <div id="openMenu" class="bg-[#FFC107] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
+                        <div id="openMenu" class="bg-[#FF9800] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
                             Menu
                         </div>
-                        <div id="openPromo" class="bg-[#FFC107] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
+                        <div id="openPromo" class="bg-[#FF9800] text-white font-bold hover:bg-[#FF9800]/80 hover:text-white/80 px-7 py-1 rounded-full cursor-pointer">
                             Promo
                         </div>
                     </div>
