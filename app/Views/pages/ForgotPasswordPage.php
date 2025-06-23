@@ -24,7 +24,7 @@
                     id="email" 
                     class="bg-[#FFFFFF] text-[#5C3211] w-full p-2.5 my-2.5 border border-[#D7D5BA] rounded-md text-sm placeholder:text-[#5C3211] focus:outline-[#D7D5BA]" 
                     placeholder="Masukkan Email Anda">
-                <p id="emailError" class="text-red-600 text-xs text-left hidden">Format email tidak valid.</p>
+                <p id="emailError" class="text-red-600 text-xs text-left hidden">Email format is not valid.</p>
 
                 <div class="relative w-full">
                     <input 
@@ -35,7 +35,7 @@
                         placeholder="Password Baru">
                     <i class="fas fa-eye absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#5C3211]/60 toggle-password"></i>
                 </div>
-                <p id="passwordError" class="text-red-600 text-xs text-left hidden">Password minimal harus 8 karakter.</p>
+                <p id="passwordError" class="text-red-600 text-xs text-left hidden">Password must contains 8-20 characters.</p>
 
                 <div class="relative w-full">
                     <input 
@@ -46,7 +46,7 @@
                         placeholder="Konfirmasi Password Baru">
                     <i class="fas fa-eye absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#5C3211]/60 toggle-password"></i>
                 </div>
-                <p id="confirmError" class="text-red-600 text-xs text-left hidden">Password tidak cocok.</p>
+                <p id="confirmError" class="text-red-600 text-xs text-left hidden">Password not match.</p>
 
                 <button 
                     type="submit"
