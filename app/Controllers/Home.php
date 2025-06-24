@@ -90,12 +90,7 @@ class Home extends BaseController
         
 
         if ($showDetail === 'detail' && !empty($idTempat)) {
-            $tempat = $tempatModel
-                        ->select('tempat.*, AVG(review.rating) as average_rating')
-                        ->join('review', 'review.ID_tempat = tempat.ID_tempat', 'left')
-                        ->where('tempat.ID_tempat', $idTempat)
-                        ->groupBy('tempat.ID_tempat')
-                        ->first();
+            $tempat = $tempatModel->getDetailTempat($idTempat);
 
             if ($tempat) {
                 $data['show_detail_tempat'] = true;

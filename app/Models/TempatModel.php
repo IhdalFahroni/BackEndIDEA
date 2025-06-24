@@ -54,4 +54,13 @@ class TempatModel extends Model
     }
 
     
+    public function getDetailTempat(int $idTempat)
+    {
+        return $this->select('tempat.*, AVG(review.rating) as average_rating')
+                ->join('review', 'review.ID_tempat = tempat.ID_tempat', 'left')
+                ->where('tempat.ID_tempat', $idTempat)
+                ->groupBy('tempat.ID_tempat')
+                ->first();
+    }
+    
 }
