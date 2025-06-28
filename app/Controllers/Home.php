@@ -95,11 +95,11 @@ class Home extends BaseController
             if ($tempat) {
                 $data['show_detail_tempat'] = true;
                 $data['tempat'] = $tempat;
-                $data['reviews'] = $reviewModel->getReviewsWithUser($idTempat); 
+                $data['reviews'] = $reviewModel->getReviewsWithUserByTempatId($idTempat); 
 
                 if ($tempat['kategori'] === 'culinary') {
-                    $data['menu'] = $menuModel->where('ID_tempat', $idTempat)->findAll();
-                    $data['promo'] = $promoModel->where('ID_tempat', $idTempat)->findAll();
+                    $data['menu'] = $menuModel->getMenuByTempatId($idTempat);
+                    $data['promo'] = $promoModel->getPromoByTempatId($idTempat);
                 }
 
                 if ($session->get('isLoggedIn') && $session->get('ID_akun') === $tempat['ID_akun']) {

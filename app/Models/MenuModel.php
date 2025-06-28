@@ -31,6 +31,6 @@ class MenuModel extends Model
      */
     public function getMenuByTempatId($id_tempat)
     {
-        return $this->where('id_tempat', $id_tempat)->findAll();
+        return $this->where('ID_tempat', $id_tempat)->findAll();
     }
 }
