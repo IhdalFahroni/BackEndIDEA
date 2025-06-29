@@ -1,8 +1,8 @@
 <?php // app/Views/partials/modal_delete_review.php ?>
 
 <div id="deleteReviewModal" class="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4 hidden">
-    <div class="bg-white p-4 rounded-2xl shadow-2xl border border-red-500/50 w-6/12 max-w-md relative text-[#5C3211]">
-        <div class="border border-red-300 rounded-xl p-6 relative">
+    <div class="bg-white p-4 rounded-2xl shadow-2xl border border-[#5c3211] w-6/12 max-w-md relative text-[#5C3211]">
+        <div class="border border-[#5c3211] rounded-xl p-6 relative">
             <button id="closeDeleteReviewModal" type="button" class="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-100 transition focus:outline-none">
                 <i class="fas fa-xmark text-lg"></i>
             </button>

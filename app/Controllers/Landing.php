@@ -44,7 +44,7 @@ class Landing extends BaseController
             if ($tempat) {
                 $data['show_detail_tempat'] = true;
                 $data['tempat'] = $tempat;
-                $data['reviews'] = $reviewModel->getReviewsWithUser($idTempat);
+                $data['reviews'] = $reviewModel->getReviewsWithUserByTempatId($idTempat);
                 if ($tempat['kategori'] === 'culinary') {
                     $data['menu'] = $menuModel->where('ID_tempat', $idTempat)->findAll();
                     $data['promo'] = $promoModel->where('ID_tempat', $idTempat)->findAll();
