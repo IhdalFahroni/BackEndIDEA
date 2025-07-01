@@ -25,7 +25,7 @@
                     name="email"
                     id="email" 
                     class="bg-[#FFFFFF] text-[#5C3211] w-full p-2.5 my-2.5 border border-[#D7D5BA] rounded-md text-sm placeholder:text-[#5C3211] focus:outline-[#D7D5BA]" 
-                    placeholder="Masukkan Email Anda">
+                    placeholder="Enter your email">
                 <p id="emailError" class="text-red-600 text-xs text-left hidden">Email format is not valid.</p>
 
                 <div class="relative w-full">
@@ -34,7 +34,7 @@
                         name="new_password" 
                         id="newPassword" 
                         class="bg-[#FFFFFF] text-[#5C3211] w-full p-2.5 my-2.5 border border-[#D7D5BA] rounded-md text-sm placeholder:text-[#5C3211] pr-10 focus:outline-[#D7D5BA]" 
-                        placeholder="Password Baru">
+                        placeholder="New Password">
                     <i class="fas fa-eye absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#5C3211]/60 toggle-password"></i>
                 </div>
                 <p id="passwordError" class="text-red-600 text-xs text-left hidden">Password must contains 8-20 characters.</p>
@@ -45,7 +45,7 @@
                         name="confirm_password"
                         id="confirmPassword" 
                         class="bg-[#FFFFFF] text-[#5C3211] w-full p-2.5 my-2.5 border border-[#D7D5BA] rounded-md text-sm placeholder:text-[#5C3211] pr-10 focus:outline-[#D7D5BA]" 
-                        placeholder="Konfirmasi Password Baru">
+                        placeholder="Confirm new password">
                     <i class="fas fa-eye absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#5C3211]/60 toggle-password"></i>
                 </div>
                 <p id="confirmError" class="text-red-600 text-xs text-left hidden">Password not match.</p>
